@@ -1,0 +1,65 @@
+<!--
+Copyright (c) 2019 AT&T Intellectual Property. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<div>
+    <style>
+        nav ul {
+            height: 100px;
+            width: 18%;
+        }
+
+        nav ul {
+            overflow: hidden;
+            overflow-y: scroll;
+        }
+
+        label button nav {
+            display: inline-block;
+            width: 140px;
+            text-align: right;
+        }
+    </style>
+
+    <h2 class="heading-small"></h2>
+    <h2 class="heading-small">New Edge Site and Inventory</h2>
+
+    <div class="block">
+        <label>Edge Site Name: </label>
+        <input ng-model="modalEdgeSiteName" type=" text" style="margin-top: 5px; width: 220px;">
+    </div>
+
+    <div class="block">
+        <label>Regions: </label>
+        <select ng-model="selectedRegion" ng-init="selectedRegion=regions[0]" ng-options="n for n in regions">
+        </select>
+        <button type="submit" class="btn-alt btn-small" ng-click="addSelectedRegion(selectedRegion)">Add</button>
+    </div>
+
+    <div class="block">
+        <nav>
+            <ul>
+                <li ng-repeat="region in selectedRegions">{{region}}</li>
+            </ul>
+        </nav>
+    </div>
+
+    <div>
+        <button style="margin-left: 25px; margin-top: 4px;" type="submit" class="btn btn-alt btn-small">Cancel</button>
+        <button style="margin-left: 25px; margin-top: 4px;" type="submit" class="btn btn-alt btn-small">Create</button>
+    </div>
+
+    <!--<img src="static/fusion/images/rack.jpeg" alt="Rack" width="200&quot;" height="57" border="0" />-->
+</div>
