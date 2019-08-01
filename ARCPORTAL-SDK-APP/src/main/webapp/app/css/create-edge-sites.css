@@ -1,0 +1,15 @@
+nav ul {
+    height: 100px;
+    width: 18%;
+}
+
+nav ul {
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+label button nav {
+    display: inline-block;
+    width: 140px;
+    text-align: right;
+}

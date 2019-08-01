@@ -1,0 +1,68 @@
+[all]
+ignore = .tox/**,
+    .git/**,
+    .gitignore,
+    .gitreview,
+    .gitmodules,
+    **.sw?,
+    **.orig
+
+[all.GitCommit]
+bears = GitCommitBear
+ignore_length_regex = Signed-off-by,
+    Also-by,
+    Co-authored-by,
+    http://,
+    https://
+
+[all.reStructuredText]
+bears = SpaceConsistencyBear,WriteGoodLintBear
+files = docs/**.rst
+use_spaces = true
+ignore = .git/**,
+    .tox/**,
+
+[all.ShellCheck]
+bears = ShellCheckBear,SpaceConsistencyBear
+files = **.sh
+shell = bash
+use_spaces = true
+ignore = pmd-bin-6.15.0/**
+
+[all.YAML]
+bears = YAMLLintBear
+files = **.yaml, **.yml
+use_spaces = true
+max_line_length = 120
+
+[all.Java]
+bears = SpaceConsistencyBear,JavaPMDBear
+files = **.java
+language = java
+use_spaces = true
+ignore =  target/**,
+    ONAP-SDK-APP/target/**,
+    ONAP-SDK-APP/src/main/java/org/akraino/portal_user_interface/onapsdkapp/login/LoginStrategyImpl.java,
+    ONAP-SDK-APP/src/main/java/org/akraino/portal_user_interface/onapsdkapp/conf/ExternalAppInitializer.java,
+    ONAP-SDK-APP/src/main/java/org/akraino/portal_user_interface/onapsdkapp/scheduler/RegistryAdapter.java,
+    ONAP-SDK-APP/src/main/java/org/akraino/portal_user_interface/onapsdkapp/conf/ExternalAppConfig.java,
+    ONAP-SDK-APP/src/main/java/org/akraino/portal_user_interface/onapsdkapp/filter/SecurityXssFilter.java,
+    ARCPORTAL-SDK-APP/target/**,
+    ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/client/arc/resources/**.java,
+    ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/client/arc/ArcExecutorClient.java
+
+[all.JS]
+bears = ESLintBear,JSComplexityBear
+files = **.js
+language = javascript
+javascript_strictness = False
+use_spaces = true
+ignore =  target/**,
+    bin/**,
+    ONAP-SDK-APP/target/**,
+    ONAP-SDK-APP/src/main/webapp/app/fusion/**,
+    ONAP-SDK-APP/src/main/webapp/static/**,
+    ARCPORTAL-SDK-APP/target/**,
+    ARCPORTAL-SDK-APP/src/main/webapp/app/fusion/**,
+    ARCPORTAL-SDK-APP/src/main/webapp/static/**,
+    ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/EdgeSites.js

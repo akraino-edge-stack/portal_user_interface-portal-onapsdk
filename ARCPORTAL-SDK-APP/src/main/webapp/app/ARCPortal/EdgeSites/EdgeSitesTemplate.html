@@ -1,0 +1,73 @@
+<!--
+Copyright (c) 2019 AT&T Intellectual Property. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<div id="page-content" class="content edgesites" style="padding: 25px;">
+    <style scoped>
+@import "app/css/edge-sites.css";
+</style>
+
+    <div class="box">
+        <h2 class="heading-small">Edge Sites</h2>
+        <div>
+            <button
+                style="margin-left: 25px; margin-top: 4px; float: right; background-color: #337ab7;"
+                type="submit" class="btn-alt btn-small"
+                ng-click="refreshEdgeSites();">Refresh</button>
+            <button
+                style="margin-left: 25px; margin-top: 4px; float: right; background-color: #337ab7;"
+                type="submit" class="btn-alt btn-small"
+                ng-click="openCreateEdgeSiteModal()">New Edge
+                Site</button>
+        </div>
+
+        <table ng-table="tableParams" class="table" show-filter="true">
+            <tr ng-repeat="edgeSite in $data"
+                ng-class="{selected:edgeSite.name == selectedEdgeSiteName}"
+                ng-click="setClickedRow(edgeSite)">
+                <td title="'Edge Site Name'" filter="{ name: 'text'}"
+                    sortable="'name'">{{edgeSite.name}}</td>
+                <td title="'Region'" filter="{ region: 'number'}"
+                    sortable="'region'">
+                    {{formulateRegion(edgeSite.regions, allRegions)}}</td>
+                <td title="'POD'" filter="{ pod: 'text'}"
+                    sortable="'pod'"></td>
+                <td title="'Status'" filter="{ stat: 'text'}"
+                    sortable="'pod'"></td>
+            </tr>
+        </table>
+
+    </div>
+
+    <h2 class="heading-small"></h2>
+    <div class="box" ng-if="selectedEdgeSite">
+        <h2 class="heading-small">Edge Site Details</h2>
+
+        <div class="edgeSiteDetails fixedBox">
+            <div class="property">Site Name:</div>
+            <div class="value" style="color: grey;">{{selectedEdgeSite.name}}</div>
+            <div class="property">Regions:</div>
+            <div class="value"
+                ng-repeat="regionId in selectedEdgeSite.regions"
+                style="color: grey;">{{findRegionName(regionId,
+                allRegions) }}</div>
+            <div class="property"># of Racks:</div>
+            <div class="value" style="color: grey;">{{calculateNumberOfRacks(selectedEdgeSite)}}</div>
+            <div class="property"># of Nodes:</div>
+            <div class="value" style="color: grey;">{{selectedEdgeSite.nodes.length}}</div>
+        </div>
+
+    </div>
+
+</div>

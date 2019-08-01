@@ -1,0 +1,319 @@
+<?xml version="1.0"?>
+<!-- Copyright (c) 2019 AT&T Intellectual Property. All rights reserved.
+    Licensed under the Apache License, Version 2.0 (the "License"); you may not
+    use this file except in compliance with the License. You may obtain a copy
+    of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required
+    by applicable law or agreed to in writing, software distributed under the
+    License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+    OF ANY KIND, either express or implied. See the License for the specific
+    language governing permissions and limitations under the License. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.akraino.portal_user_interface</groupId>
+        <artifactId>portal-onapsdk</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>ONAP-SDK-APP</artifactId>
+    <packaging>war</packaging>
+
+    <build>
+        <!-- The war file name carries no version number -->
+        <finalName>arcportal</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin-version}</version>
+                <configuration>
+                    <skipTests>${skiptests}</skipTests>
+                    <includes>
+                        <include>**/Test*.java</include>
+                        <include>**/*Test.java</include>
+                        <include>**/*TestCase.java</include>
+                    </includes>
+                    <additionalClasspathElements>
+                        <additionalClasspathElement>${basedir}/war</additionalClasspathElement>
+                    </additionalClasspathElements>
+                    <systemPropertyVariables>
+                        <container.classpath>classpath:</container.classpath>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+
+            <!-- add version number to manifest -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${maven-war-plugin-version}</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                        <manifestEntries>
+                            <Build-Number>${project.version}</Build-Number>
+                            <Build-Time>${maven.build.timestamp}</Build-Time>
+                        </manifestEntries>
+                    </archive>
+                    <overlays>
+                        <overlay>
+                            <groupId>org.onap.portal.sdk</groupId>
+                            <artifactId>epsdk-app-overlay</artifactId>
+                            <excludes>
+                                <exclude>app/fusion/scripts/DS2-view-models/welcome-content.html</exclude>
+                            </excludes>
+                        </overlay>
+                        <overlay>
+                            <groupId>org.akraino.portal_user_interface</groupId>
+                            <artifactId>ARCPORTAL-SDK-APP</artifactId>
+                        </overlay>
+                    </overlays>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven-assembly-plugin.version}</version>
+                <configuration>
+                    <skipAssembly>${skipassembly}</skipAssembly>
+                    <descriptors>
+                        <descriptor>${basedir}/distribution.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>${maven-deploy-plugin-version}</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker-maven-plugin.version}</version>
+                <configuration>
+                    <verbose>true</verbose>
+                    <images>
+                        <image>
+                            <name>akraino/portal-onapsdk:dev-arcportal-latest</name>
+                            <build>
+                                <from>tomcat:8.5.37</from>
+                                <assembly>
+                                    <descriptorRef>artifact</descriptorRef>
+                                </assembly>
+                                <runCmds>
+                                    <!-- must be all on one line; use CDATA
+                                        to turn off the Eclipse formatter -->
+                                    <run><![CDATA[mv /maven/*.war /usr/local/tomcat/webapps]]></run>
+                                </runCmds>
+                            </build>
+                        </image>
+                        <image>
+                            <name>akraino/portal-onapsdk:dev-mariadb-latest</name>
+                            <build>
+                                <from>mariadb:10.4.6</from>
+                                <assembly>
+                                    <descriptorRef>project</descriptorRef>
+                                </assembly>
+                                <runCmds>
+                                    <!-- must be all on one line; use CDATA
+                                        to turn off the Eclipse formatter -->
+                                    <run><![CDATA[mv /maven/db-scripts/EcompSdkDDLMySql_2_4_Common.sql /docker-entrypoint-initdb.d ; mv /maven/db-scripts/EcompSdkDDLMySql_2_4_OS.sql /docker-entrypoint-initdb.d ; mv /maven/db-scripts/EcompSdkDMLMySql_2_4_Common.sql /docker-entrypoint-initdb.d ; mv /maven/db-scripts/EcompSdkDMLMySql_2_4_OS.sql /docker-entrypoint-initdb.d ; rm -fr /maven]]></run>
+                                </runCmds>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <dependencies>
+        <!-- SDK overlay war -->
+        <dependency>
+            <groupId>org.akraino.portal_user_interface</groupId>
+            <artifactId>ARCPORTAL-SDK-APP</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.portal.sdk</groupId>
+            <artifactId>epsdk-app-overlay</artifactId>
+            <version>${epsdk.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.portal.sdk</groupId>
+            <artifactId>epsdk-app-common</artifactId>
+            <version>${epsdk.version}</version>
+            <type>jar</type>
+        </dependency>
+        <!-- SDK components -->
+        <dependency>
+            <groupId>org.onap.portal.sdk</groupId>
+            <artifactId>epsdk-core</artifactId>
+            <version>${epsdk.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.portal.sdk</groupId>
+            <artifactId>epsdk-analytics</artifactId>
+            <version>${epsdk.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.portal.sdk</groupId>
+            <artifactId>epsdk-workflow</artifactId>
+            <version>${epsdk.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.portal.sdk</groupId>
+            <artifactId>epsdk-music</artifactId>
+            <version>${epsdk.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.att.eelf</groupId>
+            <artifactId>eelf-core</artifactId>
+            <version>${eelf-core-version}</version>
+        </dependency>
+        <!-- Mapper -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>${c3p0.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.searchbox</groupId>
+            <artifactId>jest</artifactId>
+            <version>${io.searchbox.jest.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${javax.servlet-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
+        <!-- Elastic Search -->
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>${elasticsearch}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.lucene</groupId>
+                    <artifactId>lucene-queryparser</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>${org.json.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>${quartz.version}</version>
+            <exclusions>
+                <!-- exclude 0.9.1.1 to avoid dupe of com.mchange:c3p0:0.9.2.1 -->
+                <exclusion>
+                    <groupId>c3p0</groupId>
+                    <artifactId>c3p0</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- bridge to implement commons-logging using slf4j -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${jcl-over-slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${springframework-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${springframework-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${springframework-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${springframework-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${springframework-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${springframework-version}</version>
+        </dependency>
+        <!-- Jacoco for offline instrumentation -->
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>org.jacoco.agent</artifactId>
+            <version>${jacoco.version}</version>
+            <classifier>runtime</classifier>
+        </dependency>
+    </dependencies>
+</project>
