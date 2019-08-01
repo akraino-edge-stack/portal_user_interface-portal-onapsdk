@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!-- Copyright (c) 2019 AT&T Intellectual Property. All rights reserved.
+    Licensed under the Apache License, Version 2.0 (the "License"); you may not
+    use this file except in compliance with the License. You may obtain a copy
+    of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required
+    by applicable law or agreed to in writing, software distributed under the
+    License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+    OF ANY KIND, either express or implied. See the License for the specific
+    language governing permissions and limitations under the License. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.akraino.portal_user_interface</groupId>
+    <artifactId>portal-onapsdk</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>PortalOnapSdk</name>
+    <packaging>pom</packaging>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <java-version>1.8</java-version>
+        <encoding>UTF-8</encoding>
+        <!-- Skip assembling the zip; assemble via mvn -Dskipassembly=false
+            .. -->
+        <skipassembly>true</skipassembly>
+        <!-- Tests usually require some setup that maven cannot do, so skip. -->
+        <skiptests>false</skiptests>
+        <epsdk.version>2.4.0</epsdk.version>
+        <jacoco.version>0.7.9</jacoco.version>
+        <springframework-version>4.2.3.RELEASE</springframework-version>
+        <maven-surefire-plugin-version>2.19.1</maven-surefire-plugin-version>
+        <maven-war-plugin-version>2.0.2</maven-war-plugin-version>
+        <maven-deploy-plugin-version>2.8</maven-deploy-plugin-version>
+        <eelf-core-version>1.0.0</eelf-core-version>
+        <jackson.version>2.8.10</jackson.version>
+        <c3p0.version>0.9.5.2</c3p0.version>
+        <io.searchbox.jest.version>2.0.0</io.searchbox.jest.version>
+        <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
+        <junit.version>4.12</junit.version>
+        <elasticsearch>2.2.0</elasticsearch>
+        <org.json.version>20180813</org.json.version>
+        <quartz.version>2.2.1</quartz.version>
+        <jcl-over-slf4j.version>1.7.12</jcl-over-slf4j.version>
+        <jersey-version>1.19.4</jersey-version>
+        <google.guava-version>27.1-jre</google.guava-version>
+        <org.jsoup.version>1.12.1</org.jsoup.version>
+        <commons-httpclient.version>3.1</commons-httpclient.version>
+        <docker-maven-plugin.version>0.22.0</docker-maven-plugin.version>
+        <tomcat.download.path>http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.37/bin</tomcat.download.path>
+        <tomcat.download.name>apache-tomcat-8.0.37</tomcat.download.name>
+        <maven-assembly-plugin.version>3.0.0</maven-assembly-plugin.version>
+    </properties>
+
+    <modules>
+        <module>ARCPORTAL-SDK-APP</module>
+        <module>ONAP-SDK-APP</module>
+    </modules>
+
+    <repositories>
+        <repository>
+            <id>onap-releases</id>
+            <name>onap-releases</name>
+            <url>https://nexus.onap.org/content/repositories/releases/</url>
+        </repository>
+    </repositories>
+</project>
