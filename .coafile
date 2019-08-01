@@ -1,0 +1,56 @@
+[all]
+ignore = .tox/**,
+    .git/**,
+    .gitignore,
+    .gitreview,
+    .gitmodules,
+    **.sw?,
+    **.orig
+
+[all.GitCommit]
+bears = GitCommitBear
+ignore_length_regex = Signed-off-by,
+    Also-by,
+    Co-authored-by,
+    http://,
+    https://
+
+[all.reStructuredText]
+bears = SpaceConsistencyBear,WriteGoodLintBear
+files = docs/**.rst
+use_spaces = true
+ignore = .git/**,
+    .tox/**,
+
+[all.ShellCheck]
+bears = ShellCheckBear,SpaceConsistencyBear
+files = **.sh
+shell = bash
+use_spaces = true
+ignore = pmd-bin-6.15.0/**
+
+[all.YAML]
+bears = YAMLLintBear
+files = **.yaml, **.yml
+use_spaces = true
+max_line_length = 120
+ignore = tests/k8s/conformance/sonobuoy.yaml
+
+[all.Java]
+bears = SpaceConsistencyBear,JavaPMDBear
+files = **.java
+language = java
+use_spaces = true
+
+[all.JS]
+bears = ESLintBear,JSComplexityBear
+files = **.js
+language = javascript
+javascript_strictness = False
+use_spaces = true
+ignore =  target/**,
+    src/main/webapp/app/fusion/**,
+    src/main/webapp/static/**,
+    bin/**,
+    target/**
+
