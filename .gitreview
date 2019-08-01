@@ -1,0 +1,5 @@
+[gerrit]
+host=gerrit.akraino.org
+port=29418
+project=portal_user_interface/portal-onapsdk.git
+defaultbranch=master

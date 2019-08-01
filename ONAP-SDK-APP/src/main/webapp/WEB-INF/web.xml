@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2019 AT&T Intellectual Property. All rights reserved.
+    Licensed under the Apache License, Version 2.0 (the "License"); you may not
+    use this file except in compliance with the License. You may obtain a copy
+    of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required
+    by applicable law or agreed to in writing, software distributed under the
+    License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+    OF ANY KIND, either express or implied. See the License for the specific
+    language governing permissions and limitations under the License. -->
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:web="http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+    version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee">
+
+    <display-name>arcportal</display-name>
+
+    <!-- The app can function on a HA cluster -->
+    <distributable />
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+        <tracking-mode>COOKIE</tracking-mode>
+    </session-config>
+    <filter>
+        <filter-name>SecurityXssFilter</filter-name>
+        <filter-class>org.akraino.portal_user_interface.onapsdkapp.filter.SecurityXssFilter
+        </filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SecurityXssFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>springSessionRepositoryFilter</filter-name>
+        <filter-class>org.onap.portalapp.music.filter.MusicSessionRepositoryFilter
+        </filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSessionRepositoryFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+    <error-page>
+        <location>/WEB-INF/jsp/error.jsp</location>
+    </error-page>
+
+    <!-- Require HTTPS for everything except /img (favicon) and /css. -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>HTTPSOnly</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>HTTPSOrHTTP</web-resource-name>
+            <url-pattern>*.ico</url-pattern>
+            <url-pattern>/img/*</url-pattern>
+            <url-pattern>/css/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+</web-app>
