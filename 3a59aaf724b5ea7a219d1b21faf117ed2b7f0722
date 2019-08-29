@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1386f141_2f64fd2b",
+        "filename": "CHANGELOG.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-08-29T20:39:55Z",
+      "side": 1,
+      "message": "\"retrieved\" still spelled wrong",
+      "revId": "3a59aaf724b5ea7a219d1b21faf117ed2b7f0722",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e48910f_1cd4bd2d",
+        "filename": "README.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-08-29T20:39:55Z",
+      "side": 1,
+      "message": "\"container\" spelled wrong",
+      "revId": "3a59aaf724b5ea7a219d1b21faf117ed2b7f0722",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88a78552_ad2bdaf1",
+        "filename": "docker-scripts/mariadb/deploy_with_existing_persistne_storage.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-08-29T20:39:55Z",
+      "side": 1,
+      "message": "the filename still needs to be fixed (spelling!)",
+      "revId": "3a59aaf724b5ea7a219d1b21faf117ed2b7f0722",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    }
+  ]
+}
