@@ -212,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "202f46ef_9ff9fce3",
+        "filename": "src/main/java/org/akraino/portalonapsdk/conf/ExternalAppConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-08-29T20:39:55Z",
+      "side": 1,
+      "message": "For this comment, and all of the other similar comments, I would suggest (a) first submit the ONAP code as it exists from the ONAP repo (as Paul suggested), then (b) submit your code on top and fix this warning, and any other warnings from the ONAP code.  The final code should not have any java warnings, and if this is a deprecated API, it should be replaced.  The ONAP code is apparently not quite up to date.\n\nWhen submitting the ONAP code, be sure to make it clear in the commit message that it is code copied from another repo (with a pointer) and thus may contain errors/warnings.",
+      "parentUuid": "e4a8bb31_413b59c3",
+      "revId": "121a173311d404ad38a95ca20c0a461d1dbb59cf",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f368c03_269d921b",
         "filename": "src/main/java/org/akraino/portalonapsdk/filter/SecurityXssFilter.java",
         "patchSetId": 1
