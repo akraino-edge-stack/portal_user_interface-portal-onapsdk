@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3eab734_a34b6709",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/conf/ArcPortalInitializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 43
+      },
+      "writtenOn": "2019-09-18T19:03:24Z",
+      "side": 1,
+      "message": "Should this have a TODO comment in it and possibly a Jira story? Giving the appearance of handling certificates without actually validating could lead to a future security breach if someone makes deployment decisions based on incorrectly assuming that SSL will catch MITM attacks.",
+      "revId": "cb8f60288dea127cb0a9fdf968512dfba7905a02",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31df07f8_314dd46b",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/HardwaresController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 43
+      },
+      "writtenOn": "2019-09-18T19:03:24Z",
+      "side": 1,
+      "message": "I understand the logic of using a plural form to represent a collection and the classes for the item and the collection need different names, but using incorrect grammar in a string is ugly. What do you think about making the message \"... retrieve \u0027Hardwares\u0027 collection\" so that it\u0027s clear that you\u0027re specifically referencing a class name and not just making a grammar/typo error?",
+      "range": {
+        "startLine": 52,
+        "startChar": 59,
+        "endLine": 52,
+        "endChar": 68
+      },
+      "revId": "cb8f60288dea127cb0a9fdf968512dfba7905a02",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27a61c17_e26c84b9",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/OnapLoginController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 43
+      },
+      "writtenOn": "2019-09-18T19:03:24Z",
+      "side": 1,
+      "message": "Is this a unicode error?",
+      "range": {
+        "startLine": 5,
+        "startChar": 13,
+        "endLine": 5,
+        "endChar": 15
+      },
+      "revId": "cb8f60288dea127cb0a9fdf968512dfba7905a02",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    }
+  ]
+}
