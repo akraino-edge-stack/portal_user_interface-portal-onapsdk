@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "61b0853e_92cf77e7",
+        "filename": "ARCPORTAL-SDK-APP/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 194
+      },
+      "writtenOn": "2019-10-07T13:51:59Z",
+      "side": 1,
+      "message": "This issue has been addressed in the new patch, namely patch 4. Now, version 3.8.1 is used for maven-compiler-plugin.",
+      "parentUuid": "45f7b864_bcc7819c",
+      "revId": "cb8f60288dea127cb0a9fdf968512dfba7905a02",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3eab734_a34b6709",
         "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/conf/ArcPortalInitializer.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2019-09-18T19:03:24Z",
       "side": 1,
       "message": "Should this have a TODO comment in it and possibly a Jira story? Giving the appearance of handling certificates without actually validating could lead to a future security breach if someone makes deployment decisions based on incorrectly assuming that SSL will catch MITM attacks.",
+      "revId": "cb8f60288dea127cb0a9fdf968512dfba7905a02",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54fbd8f6_6d770bec",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/conf/ArcPortalInitializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 194
+      },
+      "writtenOn": "2019-10-07T13:51:59Z",
+      "side": 1,
+      "message": "This issue has been addressed in the new patch, namely patch 4. Using this patch, a user may select whether the ARC portal will validate or not certificates. The latter option should be considered only for demo purposes.",
+      "parentUuid": "b3eab734_a34b6709",
       "revId": "cb8f60288dea127cb0a9fdf968512dfba7905a02",
       "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "63e5c810_932455f5",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/HardwaresController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 194
+      },
+      "writtenOn": "2019-10-07T13:51:59Z",
+      "side": 1,
+      "message": "This issue has been addressed in the new patch, namely patch 4.",
+      "parentUuid": "31df07f8_314dd46b",
+      "range": {
+        "startLine": 52,
+        "startChar": 59,
+        "endLine": 52,
+        "endChar": 68
+      },
+      "revId": "cb8f60288dea127cb0a9fdf968512dfba7905a02",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27a61c17_e26c84b9",
         "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/OnapLoginController.java",
         "patchSetId": 3
@@ -70,6 +130,30 @@
       "writtenOn": "2019-09-18T19:03:24Z",
       "side": 1,
       "message": "Is this a unicode error?",
+      "range": {
+        "startLine": 5,
+        "startChar": 13,
+        "endLine": 5,
+        "endChar": 15
+      },
+      "revId": "cb8f60288dea127cb0a9fdf968512dfba7905a02",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfecdac8_2c2a8c06",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/OnapLoginController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 194
+      },
+      "writtenOn": "2019-10-07T13:51:59Z",
+      "side": 1,
+      "message": "This issue has been addressed in the new patch, namely patch 4.",
+      "parentUuid": "27a61c17_e26c84b9",
       "range": {
         "startLine": 5,
         "startChar": 13,
