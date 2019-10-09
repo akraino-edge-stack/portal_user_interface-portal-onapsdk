@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4c5ca71_35b733f5",
+        "filename": "ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/CreateEdgeSite/CreateEdgeSiteModal.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-10-09T20:40:25Z",
+      "side": 1,
+      "message": "Can this style section be moved to a separate file?  Or does Angular require it here for some reason?",
+      "revId": "c159f01b0f3a756a9ed1e2137cbda4fe45eb022d",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1b6403c_97335d31",
+        "filename": "ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/CreateEdgeSite/CreateEdgeSiteModal.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-10-09T20:40:25Z",
+      "side": 1,
+      "message": "type of \" text\" is invalid.  remove the space",
+      "revId": "c159f01b0f3a756a9ed1e2137cbda4fe45eb022d",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe67bb79_3c0e5fe7",
+        "filename": "ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/EdgeSitesTemplate.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-10-09T20:40:25Z",
+      "side": 1,
+      "message": "Can this style section be moved to a separate file?  Or does Angular require it here for some reason?",
+      "revId": "c159f01b0f3a756a9ed1e2137cbda4fe45eb022d",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "139c93ab_405048c2",
+        "filename": "ONAP-SDK-APP/src/main/webapp/WEB-INF/fusion/jsp/ds2/left-menu.jsp",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-10-09T20:40:25Z",
+      "side": 1,
+      "message": "Error from Eclipse:\nFragment \"/WEB-INF/fusion/jsp/ebz/loginSnippet.html\" was not found at expected path /ONAP-SDK-APP/src/main/webapp/WEB-INF/fusion/jsp/ebz/loginSnippet.html",
+      "revId": "c159f01b0f3a756a9ed1e2137cbda4fe45eb022d",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35d34413_381463a5",
+        "filename": "ONAP-SDK-APP/src/main/webapp/WEB-INF/fusion/jsp/ds2/left-menu.jsp",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-10-09T20:40:25Z",
+      "side": 1,
+      "message": "Error from Eclipse:\nFragment \"/WEB-INF/fusion/jsp/ebz/loginSnippet.html\" was not found at expected path /ONAP-SDK-APP/src/main/webapp/WEB-INF/fusion/jsp/ebz/loginSnippet.html",
+      "revId": "c159f01b0f3a756a9ed1e2137cbda4fe45eb022d",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    }
+  ]
+}
