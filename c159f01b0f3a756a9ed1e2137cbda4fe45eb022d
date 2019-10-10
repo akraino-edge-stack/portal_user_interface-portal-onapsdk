@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "58441ec7_5ee657d4",
+        "filename": "ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/CreateEdgeSite/CreateEdgeSiteModal.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 194
+      },
+      "writtenOn": "2019-10-10T12:56:33Z",
+      "side": 1,
+      "message": "Done. A new file, namely \"ARCPORTAL-SDK-APP/src/main/webapp/app/css/create-edge-sites.css\" has been created where this style was placed. Please have a look at patch 7.",
+      "parentUuid": "b4c5ca71_35b733f5",
+      "revId": "c159f01b0f3a756a9ed1e2137cbda4fe45eb022d",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1b6403c_97335d31",
         "filename": "ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/CreateEdgeSite/CreateEdgeSiteModal.html",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2019-10-09T20:40:25Z",
       "side": 1,
       "message": "type of \" text\" is invalid.  remove the space",
+      "revId": "c159f01b0f3a756a9ed1e2137cbda4fe45eb022d",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "950e7b84_e2a23740",
+        "filename": "ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/CreateEdgeSite/CreateEdgeSiteModal.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 194
+      },
+      "writtenOn": "2019-10-10T12:56:33Z",
+      "side": 1,
+      "message": "Done. Please have a look at patch 7.",
+      "parentUuid": "d1b6403c_97335d31",
       "revId": "c159f01b0f3a756a9ed1e2137cbda4fe45eb022d",
       "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "6b14c58f_df7a25de",
+        "filename": "ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/EdgeSitesTemplate.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 194
+      },
+      "writtenOn": "2019-10-10T12:56:33Z",
+      "side": 1,
+      "message": "Done. A new file, namely \"ARCPORTAL-SDK-APP/src/main/webapp/app/css/edge-sites.css\" has been created where this style was placed. Please have a look at patch 7.",
+      "parentUuid": "fe67bb79_3c0e5fe7",
+      "revId": "c159f01b0f3a756a9ed1e2137cbda4fe45eb022d",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "139c93ab_405048c2",
         "filename": "ONAP-SDK-APP/src/main/webapp/WEB-INF/fusion/jsp/ds2/left-menu.jsp",
         "patchSetId": 6
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "34cfb29d_ba6331c4",
+        "filename": "ONAP-SDK-APP/src/main/webapp/WEB-INF/fusion/jsp/ds2/left-menu.jsp",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 194
+      },
+      "writtenOn": "2019-10-10T12:56:33Z",
+      "side": 1,
+      "message": "I believe we should ignore this warning. The missing file is copied from a library during maven execution. This library is an overlay for the ONAP-SDK-APP subproject. That is the way that war overlays work.",
+      "parentUuid": "139c93ab_405048c2",
+      "revId": "c159f01b0f3a756a9ed1e2137cbda4fe45eb022d",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35d34413_381463a5",
         "filename": "ONAP-SDK-APP/src/main/webapp/WEB-INF/fusion/jsp/ds2/left-menu.jsp",
         "patchSetId": 6
@@ -81,6 +153,24 @@
       "writtenOn": "2019-10-09T20:40:25Z",
       "side": 1,
       "message": "Error from Eclipse:\nFragment \"/WEB-INF/fusion/jsp/ebz/loginSnippet.html\" was not found at expected path /ONAP-SDK-APP/src/main/webapp/WEB-INF/fusion/jsp/ebz/loginSnippet.html",
+      "revId": "c159f01b0f3a756a9ed1e2137cbda4fe45eb022d",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd45eaad_54ca3ce1",
+        "filename": "ONAP-SDK-APP/src/main/webapp/WEB-INF/fusion/jsp/ds2/left-menu.jsp",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 194
+      },
+      "writtenOn": "2019-10-10T12:56:33Z",
+      "side": 1,
+      "message": "I believe we should ignore this warning. The missing file is copied from a library during maven execution. This library is an overlay for the ONAP-SDK-APP subproject. That is the way that war overlays work.",
+      "parentUuid": "35d34413_381463a5",
       "revId": "c159f01b0f3a756a9ed1e2137cbda4fe45eb022d",
       "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
       "unresolved": false
