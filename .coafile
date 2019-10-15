@@ -49,7 +49,8 @@ ignore =  target/**,
     ONAP-SDK-APP/src/main/java/org/akraino/portal_user_interface/onapsdkapp/filter/SecurityXssFilter.java,
     ARCPORTAL-SDK-APP/target/**,
     ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/client/arc/resources/**.java,
-    ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/client/arc/ArcExecutorClient.java
+    ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/client/arc/ArcExecutorClient.java,
+    ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/util/Consts.java
 
 [all.JS]
 bears = ESLintBear,JSComplexityBear
@@ -65,4 +66,5 @@ ignore =  target/**,
     ARCPORTAL-SDK-APP/target/**,
     ARCPORTAL-SDK-APP/src/main/webapp/app/fusion/**,
     ARCPORTAL-SDK-APP/src/main/webapp/static/**,
-    ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/EdgeSites.js
+    ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/EdgeSites.js,
+    ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/CreateEdgeSite/CreateEdgeSite.Services.js

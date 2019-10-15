@@ -1,15 +1,33 @@
-nav ul {
-    height: 100px;
-    width: 18%;
-}
-
-nav ul {
-    overflow: hidden;
-    overflow-y: scroll;
-}
-
-label button nav {
+label {
     display: inline-block;
     width: 140px;
     text-align: right;
+}
+
+ul.ul-region {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 25px;
+}
+
+li.li-region {
+    border: 1px solid black;
+    display: inline-block;
+    padding: 5px 10px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    text-transform: capitalize;
+}
+
+.fa-close {
+    cursor: pointer;
+}
+
+.container>* {
+    display: inline-block;
+}
+
+div.box {
+    border: 1px solid black;
+    width: 1000px;
 }

@@ -92,7 +92,7 @@ public class Node implements IResource {
             }
 
             public Integer getUnit() {
-                return this.slot;
+                return this.unit;
             }
 
             public void setUnit(Integer unit) {

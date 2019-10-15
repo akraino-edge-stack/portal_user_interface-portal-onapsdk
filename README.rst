@@ -1,6 +1,6 @@
 
 Akraino Regional Controller Portal
-========
+==================================
 
 Introduction
 ------------
@@ -29,7 +29,6 @@ Download the project
 
     git clone "https://gerrit.akraino.org/r/portal_user_interface/portal-onapsdk"
 
-
 Prerequisites
 ~~~~~~~~~~~~~
 
@@ -45,6 +44,7 @@ Execute the commands below in order to install these tools (note that the PROXY_
 If the host is behind a proxy, define this proxy using the following commands:
 
 .. code-block:: console
+
     sudo touch /etc/apt/apt.conf.d/proxy.conf
     sudo sh -c 'echo "Acquire::http::proxy \"http://<PROXY_IP>:<PROXY_PORT>/\";" >> /etc/apt/apt.conf.d/proxy.conf'
     sudo sh -c 'echo "Acquire::https::proxy \"https://<PROXY_IP>:<PROXY_PORT>/\";" >> /etc/apt/apt.conf.d/proxy.conf'
@@ -56,12 +56,14 @@ If the host is behind a proxy, define this proxy using the following commands:
 Install jdk and maven using the following commands:
 
 .. code-block:: console
+
     sudo apt install default-jdk
     sudo apt install maven
 
 If the host is behind a proxy, configure this proxy for maven:
 
 .. code-block:: console
+
     nano ~/.m2/settings.xml
     <Paste the following lines>
 
@@ -90,6 +92,7 @@ If the host is behind a proxy, configure this proxy for maven:
 Install docker using the following commands:
 
 .. code-block:: console
+
     sudo apt install docker.io
     sudo groupadd docker
     sudo gpasswd -a $USER docker
@@ -98,6 +101,7 @@ Install docker using the following commands:
 If the host is behind a proxy, configure docker to use this proxy:
 
 .. code-block:: console
+
     mkdir /etc/systemd/system/docker.service.d
     sudo nano /etc/systemd/system/docker.service.d/http-proxy.conf
     <Paste the following lines>
@@ -136,7 +140,7 @@ The mariadb root password and the mariadb user password (currently the ARC porta
     cd portal-onapsdk
     mvn -f ./ONAP-SDK-APP/ docker:build -Ddocker.filter=akraino/portal-onapsdk:dev-mariadb-latest
     cd ONAP-SDK-APP/docker-scripts/mariadb
-    ./deploy.sh --TAG_PRE dev-mariadb --MARIADB_ROOT_PASSWORD <mariadb root user password> --MARIADB_AKRAINO_PASSWORD <mariadb akraino user password>
+    ./deploy.sh --TAG_PRE dev-mariadb --MARIADB_ROOT_PASSWORD <mariadb root user password> --MARIADB_PASSWORD <mariadb akraino user password>
 
 In order to retrieve the IP of the mariadb container, the following command should be executed:
 
@@ -206,6 +210,7 @@ CERTDIR, the directory where the SSL certificates can be found, default value is
 ENCRYPTION_KEY, the key that should be used by the AES algorithm for encrypting passwords stored in database, this variable is required
 ARCPORTAL_ADMIN_PASSWORD, the desired ARC portal password for the admin user, this variable is required
 TRUST_ALL, the variable that defines whether the ARC portal should trust all certificates or not, default value is false
+HOST_PORT, port of the hosting OS that will be used for exposing https port (i.e. 443) of the ARC portal container, default value is 10000
 
 So, for a functional ARC portal, the following prerequisites are needed:
 
@@ -219,7 +224,7 @@ Then, the following commands can be executed in order to build and deploy the AR
     cd portal-onapsdk
     mvn -f ./ONAP-SDK-APP/ docker:build -Ddocker.filter=akraino/portal-onapsdk:dev-arcportal-latest
     cd ONAP-SDK-APP/docker-scripts/arcportal
-    ./deploy.sh --TAG_PRE dev-arcportal --DB_IP_PORT <IP and port of the mariadb> --MARIADB_PASSWORD <mariadb akraino password> --ENCRYPTION_KEY <encryption key> --ARC_URL <ARC URL> --ARC_USER <ARC user> --ARC_PASSWORD <ARC password> --ARC_PROXY <Proxy for reaching ARC>
+    ./deploy.sh --TAG_PRE dev-arcportal --DB_IP_PORT <IP and port of the mariadb> --MARIADB_PASSWORD <mariadb akraino password> --ENCRYPTION_KEY <encryption key> --ARCPORTAL_ADMIN_PASSWORD <ARC portal admin user password> --ARC_URL <ARC URL> --ARC_USER <ARC user> --ARC_PASSWORD <ARC password> --ARC_PROXY <Proxy for reaching ARC>
 
 The contents of the DB_IP_PORT, encryption key and ARC_URL can be for example '172.17.0.3:3306', 'AGADdG4D04BKm2IxIWEr8o==' and 'https://10.0.2.15:443', respectively.
 
@@ -231,7 +236,7 @@ If no proxy exists, the ARC_PROXY variable should not be defined.
 
 The ARC portal should be available in the following url:
 
-    https://<IP of the UI container>/
+    https://<IP of the ARC portal container>/
 
 As far as the SSL certificates are concerned, self-signed built-in certificates exist in the 'portal-onapsdk/ONAP-SDK-APP/docker-scripts/arcportal/' directory which are used by default. It should be noted that these
 certificates should be used only for demo purposes. If a user wants to use different ones which are more appropriate for a production environment, the directory that contains these new
