@@ -24,3 +24,18 @@ All notable changes to this project will be documented in this file.
 - The html style sections of 'portal-onapsdk/ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/EdgeSitesTemplate.html' and 'portal-onapsdk/ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/CreateEdgeSite/CreateEdgeSiteModal.html' have been placed in separate files under the 'portal-onapsdk/ARCPORTAL-SDK-APP/src/main/webapp/app/css' folder.
 
 ### Removed
+
+## [0.0.2-SNAPSHOT] - 06 December 2019
+### Added
+- Creation of Edge Sites is supported
+- Sanity checks for excluding occupied slots and units
+- A new file, namely 'ONAP-SDK-APP/arcportal-docker-assembly.xml' has been created which defines the assembly process of the ARC portal docker image
+- The user can define a port for exposing ARC portal functionality on the host machine
+- ARC portal can handle nodes and hardware in which the rack location information is missing
+
+### Changed
+- The files 'server.xml' and index.jsp are embedded inside the ARC portal docker image during build stage
+- All static strings are defined in a static library, namely 'org.akraino.portal_user_interface.arcportalsdkapp.util.Consts.java'
+- README.rst syntax errors have been fixed
+
+### Removed

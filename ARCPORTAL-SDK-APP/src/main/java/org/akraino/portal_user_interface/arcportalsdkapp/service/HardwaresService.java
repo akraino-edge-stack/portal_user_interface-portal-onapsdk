@@ -22,6 +22,7 @@ import java.security.NoSuchAlgorithmException;
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.ArcExecutorClient;
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Hardware;
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Hardwares;
+import org.akraino.portal_user_interface.arcportalsdkapp.util.Consts;
 import org.apache.jcs.access.exception.InvalidArgumentException;
 import org.springframework.stereotype.Service;
 
@@ -33,11 +34,18 @@ import com.sun.jersey.api.client.UniformInterfaceException;
 @Service
 public class HardwaresService {
 
+    private final String arcUrl;
+    private final String arcUser;
+    private final String arcPassword;
+
+    public HardwaresService() {
+        arcUrl = System.getenv(Consts.ENV_NAME_ARC_URL);
+        arcUser = System.getenv(Consts.ENV_NAME_ARC_USER);
+        arcPassword = System.getenv(Consts.ENV_NAME_ARC_PASSWORD);
+    }
+
     public Hardwares getHardwares() throws KeyManagementException, ClientHandlerException, UniformInterfaceException,
-    InvalidArgumentException, NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
-        String arcUrl = System.getenv("ARC_URL");
-        String arcUser = System.getenv("ARC_USER");
-        String arcPassword = System.getenv("ARC_PASSWORD");
+            InvalidArgumentException, NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
         return client.get(Hardwares.class, null);
     }
@@ -45,9 +53,6 @@ public class HardwaresService {
     public Hardware getHardware(String uuid)
             throws KeyManagementException, ClientHandlerException, UniformInterfaceException, InvalidArgumentException,
             NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
-        String arcUrl = System.getenv("ARC_URL");
-        String arcUser = System.getenv("ARC_USER");
-        String arcPassword = System.getenv("ARC_PASSWORD");
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
         return client.get(Hardware.class, uuid);
     }

@@ -22,6 +22,7 @@ import java.security.NoSuchAlgorithmException;
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.ArcExecutorClient;
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.EdgeSite;
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.EdgeSites;
+import org.akraino.portal_user_interface.arcportalsdkapp.util.Consts;
 import org.apache.jcs.access.exception.InvalidArgumentException;
 import org.springframework.stereotype.Service;
 
@@ -33,11 +34,18 @@ import com.sun.jersey.api.client.UniformInterfaceException;
 @Service
 public class EdgeSitesService {
 
+    private final String arcUrl;
+    private final String arcUser;
+    private final String arcPassword;
+
+    public EdgeSitesService() {
+        arcUrl = System.getenv(Consts.ENV_NAME_ARC_URL);
+        arcUser = System.getenv(Consts.ENV_NAME_ARC_USER);
+        arcPassword = System.getenv(Consts.ENV_NAME_ARC_PASSWORD);
+    }
+
     public EdgeSites getEdgeSites() throws KeyManagementException, ClientHandlerException, UniformInterfaceException,
-    InvalidArgumentException, NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
-        String arcUrl = System.getenv("ARC_URL");
-        String arcUser = System.getenv("ARC_USER");
-        String arcPassword = System.getenv("ARC_PASSWORD");
+            InvalidArgumentException, NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
         return client.get(EdgeSites.class, null);
     }
@@ -45,11 +53,16 @@ public class EdgeSitesService {
     public EdgeSite getEdgeSite(String uuid)
             throws KeyManagementException, ClientHandlerException, UniformInterfaceException, InvalidArgumentException,
             NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
-        String arcUrl = System.getenv("ARC_URL");
-        String arcUser = System.getenv("ARC_USER");
-        String arcPassword = System.getenv("ARC_PASSWORD");
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
         return client.get(EdgeSite.class, uuid);
+    }
+
+    public EdgeSite saveEdgeSite(EdgeSite edgeSite)
+            throws KeyManagementException, ClientHandlerException, UniformInterfaceException, InvalidArgumentException,
+            NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
+        ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
+        edgeSite.setUuid(client.post(edgeSite));
+        return edgeSite;
     }
 
 }

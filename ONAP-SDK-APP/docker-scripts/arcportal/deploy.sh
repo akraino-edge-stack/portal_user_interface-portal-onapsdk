@@ -35,6 +35,7 @@ CERTDIR=$(pwd)
 ENCRYPTION_KEY=""
 ARCPORTAL_ADMIN_PASSWORD=""
 TRUST_ALL="false"
+HOST_PORT="10000"
 
 while [ $# -gt 0 ]; do
    if [[ $1 == *"--"* ]]; then
@@ -89,5 +90,5 @@ fi
 echo "Note: If there is a password already stored in database, the supplied ARCPORTAL_ADMIN_PASSWORD will be ignored."
 
 IMAGE="$REGISTRY"/"$NAME":"$TAG_PRE"-"$TAG_VER"
-docker run --detach --name $CONTAINER_NAME -v "$(pwd)/server.xml:/usr/local/tomcat/conf/server.xml" -v "$CERTDIR/arcportal.key:/usr/local/tomcat/arcportal.key" -v "$CERTDIR/arcportal.crt:/usr/local/tomcat/arcportal.crt" -v "$(pwd)/root_index.jsp:/usr/local/tomcat/webapps/ROOT/index.jsp" -e DB_IP_PORT="$DB_IP_PORT" -e MARIADB_USER="$MARIADB_USER" -e MARIADB_PASSWORD="$MARIADB_PASSWORD" -e ARC_URL="$ARC_URL" -e ARC_PROXY="$ARC_PROXY" -e ARC_USER="$ARC_USER" -e ARC_PASSWORD="$ARC_PASSWORD" -e ENCRYPTION_KEY="$ENCRYPTION_KEY" -e ARCPORTAL_ADMIN_PASSWORD="$ARCPORTAL_ADMIN_PASSWORD" -e TRUST_ALL="$TRUST_ALL" $IMAGE
+docker run --detach --name $CONTAINER_NAME -p $HOST_PORT:443 -v "$CERTDIR/arcportal.key:/usr/local/tomcat/arcportal.key" -v "$CERTDIR/arcportal.crt:/usr/local/tomcat/arcportal.crt" -e DB_IP_PORT="$DB_IP_PORT" -e MARIADB_USER="$MARIADB_USER" -e MARIADB_PASSWORD="$MARIADB_PASSWORD" -e ARC_URL="$ARC_URL" -e ARC_PROXY="$ARC_PROXY" -e ARC_USER="$ARC_USER" -e ARC_PASSWORD="$ARC_PASSWORD" -e ENCRYPTION_KEY="$ENCRYPTION_KEY" -e ARCPORTAL_ADMIN_PASSWORD="$ARCPORTAL_ADMIN_PASSWORD" -e TRUST_ALL="$TRUST_ALL" $IMAGE
 sleep 10
