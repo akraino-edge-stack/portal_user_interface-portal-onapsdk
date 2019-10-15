@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0e791a9_e33ab877",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/client/arc/ArcExecutorClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-10-15T18:10:10Z",
+      "side": 1,
+      "message": "Rather than application/json, use\nMediaType.APPLICATION_JSON\nand import javax.ws.rs.core.MediaType",
+      "revId": "1a6a3e149bd1020fb0c3cf7b67a80f48fd63139f",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    }
+  ]
+}
