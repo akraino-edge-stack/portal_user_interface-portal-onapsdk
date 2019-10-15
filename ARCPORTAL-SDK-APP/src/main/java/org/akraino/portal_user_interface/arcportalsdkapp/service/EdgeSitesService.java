@@ -52,4 +52,15 @@ public class EdgeSitesService {
         return client.get(EdgeSite.class, uuid);
     }
 
+    public EdgeSite saveEdgeSite(EdgeSite edgeSite)
+            throws KeyManagementException, ClientHandlerException, UniformInterfaceException, InvalidArgumentException,
+            NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
+        String arcUrl = System.getenv("ARC_URL");
+        String arcUser = System.getenv("ARC_USER");
+        String arcPassword = System.getenv("ARC_PASSWORD");
+        ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
+        edgeSite.setUuid(client.post(edgeSite));
+        return edgeSite;
+    }
+
 }

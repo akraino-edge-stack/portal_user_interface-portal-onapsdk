@@ -51,4 +51,14 @@ public class NodesService {
         return client.get(Node.class, uuid);
     }
 
+    public Node saveNode(Node node) throws KeyManagementException, ClientHandlerException, UniformInterfaceException,
+    InvalidArgumentException, NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
+        String arcUrl = System.getenv("ARC_URL");
+        String arcUser = System.getenv("ARC_USER");
+        String arcPassword = System.getenv("ARC_PASSWORD");
+        ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
+        node.setUuid(client.post(node));
+        return node;
+    }
+
 }

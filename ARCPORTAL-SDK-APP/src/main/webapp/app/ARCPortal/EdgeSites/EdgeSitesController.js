@@ -16,70 +16,105 @@
 
 var app = angular.module('EdgeSites');
 
-app.controller('EdgeSitesController', function ($scope, restAPISvc,
-    generalSvc, $modal, NgTableParams) {
+app
+        .controller(
+                'EdgeSitesController',
+                function($scope, restAPISvc, generalSvc, $modal, NgTableParams) {
 
-    initialize();
+                    initialize();
 
-    function initialize() {
-        $scope.selectedEdgeSiteName = null;
-        $scope.selectedEdgeSite = null;
-        $scope.findRegionName = generalSvc.findRegionName;
-        $scope.formulateRegion = generalSvc.formulateRegion;
-        $scope.allRegions = [];
-        $scope.locations = [];
-        $scope.nodes = [];
+                    function initialize() {
+                        $scope.selectedEdgeSiteName = '';
+                        $scope.selectedEdgeSite = '';
+                        $scope.findRegionName = generalSvc.findRegionName;
+                        $scope.formulateRegion = generalSvc.formulateRegion;
+                        $scope.allRegions = [];
+                        $scope.locations = [];
+                        $scope.nodes = [];
 
-        restAPISvc.getRestAPI("/api/v1/region/", function (regionData) {
-            $scope.allRegions = regionData.regions;
-            angular.forEach($scope.allRegions, function (region) {
-                $scope.locations.push(region.name);
-            });
-            restAPISvc.getRestAPI("/api/v1/node/", function (nodes) {
-                if (nodes && nodes.nodes) {
-                    $scope.nodes = nodes.nodes;
-                }
-                restAPISvc.getRestAPI("/api/v1/edgesite/", function (edgeSiteData) {
-                    var data = edgeSiteData.edgeSites;
-                    $scope.tableParams = new NgTableParams({ page: 1, count: 5 }, { dataset: data });
-                });
-            });
-        });
-    }
+                        restAPISvc
+                                .getRestAPI(
+                                        "/api/v1/region/",
+                                        function(regionData) {
+                                            $scope.allRegions = regionData.regions;
+                                            angular
+                                                    .forEach(
+                                                            $scope.allRegions,
+                                                            function(region) {
+                                                                $scope.locations
+                                                                        .push(region.name);
+                                                            });
+                                            restAPISvc
+                                                    .getRestAPI(
+                                                            "/api/v1/node/",
+                                                            function(nodes) {
+                                                                if (nodes
+                                                                        && nodes.nodes) {
+                                                                    $scope.nodes = nodes.nodes;
+                                                                }
+                                                                restAPISvc
+                                                                        .getRestAPI(
+                                                                                "/api/v1/edgesite/",
+                                                                                function(
+                                                                                        edgeSiteData) {
+                                                                                    var data = edgeSiteData.edgeSites;
+                                                                                    $scope.tableParams = new NgTableParams(
+                                                                                            {
+                                                                                                page : 1,
+                                                                                                count : 5
+                                                                                            },
+                                                                                            {
+                                                                                                dataset : data
+                                                                                            });
+                                                                                });
+                                                            });
+                                        });
+                    }
 
-    $scope.refreshEdgeSites = function () {
-        initialize();
-    }
+                    $scope.refreshEdgeSites = function() {
+                        initialize();
+                    }
 
-    $scope.setClickedRow = function (edgeSite) {
-        $scope.selectedEdgeSiteName = edgeSite.name;
-        $scope.selectedEdgeSite = edgeSite;
-    }
+                    $scope.setClickedRow = function(edgeSite) {
+                        $scope.selectedEdgeSiteName = edgeSite.name;
+                        $scope.selectedEdgeSite = edgeSite;
+                    }
 
-    $scope.calculateNumberOfRacks = function (edgeSite) {
-        var rackNames = [];
-        if (angular.isObject(edgeSite.nodes)) {
-            angular.forEach(edgeSite.nodes,
-                function (nodeId) {
-                    angular.forEach($scope.nodes, function (nodeData) {
-                        if (nodeData.uuid === nodeId) {
-                            if (angular.isObject(nodeData.yaml) && angular.isObject(nodeData.yaml.rack_location)) {
-                                if (rackNames.indexOf(nodeData.yaml.rack_location.name) === -1) {
-                                    rackNames.push(nodeData.yaml.rack_location.name);
-                                }
-                            }
+                    $scope.calculateNumberOfRacks = function(edgeSite) {
+                        var rackNames = [];
+                        if (angular.isObject(edgeSite.nodes)) {
+                            angular
+                                    .forEach(
+                                            edgeSite.nodes,
+                                            function(nodeId) {
+                                                angular
+                                                        .forEach(
+                                                                $scope.nodes,
+                                                                function(
+                                                                        nodeData) {
+                                                                    if (nodeData.uuid === nodeId) {
+                                                                        if (angular
+                                                                                .isObject(nodeData.yaml)
+                                                                                && angular
+                                                                                        .isObject(nodeData.yaml.rack_location)) {
+                                                                            if (rackNames
+                                                                                    .indexOf(nodeData.yaml.rack_location.name) === -1) {
+                                                                                rackNames
+                                                                                        .push(nodeData.yaml.rack_location.name);
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                });
+                                            });
                         }
-                    });
+                        return rackNames.length;
+                    }
+
+                    $scope.openCreateEdgeSiteModal = function() {
+                        $modal.open({
+                                    templateUrl : 'app/ARCPortal/EdgeSites/CreateEdgeSite/CreateEdgeSiteModal.html',
+                                    controller : 'CreateEdgeSiteController'
+                                });
+                    };
+
                 });
-        }
-        return rackNames.length;
-    }
-
-    $scope.openCreateEdgeSiteModal = function () {
-        /*var modalInstance = $modal.open({
-            templateUrl: 'app/ARCPortal/EdgeSites/CreateEdgeSite/CreateEdgeSiteModal.html',
-            controller: 'CreateEdgeSiteController'
-        });*/
-    };
-
-});

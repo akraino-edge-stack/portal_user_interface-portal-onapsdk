@@ -219,7 +219,7 @@ Then, the following commands can be executed in order to build and deploy the AR
     cd portal-onapsdk
     mvn -f ./ONAP-SDK-APP/ docker:build -Ddocker.filter=akraino/portal-onapsdk:dev-arcportal-latest
     cd ONAP-SDK-APP/docker-scripts/arcportal
-    ./deploy.sh --TAG_PRE dev-arcportal --DB_IP_PORT <IP and port of the mariadb> --MARIADB_PASSWORD <mariadb akraino password> --ENCRYPTION_KEY <encryption key> --ARC_URL <ARC URL> --ARC_USER <ARC user> --ARC_PASSWORD <ARC password> --ARC_PROXY <Proxy for reaching ARC>
+    ./deploy.sh --TAG_PRE dev-arcportal --DB_IP_PORT <IP and port of the mariadb> --MARIADB_PASSWORD <mariadb akraino password> --ENCRYPTION_KEY <encryption key> --ARCPORTAL_ADMIN_PASSWORD <ARC portal admin user password> --ARC_URL <ARC URL> --ARC_USER <ARC user> --ARC_PASSWORD <ARC password> --ARC_PROXY <Proxy for reaching ARC>
 
 The contents of the DB_IP_PORT, encryption key and ARC_URL can be for example '172.17.0.3:3306', 'AGADdG4D04BKm2IxIWEr8o==' and 'https://10.0.2.15:443', respectively.
 
@@ -231,7 +231,7 @@ If no proxy exists, the ARC_PROXY variable should not be defined.
 
 The ARC portal should be available in the following url:
 
-    https://<IP of the UI container>/
+    https://<IP of the ARC portal container>/
 
 As far as the SSL certificates are concerned, self-signed built-in certificates exist in the 'portal-onapsdk/ONAP-SDK-APP/docker-scripts/arcportal/' directory which are used by default. It should be noted that these
 certificates should be used only for demo purposes. If a user wants to use different ones which are more appropriate for a production environment, the directory that contains these new

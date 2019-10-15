@@ -144,12 +144,41 @@ public final class ArcExecutorClient {
             }
             LOGGER.debug(EELFLoggerDelegate.debugLogger, "Get of resource succeeded");
             String result = response.getEntity(String.class);
-            LOGGER.debug(EELFLoggerDelegate.debugLogger, "Resource: " + result);
             ObjectMapper mapper = new ObjectMapper();
             mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
             mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
             mapper.setSerializationInclusion(Include.NON_NULL);
             return mapper.readValue(result, resource);
+        }
+    }
+
+    public <T extends IResource> String post(@Nonnull T resource)
+            throws ClientHandlerException, UniformInterfaceException, InvalidArgumentException, KeyManagementException,
+            NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
+        synchronized (LOCK) {
+            String token = this.getToken();
+            LOGGER.debug(EELFLoggerDelegate.debugLogger, "Token is: " + token);
+            String path = getPath(resource.getClass());
+            WebResource webResource = this.client.resource(this.getBaseUrl() + "/api/v1" + path);
+            LOGGER.debug(EELFLoggerDelegate.debugLogger, "Request URI of post: " + webResource.getURI().toString());
+            WebResource.Builder builder = webResource.getRequestBuilder();
+            builder.header("X-ARC-Token", token);
+            ClientResponse response = builder.accept("application/json").type("application/json")
+                    .post(ClientResponse.class, resource);
+            if (response.getStatus() == 201 || response.getStatus() == 200) {
+                LOGGER.debug(EELFLoggerDelegate.debugLogger, "Post of resource succeeded");
+                MultivaluedMap<String, String> responseValues = response.getHeaders();
+                Iterator<String> iter = responseValues.keySet().iterator();
+                while (iter.hasNext()) {
+                    String key = iter.next();
+                    if (key.equalsIgnoreCase("location")) {
+                        return responseValues.getFirst(key).substring(responseValues.getFirst(key).lastIndexOf("/") + 1,
+                                responseValues.getFirst(key).length());
+                    }
+                }
+            }
+            throw new HttpException("Post of resource failed : " + response.getStatus() + " and message: "
+                    + response.getEntity(String.class));
         }
     }
 
