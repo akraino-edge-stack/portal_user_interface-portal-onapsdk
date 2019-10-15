@@ -119,12 +119,12 @@
                             <build>
                                 <from>tomcat:8.5.37</from>
                                 <assembly>
-                                    <descriptorRef>artifact</descriptorRef>
+                                    <descriptor>${project.basedir}/arcportal-docker-assembly.xml</descriptor>
                                 </assembly>
                                 <runCmds>
                                     <!-- must be all on one line; use CDATA
                                         to turn off the Eclipse formatter -->
-                                    <run><![CDATA[mv /maven/*.war /usr/local/tomcat/webapps]]></run>
+                                    <run><![CDATA[mv /maven/target/*.war /usr/local/tomcat/webapps; mv /maven/docker-scripts/arcportal/index.jsp /usr/local/tomcat/webapps/ROOT; mv /maven/docker-scripts/arcportal/server.xml /usr/local/tomcat/conf; rm -fr /maven]]></run>
                                 </runCmds>
                             </build>
                         </image>

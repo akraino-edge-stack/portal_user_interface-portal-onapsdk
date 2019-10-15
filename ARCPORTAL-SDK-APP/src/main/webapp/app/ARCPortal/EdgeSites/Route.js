@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-appDS2.config(function ($routeProvider) {
+appDS2.config(function($routeProvider) {
     $routeProvider.otherwise({
-        templateUrl: 'app/ARCPortal/EdgeSites/EdgeSitesTemplate.html',
-        controller: "EdgeSitesController"
+        templateUrl : 'app/ARCPortal/EdgeSites/EdgeSitesTemplate.html',
+        controller : "EdgeSitesController"
     });
 });

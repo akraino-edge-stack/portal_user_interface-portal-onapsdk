@@ -18,39 +18,102 @@ limitations under the License.
     <style scoped>
 @import "app/css/create-edge-sites.css";
 </style>
-
     <h2 class="heading-small"></h2>
     <h2 class="heading-small">New Edge Site and Inventory</h2>
-
     <div class="block">
         <label>Edge Site Name: </label> <input
-            ng-model="modalEdgeSiteName" type="text"
+            ng-model="data.edgeSiteName" type=" text"
             style="margin-top: 5px; width: 220px;">
     </div>
-
     <div class="block">
-        <label>Regions: </label> <select ng-model="selectedRegion"
-            ng-init="selectedRegion=regions[0]"
-            ng-options="n for n in regions">
+        <label>Regions: </label> <select ng-model="data.selectedRegion"
+            ng-options="region as region.name for region in regions track by region.uuid">
         </select>
-        <button type="submit" class="btn-alt btn-small"
-            ng-click="addSelectedRegion(selectedRegion)">Add</button>
+        <button ng-disabled="!data.selectedRegion"
+            background-color:#337ab7;" type="submit"
+            class="btn-alt btn-small"
+            ng-click="addSelectedRegion(data.selectedRegion)">Add</button>
+    </div>
+    <ul class="ul-region">
+        <li ng-repeat="selectedRegion in selectedRegions"
+            class="li-region"><span
+            ng-click="deleteSelectedRegion(selectedRegion)"><i
+                class="fa fa-close"></i></span> {{selectedRegion.name}}</li>
+    </ul>
+    <div ng-show="loadingRegions || loadingHardwares || loadingNodes">
+        <img src=" static/fusion/images/giphy.gif" />
     </div>
 
-    <div class="block">
-        <nav>
-            <ul>
-                <li ng-repeat="region in selectedRegions">{{region}}</li>
-            </ul>
-        </nav>
+    <h2 class="heading-small"></h2>
+    <div class="box">
+        <h2 class="heading-small">Edge Site Inventory</h2>
+        <div class="container">
+            <div>
+                <div class="block">
+                    <label>Hardware: </label> <select
+                        ng-model="data.selectedHardware"
+                        ng-change="selectedHardwareChange()"
+                        ng-options="hardware as hardware.name for hardware in hardwares track by hardware.uuid">
+                    </select>
+                </div>
+                <div class="block">
+                    <label>Rack Name: </label> <input
+                        ng-model="data.selectedRackName"
+                        ng-change="selectedRackNameChange()"
+                        type=" text"
+                        style="margin-top: 5px; width: 220px;">
+                </div>
+                <div class="block" ng-if="hasRackLocation">
+                    <label>Rack Slot: </label> <select
+                        ng-model="data.selectedRackSlot"
+                        ng-change="selectedRackSlotChange()"
+                        ng-options="v for v in rackSlots">
+                    </select>
+                </div>
+                <div class="block" ng-if="chassisMounted">
+                    <label>Chassis Unit: </label> <select
+                        ng-model="data.selectedChassisUnit"
+                        ng-options="v for v in chassisUnits">
+                    </select>
+                </div>
+                <div class="block">
+                    <label>Node Name: </label> <input
+                        ng-model="data.selectedNodeName" type=" text"
+                        style="margin-top: 5px; width: 220px;">
+                </div>
+                <div class="block">
+                    <label>Node Description: </label> <input
+                        ng-model="data.selectedNodeDescription"
+                        type=" text"
+                        style="margin-top: 5px; width: 220px;">
+                </div>
+            </div>
+            <div>
+                <img src="static/fusion/images/rack2.jpg" alt="Rack"
+                    width="200&quot;" height="57" border="0" />
+            </div>
+        </div>
+        <button background-color:#337ab7;" type="submit"
+            class="btn-alt btn-small" ng-click="addSelectedNode(data)"
+            style="float: right;">Add</button>
+        <ul class="ul-region">
+            <li ng-repeat="selectedNode in selectedNodes"
+                class="li-region"><span
+                ng-click="deleteSelectedNode(selectedNode)"><i
+                    class="fa fa-close"></i></span>Node name:
+                {{selectedNode.name}}, description:
+                {{selectedNode.description}}, hardware:
+                {{retrieveHardwareName(selectedNode, hardwares)}}, rack
+                info:{{selectedNode.yaml}}</li>
+        </ul>
     </div>
-
     <div>
-        <button style="margin-left: 25px; margin-top: 4px;"
-            type="submit" class="btn btn-alt btn-small">Cancel</button>
-        <button style="margin-left: 25px; margin-top: 4px;"
-            type="submit" class="btn btn-alt btn-small">Create</button>
+        <button background-color:#337ab7;" type="submit"
+            class="btn-alt btn-small" style="float: right;"
+            ng-click="cancel()">Cancel</button>
+        <button background-color:#337ab7;" type="submit"
+            class="btn-alt btn-small" style="float: right;"
+            ng-click="create(data)">Create</button>
     </div>
 
-    <!--<img src="static/fusion/images/rack.jpeg" alt="Rack" width="200&quot;" height="57" border="0" />-->
 </div>

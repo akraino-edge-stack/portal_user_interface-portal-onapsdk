@@ -22,6 +22,7 @@ import java.security.NoSuchAlgorithmException;
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.ArcExecutorClient;
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Node;
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Nodes;
+import org.akraino.portal_user_interface.arcportalsdkapp.util.Consts;
 import org.apache.jcs.access.exception.InvalidArgumentException;
 import org.springframework.stereotype.Service;
 
@@ -33,22 +34,33 @@ import com.sun.jersey.api.client.UniformInterfaceException;
 @Service
 public class NodesService {
 
+    private final String arcUrl;
+    private final String arcUser;
+    private final String arcPassword;
+
+    public NodesService() {
+        arcUrl = System.getenv(Consts.ENV_NAME_ARC_URL);
+        arcUser = System.getenv(Consts.ENV_NAME_ARC_USER);
+        arcPassword = System.getenv(Consts.ENV_NAME_ARC_PASSWORD);
+    }
+
     public Nodes getNodes() throws KeyManagementException, ClientHandlerException, UniformInterfaceException,
-    InvalidArgumentException, NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
-        String arcUrl = System.getenv("ARC_URL");
-        String arcUser = System.getenv("ARC_USER");
-        String arcPassword = System.getenv("ARC_PASSWORD");
+            InvalidArgumentException, NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
         return client.get(Nodes.class, null);
     }
 
     public Node getNode(String uuid) throws KeyManagementException, ClientHandlerException, UniformInterfaceException,
-    InvalidArgumentException, NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
-        String arcUrl = System.getenv("ARC_URL");
-        String arcUser = System.getenv("ARC_USER");
-        String arcPassword = System.getenv("ARC_PASSWORD");
+            InvalidArgumentException, NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
         return client.get(Node.class, uuid);
+    }
+
+    public Node saveNode(Node node) throws KeyManagementException, ClientHandlerException, UniformInterfaceException,
+            InvalidArgumentException, NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
+        ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
+        node.setUuid(client.post(node));
+        return node;
     }
 
 }

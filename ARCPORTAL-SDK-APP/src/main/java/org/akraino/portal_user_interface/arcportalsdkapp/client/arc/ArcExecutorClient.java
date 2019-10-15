@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.EdgeSite;
@@ -39,8 +40,10 @@ import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.No
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Nodes;
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Region;
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Regions;
+import org.akraino.portal_user_interface.arcportalsdkapp.util.Consts;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.jcs.access.exception.InvalidArgumentException;
+import org.json.JSONObject;
 import org.onap.portalsdk.core.logging.logic.EELFLoggerDelegate;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -83,10 +86,10 @@ public final class ArcExecutorClient {
             @Override
             public HttpURLConnection getHttpURLConnection(URL url) throws IOException {
                 try {
-                    String proxyIp = System.getenv("ARC_PROXY").substring(0,
-                            System.getenv("ARC_PROXY").lastIndexOf(":"));
-                    String proxyPort = System.getenv("ARC_PROXY")
-                            .substring(System.getenv("ARC_PROXY").lastIndexOf(":") + 1);
+                    String proxyIp = System.getenv(Consts.ENV_NAME_ARC_PROXY).substring(0,
+                            System.getenv(Consts.ENV_NAME_ARC_PROXY).lastIndexOf(Consts.DELIMITER));
+                    String proxyPort = System.getenv(Consts.ENV_NAME_ARC_PROXY_PORT)
+                            .substring(System.getenv(Consts.ENV_NAME_ARC_PROXY_PORT).lastIndexOf(Consts.DELIMITER) + 1);
                     proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyIp, Integer.parseInt(proxyPort)));
                     return (HttpURLConnection) url.openConnection(proxy);
                 } catch (Exception ex) {
@@ -132,11 +135,11 @@ public final class ArcExecutorClient {
             if (resourceId != null) {
                 path = path + "/" + resourceId;
             }
-            WebResource webResource = this.client.resource(this.getBaseUrl() + "/api/v1" + path);
+            WebResource webResource = this.client.resource(this.getBaseUrl() + Consts.V1_PART_URL + path);
             LOGGER.debug(EELFLoggerDelegate.debugLogger, "Request URI of get: " + webResource.getURI().toString());
             WebResource.Builder builder = webResource.getRequestBuilder();
-            builder.header("X-ARC-Token", token);
-            ClientResponse response = builder.accept("application/json").type("application/json")
+            builder.header(Consts.X_ARC_TOKEN_HEADER, token);
+            ClientResponse response = builder.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON)
                     .get(ClientResponse.class);
             if (response.getStatus() != 200) {
                 throw new HttpException("Get of resource failed : " + response.getStatus() + " and message: "
@@ -144,7 +147,6 @@ public final class ArcExecutorClient {
             }
             LOGGER.debug(EELFLoggerDelegate.debugLogger, "Get of resource succeeded");
             String result = response.getEntity(String.class);
-            LOGGER.debug(EELFLoggerDelegate.debugLogger, "Resource: " + result);
             ObjectMapper mapper = new ObjectMapper();
             mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
             mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
@@ -153,21 +155,53 @@ public final class ArcExecutorClient {
         }
     }
 
+    public <T extends IResource> String post(@Nonnull T resource)
+            throws ClientHandlerException, UniformInterfaceException, InvalidArgumentException, KeyManagementException,
+            NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
+        synchronized (LOCK) {
+            String token = this.getToken();
+            LOGGER.debug(EELFLoggerDelegate.debugLogger, "Token is: " + token);
+            String path = getPath(resource.getClass());
+            WebResource webResource = this.client.resource(this.getBaseUrl() + Consts.V1_PART_URL + path);
+            LOGGER.debug(EELFLoggerDelegate.debugLogger, "Request URI of post: " + webResource.getURI().toString());
+            WebResource.Builder builder = webResource.getRequestBuilder();
+            builder.header(Consts.X_ARC_TOKEN_HEADER, token);
+            ClientResponse response = builder.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON)
+                    .post(ClientResponse.class, resource);
+            if (response.getStatus() == 201 || response.getStatus() == 200) {
+                LOGGER.debug(EELFLoggerDelegate.debugLogger, "Post of resource succeeded");
+                MultivaluedMap<String, String> responseValues = response.getHeaders();
+                Iterator<String> iter = responseValues.keySet().iterator();
+                while (iter.hasNext()) {
+                    String key = iter.next();
+                    if (key.equalsIgnoreCase(Consts.LOCATION_KEYWORD)) {
+                        return responseValues.getFirst(key).substring(
+                                responseValues.getFirst(key).lastIndexOf(Consts.DELIMITER_2) + 1,
+                                responseValues.getFirst(key).length());
+                    }
+                }
+            }
+            throw new HttpException("Post of resource failed : " + response.getStatus() + " and message: "
+                    + response.getEntity(String.class));
+        }
+    }
+
     private String getToken() throws HttpException, ClientHandlerException, UniformInterfaceException,
-    KeyManagementException, NoSuchAlgorithmException {
+            KeyManagementException, NoSuchAlgorithmException {
         LOGGER.debug(EELFLoggerDelegate.debugLogger, "Attempting to get the token");
-        String tokenUri = baseurl + "/api/v1" + "/login";
+        String tokenUri = baseurl + Consts.V1_PART_URL + Consts.LOGIN_PART_URL;
         WebResource webResource = this.client.resource(tokenUri);
-        String payload = "{\"name\": \"" + user + "\", \"password\":\"" + password + "\"}";
+        String payload = new JSONObject().put(Consts.JSON_ATTRIBUTE_NAME, user)
+                .put(Consts.JSON_ATTRIBUTE_PASSWORD, password).toString();
         ClientResponse response = null;
-        response = webResource.type("application/json").post(ClientResponse.class, payload);
+        response = webResource.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, payload);
         if (response.getStatus() == 201 || response.getStatus() == 200) {
             LOGGER.debug(EELFLoggerDelegate.debugLogger, "Successful token retrieval");
             MultivaluedMap<String, String> responseValues = response.getHeaders();
             Iterator<String> iter = responseValues.keySet().iterator();
             while (iter.hasNext()) {
                 String key = iter.next();
-                if (key.equalsIgnoreCase("X-ARC-Token")) {
+                if (key.equalsIgnoreCase(Consts.X_ARC_TOKEN_HEADER)) {
                     return responseValues.getFirst(key);
                 }
             }

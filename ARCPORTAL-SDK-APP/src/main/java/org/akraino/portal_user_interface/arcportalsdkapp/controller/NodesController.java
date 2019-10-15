@@ -27,6 +27,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -59,8 +60,18 @@ public class NodesController extends RestrictedBaseController {
         try {
             return new ResponseEntity<>(service.getNode(uuid), HttpStatus.OK);
         } catch (Exception e) {
-            LOGGER.error(EELFLoggerDelegate.errorLogger, "Error when retrieving Node. " + UserUtils.getStackTrace(e));
+            LOGGER.error(EELFLoggerDelegate.errorLogger, "Error when retrieving node. " + UserUtils.getStackTrace(e));
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    }
+
+    @RequestMapping(value = { "/" }, method = RequestMethod.POST)
+    public ResponseEntity<Node> createNode(@RequestBody Node node) {
+        try {
+            return new ResponseEntity<>(service.saveNode(node), HttpStatus.CREATED);
+        } catch (Exception e) {
+            LOGGER.error(EELFLoggerDelegate.errorLogger, "Creation of node failed. " + UserUtils.getStackTrace(e));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 }

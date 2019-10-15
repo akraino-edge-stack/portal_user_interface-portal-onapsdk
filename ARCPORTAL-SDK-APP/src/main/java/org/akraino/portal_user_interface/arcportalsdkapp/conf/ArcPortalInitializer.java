@@ -29,6 +29,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.akraino.portal_user_interface.arcportalsdkapp.util.Consts;
 import org.onap.portalsdk.core.domain.User;
 import org.onap.portalsdk.core.onboarding.exception.CipherUtilException;
 import org.onap.portalsdk.core.onboarding.util.CipherUtil;
@@ -74,8 +75,9 @@ public class ArcPortalInitializer {
 
     @EventListener(ContextRefreshedEvent.class)
     public void setHttpProperties() throws NoSuchAlgorithmException, KeyManagementException {
-        if (System.getenv("TRUST_ALL") != null && System.getenv("TRUST_ALL").equals("true")) {
-            SSLContext sslContext = SSLContext.getInstance("SSL");
+        if (System.getenv(Consts.ENV_NAME_TRUST_ALL) != null
+                && System.getenv(Consts.ENV_NAME_TRUST_ALL).equals(Consts.STRING_FOR_TRUE)) {
+            SSLContext sslContext = SSLContext.getInstance(Consts.SSL_INSTANCE_NAME);
             sslContext.init(null, this.trustAll, new java.security.SecureRandom());
             HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
             // Install the all-trusting host verifier
@@ -92,16 +94,16 @@ public class ArcPortalInitializer {
         User admin = null;
         List<User> users = userService.findAllActive();
         for (User user : users) {
-            if (user.getLoginId().equals("admin")) {
+            if (user.getLoginId().equals(Consts.ADMIN_LOGIN_ID)) {
                 admin = user;
             }
         }
         if (admin == null) {
             throw new RuntimeException("Admin user does not exist");
         }
-        if (admin.getLoginPwd().equals("admin_password")) {
-            admin.setLoginPwd(
-                    CipherUtil.encryptPKC(System.getenv("ARCPORTAL_ADMIN_PASSWORD"), System.getenv("ENCRYPTION_KEY")));
+        if (admin.getLoginPwd().equals(Consts.ADMIN_DEFAULT_PASSWORD)) {
+            admin.setLoginPwd(CipherUtil.encryptPKC(System.getenv(Consts.ENV_NAME_ARCPORTAL_ADMIN_PASSWORD),
+                    System.getenv(Consts.ENV_NAME_ENCRYPTION_KEY)));
             userService.saveUser(admin);
         }
     }

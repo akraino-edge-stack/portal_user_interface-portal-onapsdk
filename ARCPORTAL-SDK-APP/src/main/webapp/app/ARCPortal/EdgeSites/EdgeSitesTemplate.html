@@ -13,7 +13,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<div id="page-content" class="content edgesites" style="padding: 25px;">
+
+<div id="page-content" class="content" style="padding: 25px;">
     <style scoped>
 @import "app/css/edge-sites.css";
 </style>
@@ -31,7 +32,6 @@ limitations under the License.
                 ng-click="openCreateEdgeSiteModal()">New Edge
                 Site</button>
         </div>
-
         <table ng-table="tableParams" class="table" show-filter="true">
             <tr ng-repeat="edgeSite in $data"
                 ng-class="{selected:edgeSite.name == selectedEdgeSiteName}"
@@ -47,13 +47,10 @@ limitations under the License.
                     sortable="'pod'"></td>
             </tr>
         </table>
-
     </div>
-
     <h2 class="heading-small"></h2>
     <div class="box" ng-if="selectedEdgeSite">
         <h2 class="heading-small">Edge Site Details</h2>
-
         <div class="edgeSiteDetails fixedBox">
             <div class="property">Site Name:</div>
             <div class="value" style="color: grey;">{{selectedEdgeSite.name}}</div>
@@ -67,7 +64,6 @@ limitations under the License.
             <div class="property"># of Nodes:</div>
             <div class="value" style="color: grey;">{{selectedEdgeSite.nodes.length}}</div>
         </div>
-
     </div>
 
 </div>
