@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf7cd859_07e78649",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/EdgeSitesController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-12-12T20:17:25Z",
+      "side": 1,
+      "message": "typo: occurred",
+      "revId": "5f89f2312d3799f6db890de9b2758bfe067c22a4",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0567aef4_a45d98bc",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/NodesController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-12-12T20:17:25Z",
+      "side": 1,
+      "message": "typo: occurred",
+      "revId": "5f89f2312d3799f6db890de9b2758bfe067c22a4",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6445e27c_70e7c8aa",
+        "filename": "CHANGELOG.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-12-12T20:17:25Z",
+      "side": 1,
+      "message": "typo: \"information\"",
+      "revId": "5f89f2312d3799f6db890de9b2758bfe067c22a4",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    }
+  ]
+}
