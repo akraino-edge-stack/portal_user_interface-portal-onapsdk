@@ -16,30 +16,62 @@
 
 var app = angular.module('EdgeSites');
 
-app.factory('generalSvc', function() {
-    var svc = [];
-    svc.formulateRegion = function(regions, allRegions) {
-        if (regions.length > 1) {
-            return 'Multiple'
-        }
-        var result = null;
-        angular.forEach(allRegions,
-                function(region) {
-                    if (region.uuid.toString().trim() === regions[0].toString()
-                            .trim()) {
-                        result = region.name;
-                    }
+app
+        .factory(
+                'generalSvc',
+                function() {
+                    var svc = [];
+                    svc.formulateRegion = function(regions, allRegions) {
+                        if (regions.length > 1) {
+                            return 'Multiple'
+                        }
+                        var result = null;
+                        angular.forEach(allRegions, function(region) {
+                            if (region.uuid.toString().trim() === regions[0]
+                                    .toString().trim()) {
+                                result = region.name;
+                            }
+                        });
+                        return result;
+                    };
+                    svc.findRegionName = function(regionId, allRegions) {
+                        var result = null;
+                        angular.forEach(allRegions, function(region) {
+                            if (region.uuid.toString().trim() === regionId
+                                    .trim()) {
+                                result = region.name;
+                            }
+                        });
+                        return result;
+                    };
+                    svc.calculateNumberOfRacks = function(nodes, edgeSite) {
+                        var rackNames = [];
+                        if (angular.isObject(edgeSite.nodes)) {
+                            angular
+                                    .forEach(
+                                            edgeSite.nodes,
+                                            function(nodeId) {
+                                                angular
+                                                        .forEach(
+                                                                nodes,
+                                                                function(
+                                                                        nodeData) {
+                                                                    if (nodeData.uuid === nodeId) {
+                                                                        if (angular
+                                                                                .isObject(nodeData.yaml)
+                                                                                && angular
+                                                                                        .isObject(nodeData.yaml.rack_location)) {
+                                                                            if (rackNames
+                                                                                    .indexOf(nodeData.yaml.rack_location.name) === -1) {
+                                                                                rackNames
+                                                                                        .push(nodeData.yaml.rack_location.name);
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                });
+                                            });
+                        }
+                        return rackNames.length;
+                    };
+                    return svc;
                 });
-        return result;
-    };
-    svc.findRegionName = function(regionId, allRegions) {
-        var result = null;
-        angular.forEach(allRegions, function(region) {
-            if (region.uuid.toString().trim() === regionId.trim()) {
-                result = region.name;
-            }
-        });
-        return result;
-    };
-    return svc;
-});

@@ -16,7 +16,7 @@ limitations under the License.
 
 <div id="page-content" class="content" style="padding: 25px;">
     <style scoped>
-@import "app/css/edge-sites.css";
+@import "app/css/ng-table.css";
 </style>
 
     <div class="box">
@@ -60,7 +60,8 @@ limitations under the License.
                 style="color: grey;">{{findRegionName(regionId,
                 allRegions) }}</div>
             <div class="property"># of Racks:</div>
-            <div class="value" style="color: grey;">{{calculateNumberOfRacks(selectedEdgeSite)}}</div>
+            <div class="value" style="color: grey;">{{calculateNumberOfRacks(nodes,
+                selectedEdgeSite)}}</div>
             <div class="property"># of Nodes:</div>
             <div class="value" style="color: grey;">{{selectedEdgeSite.nodes.length}}</div>
         </div>

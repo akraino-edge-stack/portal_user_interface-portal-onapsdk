@@ -13,22 +13,29 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources;
+package org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.blueprint;
 
-import java.util.List;
-
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.IResource;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class EdgeSite implements IResource {
+public class Blueprint implements IResource {
 
-    private static final String PATH = "/edgesite";
+    private static final String PATH = "/blueprint";
 
     @JsonProperty("name")
     private String name;
+
+    @JsonProperty("blueprint")
+    private String blueprint;
+
+    @JsonProperty("description")
+    private String description;
 
     @JsonProperty("url")
     private String url;
@@ -36,13 +43,13 @@ public class EdgeSite implements IResource {
     @JsonProperty("uuid")
     private String uuid;
 
-    @JsonProperty("regions")
-    private List<String> regions;
+    @JsonProperty("version")
+    private String version;
 
-    @JsonProperty("nodes")
-    private List<String> nodes;
+    @JsonProperty("yaml")
+    private JsonNode yaml;
 
-    public EdgeSite() {
+    public Blueprint() {
 
     }
 
@@ -52,6 +59,22 @@ public class EdgeSite implements IResource {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getBlueprint() {
+        return this.blueprint;
+    }
+
+    public void setBlueprint(String blueprint) {
+        this.blueprint = blueprint;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getUrl() {
@@ -70,24 +93,24 @@ public class EdgeSite implements IResource {
         this.uuid = uuid;
     }
 
-    public List<String> getRegions() {
-        return this.regions;
+    public String getVersion() {
+        return this.version;
     }
 
-    public void setRegions(List<String> regions) {
-        this.regions = regions;
+    public void setVersion(String version) {
+        this.version = version;
     }
 
-    public List<String> getNodes() {
-        return this.nodes;
+    public JsonNode getYaml() {
+        return this.yaml;
     }
 
-    public void setNodes(List<String> nodes) {
-        this.nodes = nodes;
+    public void setYaml(JsonNode yaml) {
+        this.yaml = yaml;
     }
 
     public static String getPath() {
         return PATH;
     }
-}
 
+}

@@ -20,8 +20,8 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.ArcExecutorClient;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Node;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Nodes;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.node.Node;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.node.Nodes;
 import org.akraino.portal_user_interface.arcportalsdkapp.util.Consts;
 import org.apache.jcs.access.exception.InvalidArgumentException;
 import org.springframework.stereotype.Service;

@@ -41,6 +41,12 @@ public class ModelsViewsController extends RestrictedBaseController {
         return new ModelAndView(defaultViewName);
     }
 
+    @RequestMapping(value = { "/blueprints" }, method = RequestMethod.GET)
+    public ModelAndView blueprints(HttpServletRequest request) {
+        final String defaultViewName = null;
+        return new ModelAndView(defaultViewName);
+    }
+
     @RequestMapping(value = { "/logout.htm" }, method = RequestMethod.GET)
     public ModelAndView logout() {
         Map<String, Object> model = new HashMap<>();

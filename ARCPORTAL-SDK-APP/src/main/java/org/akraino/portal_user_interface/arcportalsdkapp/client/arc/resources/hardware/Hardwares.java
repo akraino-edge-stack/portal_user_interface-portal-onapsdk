@@ -13,33 +13,34 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources;
+package org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.hardware;
 
 import java.util.List;
 
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.IResource;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class Nodes implements IResource {
+public class Hardwares implements IResource {
 
-    private static final String PATH = "/node";
+    private static final String PATH = "/hardware";
 
-    @JsonProperty("nodes")
-    private List<Node> nodes;
+    @JsonProperty("hardware")
+    private List<Hardware> hardware;
 
-    public Nodes() {
+    public Hardwares() {
 
     }
 
-    public List<Node> getNodes() {
-        return this.nodes;
+    public List<Hardware> getHardware() {
+        return this.hardware;
     }
 
-    public void setNodes(List<Node> nodes) {
-        this.nodes = nodes;
+    public void setHardware(List<Hardware> hardware) {
+        this.hardware = hardware;
     }
 
     public static String getPath() {

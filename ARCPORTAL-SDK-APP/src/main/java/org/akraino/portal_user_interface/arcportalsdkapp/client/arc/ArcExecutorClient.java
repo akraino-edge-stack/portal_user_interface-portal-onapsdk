@@ -31,15 +31,17 @@ import javax.annotation.Nonnull;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.EdgeSite;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.EdgeSites;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Hardware;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Hardwares;
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.IResource;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Node;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Nodes;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Region;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Regions;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.blueprint.Blueprint;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.blueprint.Blueprints;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.edgesite.EdgeSite;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.edgesite.EdgeSites;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.hardware.Hardware;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.hardware.Hardwares;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.node.Node;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.node.Nodes;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.region.Region;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.region.Regions;
 import org.akraino.portal_user_interface.arcportalsdkapp.util.Consts;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.jcs.access.exception.InvalidArgumentException;
@@ -186,6 +188,36 @@ public final class ArcExecutorClient {
         }
     }
 
+    public String post(@Nonnull String resource, @Nonnull String path)
+            throws ClientHandlerException, UniformInterfaceException, InvalidArgumentException, KeyManagementException,
+            NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
+        synchronized (LOCK) {
+            String token = this.getToken();
+            LOGGER.debug(EELFLoggerDelegate.debugLogger, "Token is: " + token);
+            WebResource webResource = this.client.resource(this.getBaseUrl() + Consts.V1_PART_URL + path);
+            LOGGER.debug(EELFLoggerDelegate.debugLogger, "Request URI of post: " + webResource.getURI().toString());
+            WebResource.Builder builder = webResource.getRequestBuilder();
+            builder.header(Consts.X_ARC_TOKEN_HEADER, token);
+            ClientResponse response = builder.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON)
+                    .post(ClientResponse.class, resource);
+            if (response.getStatus() == 201 || response.getStatus() == 200) {
+                LOGGER.debug(EELFLoggerDelegate.debugLogger, "Post of resource succeeded");
+                MultivaluedMap<String, String> responseValues = response.getHeaders();
+                Iterator<String> iter = responseValues.keySet().iterator();
+                while (iter.hasNext()) {
+                    String key = iter.next();
+                    if (key.equalsIgnoreCase(Consts.LOCATION_KEYWORD)) {
+                        return responseValues.getFirst(key).substring(
+                                responseValues.getFirst(key).lastIndexOf(Consts.DELIMITER_2) + 1,
+                                responseValues.getFirst(key).length());
+                    }
+                }
+            }
+            throw new HttpException("Post of resource failed : " + response.getStatus() + " and message: "
+                    + response.getEntity(String.class));
+        }
+    }
+
     private String getToken() throws HttpException, ClientHandlerException, UniformInterfaceException,
             KeyManagementException, NoSuchAlgorithmException {
         LOGGER.debug(EELFLoggerDelegate.debugLogger, "Attempting to get the token");
@@ -227,6 +259,10 @@ public final class ArcExecutorClient {
             return Nodes.getPath();
         } else if (type == Node.class) {
             return Node.getPath();
+        } else if (type == Blueprints.class) {
+            return Blueprints.getPath();
+        } else if (type == Blueprint.class) {
+            return Blueprint.getPath();
         }
         throw new InvalidArgumentException("The requested resource is not supported");
     }

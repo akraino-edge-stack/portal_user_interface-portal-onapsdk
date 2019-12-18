@@ -5,6 +5,8 @@
     "confirm":writable,
     "localStorage":writable,
     "window":writable,
-    "appDS2":writable
+    "appDS2":writable,
+    "jsyaml":writable,
+    "FileReader":writable
   }
 }

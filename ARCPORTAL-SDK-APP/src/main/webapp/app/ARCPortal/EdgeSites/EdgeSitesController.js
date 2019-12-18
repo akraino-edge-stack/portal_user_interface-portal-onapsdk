@@ -24,6 +24,7 @@ app
                     initialize();
 
                     function initialize() {
+                        $scope.calculateNumberOfRacks = generalSvc.calculateNumberOfRacks;
                         $scope.selectedEdgeSiteName = '';
                         $scope.selectedEdgeSite = '';
                         $scope.findRegionName = generalSvc.findRegionName;
@@ -78,36 +79,6 @@ app
                     $scope.setClickedRow = function(edgeSite) {
                         $scope.selectedEdgeSiteName = edgeSite.name;
                         $scope.selectedEdgeSite = edgeSite;
-                    }
-
-                    $scope.calculateNumberOfRacks = function(edgeSite) {
-                        var rackNames = [];
-                        if (angular.isObject(edgeSite.nodes)) {
-                            angular
-                                    .forEach(
-                                            edgeSite.nodes,
-                                            function(nodeId) {
-                                                angular
-                                                        .forEach(
-                                                                $scope.nodes,
-                                                                function(
-                                                                        nodeData) {
-                                                                    if (nodeData.uuid === nodeId) {
-                                                                        if (angular
-                                                                                .isObject(nodeData.yaml)
-                                                                                && angular
-                                                                                        .isObject(nodeData.yaml.rack_location)) {
-                                                                            if (rackNames
-                                                                                    .indexOf(nodeData.yaml.rack_location.name) === -1) {
-                                                                                rackNames
-                                                                                        .push(nodeData.yaml.rack_location.name);
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                });
-                                            });
-                        }
-                        return rackNames.length;
                     }
 
                     $scope.openCreateEdgeSiteModal = function() {
