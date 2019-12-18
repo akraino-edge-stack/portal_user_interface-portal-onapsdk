@@ -13,19 +13,20 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources;
+package org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.region;
 
 import java.util.List;
 
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.IResource;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class EdgeSite implements IResource {
+public class Region implements IResource {
 
-    private static final String PATH = "/edgesite";
+    private static final String PATH = "/region";
 
     @JsonProperty("name")
     private String name;
@@ -36,13 +37,16 @@ public class EdgeSite implements IResource {
     @JsonProperty("uuid")
     private String uuid;
 
-    @JsonProperty("regions")
-    private List<String> regions;
+    @JsonProperty("parent")
+    private String parent;
 
-    @JsonProperty("nodes")
-    private List<String> nodes;
+    @JsonProperty("description")
+    private String description;
 
-    public EdgeSite() {
+    @JsonProperty("children")
+    private List<String> children;
+
+    public Region() {
 
     }
 
@@ -70,24 +74,32 @@ public class EdgeSite implements IResource {
         this.uuid = uuid;
     }
 
-    public List<String> getRegions() {
-        return this.regions;
+    public String getParent() {
+        return this.parent;
     }
 
-    public void setRegions(List<String> regions) {
-        this.regions = regions;
+    public void setParent(String parent) {
+        this.parent = parent;
     }
 
-    public List<String> getNodes() {
-        return this.nodes;
+    public String getDescription() {
+        return this.description;
     }
 
-    public void setNodes(List<String> nodes) {
-        this.nodes = nodes;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public static String getPath() {
+    public List<String> getChildren() {
+        return this.children;
+    }
+
+    public void setChildren(List<String> children) {
+        this.children = children;
+    }
+
+    @Override
+    public String getPath() {
         return PATH;
     }
 }
-

@@ -17,4 +17,6 @@ package org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources;
 
 public interface IResource {
 
+    public String getPath();
+
 }

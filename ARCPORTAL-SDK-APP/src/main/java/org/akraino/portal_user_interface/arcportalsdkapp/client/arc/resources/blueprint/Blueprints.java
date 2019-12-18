@@ -13,36 +13,38 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources;
+package org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.blueprint;
 
 import java.util.List;
 
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.IResource;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class Nodes implements IResource {
+public class Blueprints implements IResource {
 
-    private static final String PATH = "/node";
+    private static final String PATH = "/blueprint";
 
-    @JsonProperty("nodes")
-    private List<Node> nodes;
+    @JsonProperty("blueprints")
+    private List<Blueprint> blueprints;
 
-    public Nodes() {
+    public Blueprints() {
 
     }
 
-    public List<Node> getNodes() {
-        return this.nodes;
+    public List<Blueprint> getBlueprints() {
+        return this.blueprints;
     }
 
-    public void setNodes(List<Node> nodes) {
-        this.nodes = nodes;
+    public void setBlueprints(List<Blueprint> blueprints) {
+        this.blueprints = blueprints;
     }
 
-    public static String getPath() {
+    @Override
+    public String getPath() {
         return PATH;
     }
 

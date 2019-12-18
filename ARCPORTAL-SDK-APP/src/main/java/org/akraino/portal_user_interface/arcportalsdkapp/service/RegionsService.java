@@ -20,8 +20,8 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.ArcExecutorClient;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Region;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Regions;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.region.Region;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.region.Regions;
 import org.akraino.portal_user_interface.arcportalsdkapp.util.Consts;
 import org.apache.jcs.access.exception.InvalidArgumentException;
 import org.springframework.stereotype.Service;
@@ -47,14 +47,14 @@ public class RegionsService {
     public Regions getRegions() throws KeyManagementException, ClientHandlerException, UniformInterfaceException,
             InvalidArgumentException, NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
-        return client.get(Regions.class, null);
+        return client.get(new Regions(), null);
     }
 
     public Region getRegion(String uuid)
             throws KeyManagementException, ClientHandlerException, UniformInterfaceException, InvalidArgumentException,
             NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
-        return client.get(Region.class, uuid);
+        return client.get(new Region(), uuid);
     }
 
 }

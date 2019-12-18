@@ -20,8 +20,8 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.ArcExecutorClient;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Hardware;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Hardwares;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.hardware.Hardware;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.hardware.Hardwares;
 import org.akraino.portal_user_interface.arcportalsdkapp.util.Consts;
 import org.apache.jcs.access.exception.InvalidArgumentException;
 import org.springframework.stereotype.Service;
@@ -47,14 +47,14 @@ public class HardwaresService {
     public Hardwares getHardwares() throws KeyManagementException, ClientHandlerException, UniformInterfaceException,
             InvalidArgumentException, NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
-        return client.get(Hardwares.class, null);
+        return client.get(new Hardwares(), null);
     }
 
     public Hardware getHardware(String uuid)
             throws KeyManagementException, ClientHandlerException, UniformInterfaceException, InvalidArgumentException,
             NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
-        return client.get(Hardware.class, uuid);
+        return client.get(new Hardware(), uuid);
     }
 
 }

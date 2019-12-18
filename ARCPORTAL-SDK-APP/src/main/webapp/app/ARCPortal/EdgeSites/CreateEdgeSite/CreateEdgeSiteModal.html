@@ -22,7 +22,7 @@ limitations under the License.
     <h2 class="heading-small">New Edge Site and Inventory</h2>
     <div class="block">
         <label>Edge Site Name: </label> <input
-            ng-model="data.edgeSiteName" type=" text"
+            ng-model="data.edgeSiteName" type="text"
             style="margin-top: 5px; width: 220px;">
     </div>
     <div class="block">
@@ -30,7 +30,7 @@ limitations under the License.
             ng-options="region as region.name for region in regions track by region.uuid">
         </select>
         <button ng-disabled="!data.selectedRegion"
-            background-color:#337ab7;" type="submit"
+            style="background-color: #337ab7;" type="submit"
             class="btn-alt btn-small"
             ng-click="addSelectedRegion(data.selectedRegion)">Add</button>
     </div>
@@ -40,7 +40,7 @@ limitations under the License.
             ng-click="deleteSelectedRegion(selectedRegion)"><i
                 class="fa fa-close"></i></span> {{selectedRegion.name}}</li>
     </ul>
-    <div ng-show="loadingRegions || loadingHardwares || loadingNodes">
+    <div ng-show="loadingRegions || loadingHardwares">
         <img src=" static/fusion/images/giphy.gif" />
     </div>
 
@@ -59,8 +59,7 @@ limitations under the License.
                 <div class="block">
                     <label>Rack Name: </label> <input
                         ng-model="data.selectedRackName"
-                        ng-change="selectedRackNameChange()"
-                        type=" text"
+                        ng-change="selectedRackNameChange()" type="text"
                         style="margin-top: 5px; width: 220px;">
                 </div>
                 <div class="block" ng-if="hasRackLocation">
@@ -78,13 +77,13 @@ limitations under the License.
                 </div>
                 <div class="block">
                     <label>Node Name: </label> <input
-                        ng-model="data.selectedNodeName" type=" text"
+                        ng-model="data.selectedNodeName" type="text"
                         style="margin-top: 5px; width: 220px;">
                 </div>
                 <div class="block">
                     <label>Node Description: </label> <input
                         ng-model="data.selectedNodeDescription"
-                        type=" text"
+                        type="text"
                         style="margin-top: 5px; width: 220px;">
                 </div>
             </div>
@@ -93,9 +92,10 @@ limitations under the License.
                     width="200&quot;" height="57" border="0" />
             </div>
         </div>
-        <button background-color:#337ab7;" type="submit"
-            class="btn-alt btn-small" ng-click="addSelectedNode(data)"
-            style="float: right;">Add</button>
+        <button
+            style="margin-left: 25px; margin-top: 4px; float: right; background-color: #337ab7;"
+            type="submit" class="btn-alt btn-small"
+            ng-click="addSelectedNode(data)" style="float: right;">Add</button>
         <ul class="ul-region">
             <li ng-repeat="selectedNode in selectedNodes"
                 class="li-region"><span
@@ -108,12 +108,14 @@ limitations under the License.
         </ul>
     </div>
     <div>
-        <button background-color:#337ab7;" type="submit"
-            class="btn-alt btn-small" style="float: right;"
-            ng-click="cancel()">Cancel</button>
-        <button background-color:#337ab7;" type="submit"
-            class="btn-alt btn-small" style="float: right;"
-            ng-click="create(data)">Create</button>
+        <button
+            style="margin-left: 25px; margin-top: 4px; float: right; background-color: #337ab7;"
+            type="submit" class="btn-alt btn-small"
+            style="float: right;" ng-click="cancel()">Cancel</button>
+        <button
+            style="margin-left: 25px; margin-top: 4px; float: right; background-color: #337ab7;"
+            type="submit" class="btn-alt btn-small"
+            style="float: right;" ng-click="create(data)">Create</button>
     </div>
 
 </div>

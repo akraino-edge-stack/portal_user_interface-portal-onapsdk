@@ -1,0 +1,80 @@
+<!--
+Copyright (c) 2019 AT&T Intellectual Property. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<div id="page-content" class="content" style="padding: 25px;">
+    <style scoped>
+@import "app/css/ng-table.css";
+</style>
+
+    <div ng-show="loadingHardwares">
+        <img src=" static/fusion/images/giphy.gif" />
+    </div>
+    <div class="box">
+        <h2 class="heading-small">Blueprints</h2>
+        <div>
+            <button
+                style="margin-left: 25px; margin-top: 4px; float: right; background-color: #337ab7;"
+                type="submit" class="btn-alt btn-small"
+                ng-click="refreshBlueprints();">Refresh</button>
+            <button
+                style="margin-left: 25px; margin-top: 4px; float: right; background-color: #337ab7;"
+                type="submit" class="btn-alt btn-small"
+                ng-click="openUploadBlueprintModal()">Upload
+                Blueprint</button>
+        </div>
+        <table ng-table="tableParams" class="table" show-filter="true">
+            <tr ng-repeat="blueprint in $data"
+                ng-class="{selected:blueprint.uuid == selectedBlueprintUuid}"
+                ng-click="setClickedRow(blueprint)">
+                <td title="'Blueprint Name'" filter="{ name: 'text'}"
+                    sortable="'name'">{{blueprint.name}}</td>
+                <td title="'Version'" filter="{ version: 'number'}"
+                    sortable="'version'">{{blueprint.version}}</td>
+                <td title="'Description'"
+                    filter="{ description: 'text'}"
+                    sortable="'description'">{{blueprint.description}}</td>
+            </tr>
+        </table>
+    </div>
+    <h2 class="heading-small"></h2>
+    <div class="box" ng-if="selectedBlueprint">
+        <h2 class="heading-small">Blueprint Details</h2>
+        <div class="edgeSiteDetails fixedBox">
+            <div class="property">Blueprint Name:</div>
+            <div class="value" style="color: grey;">{{selectedBlueprint.name}}</div>
+            <div class="property">Version:</div>
+            <div class="value" style="color: grey;">{{selectedBlueprint.version}}</div>
+            <div class="property">Description:</div>
+            <div class="value" style="color: grey;">{{selectedBlueprint.description}}</div>
+            <div class="property">Hardware Profiles:</div>
+            <div class="value"
+                ng-repeat="profile in selectedBlueprint.yaml.hardware_profile.or"
+                style="color: grey;">&#9679; Name:
+                {{getHardwareProfile(hardwares, profile).name }},
+                Description: {{getHardwareProfile(hardwares,
+                profile).description }}, Disk:
+                {{getHardwareProfile(hardwares, profile).yaml.disk }},
+                Nic: {{getHardwareProfile(hardwares, profile).yaml.nic
+                }}, ps: {{getHardwareProfile(hardwares, profile).yaml.ps
+                }}, CPU: {{getHardwareProfile(hardwares,
+                profile).yaml.cpu }}, lom:
+                {{getHardwareProfile(hardwares, profile).yaml.lom }},
+                RAM: {{getHardwareProfile(hardwares, profile).yaml.ram
+                }}</div>
+        </div>
+    </div>
+
+</div>

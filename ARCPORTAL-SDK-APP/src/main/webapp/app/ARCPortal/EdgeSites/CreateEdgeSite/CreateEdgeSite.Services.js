@@ -27,18 +27,11 @@ app.factory('createEdgeSiteSvc', [function () {
         });
         return name;
     };
-    svc.getFreeSlots = function (hardwareUnderStudy, rackName, selectedNodes, nodes, hardwares) {
+    svc.getFreeSlots = function (hardwareUnderStudy, rackName, selectedNodes, hardwares) {
         var freeSlots = Array.from(Array(42).keys()).map(x => ++x);
         var filteredNodes = [];
         // Try to find out which nodes occupy slots in the given rack
         angular.forEach(selectedNodes, function (node) {
-            if (node.yaml && node.yaml.rack_location && node.yaml.rack_location.name) {
-                if (node.yaml.rack_location.name.toString().trim() === rackName) {
-                    filteredNodes.push(node);
-                }
-            }
-        });
-        angular.forEach(nodes, function (node) {
             if (node.yaml && node.yaml.rack_location && node.yaml.rack_location.name) {
                 if (node.yaml.rack_location.name.toString().trim() === rackName) {
                     filteredNodes.push(node);
@@ -111,10 +104,11 @@ app.factory('createEdgeSiteSvc', [function () {
             index2=0;
             while (index2 < parseInt(height.slice(0, -1))) {
                 if(freeSlots.indexOf(freeSlots[index] + index2) === -1) {
-                    if (!hardwareUnderStudy.yaml.yaml.rack_layout.chassis || (hardwareUnderStudy.yaml.yaml.rack_layout.chassis && !_isOccupiedByChassis(filteredNodes, freeSlots[index]))) {
-                        notAppropriateSlots.push(freeSlots[index]);
-                    }
-                    break;
+                        if (!hardwareUnderStudy.yaml.yaml.rack_layout.chassis ||
+                                (hardwareUnderStudy.yaml.yaml.rack_layout.chassis && (!_isOccupiedByChassis(filteredNodes, freeSlots[index]) || (index2>0 && _isOccupiedByChassis(filteredNodes, freeSlots[index]+index2))))) {
+                            notAppropriateSlots.push(freeSlots[index]);
+                        }
+                        break;
                 }
                 index2++;
             }
@@ -126,18 +120,11 @@ app.factory('createEdgeSiteSvc', [function () {
         });
         return freeSlots;
     };
-    svc.getFreeUnits = function (hardwareUnderStudy, rackName, selectedRackSlot, selectedNodes, nodes) {
+    svc.getFreeUnits = function (hardwareUnderStudy, rackName, selectedRackSlot, selectedNodes) {
         var freeUnits = Array.from(Array(hardwareUnderStudy.yaml.yaml.rack_layout.chassis.units).keys()).map(x => ++x);
         var filteredNodes = [];
         // Try to find out which nodes occupy slots in the given rack
         angular.forEach(selectedNodes, function (node) {
-            if (node.yaml && node.yaml.rack_location && node.yaml.rack_location.name) {
-                if (node.yaml.rack_location.name.toString().trim() === rackName) {
-                    filteredNodes.push(node);
-                }
-            }
-        });
-        angular.forEach(nodes, function (node) {
             if (node.yaml && node.yaml.rack_location && node.yaml.rack_location.name) {
                 if (node.yaml.rack_location.name.toString().trim() === rackName) {
                     filteredNodes.push(node);

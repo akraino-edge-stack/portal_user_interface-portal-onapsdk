@@ -34,8 +34,6 @@ app
                         $scope.loadingRegions = true;
                         $scope.hardwares = [];
                         $scope.loadingHardwares = true;
-                        $scope.nodes = [];
-                        $scope.loadingNodes = true;
 
                         $scope.rackSlots = [];
                         $scope.chassisUnits = [];
@@ -63,19 +61,6 @@ app
                                                                     confirm("No hardware found");
                                                                 }
                                                                 $scope.loadingHardwares = false;
-                                                                restAPISvc
-                                                                        .getRestAPI(
-                                                                                "/api/v1/node/",
-                                                                                function(
-                                                                                        restData3) {
-                                                                                    if (restData3
-                                                                                            && restData3.nodes) {
-                                                                                        $scope.nodes = restData3.nodes;
-                                                                                    } else {
-                                                                                        confirm("No nodes found");
-                                                                                    }
-                                                                                    $scope.loadingNodes = false;
-                                                                                });
                                                             });
                                         });
                     }
@@ -108,8 +93,7 @@ app
                             $scope.rackSlots = createEdgeSiteSvc.getFreeSlots(
                                     $scope.data.selectedHardware,
                                     $scope.data.selectedRackName,
-                                    $scope.selectedNodes, $scope.nodes,
-                                    $scope.hardwares);
+                                    $scope.selectedNodes, $scope.hardwares);
                         }
                         $scope.data.selectedChassisUnit = '';
                         $scope.chassisUnits = [];
@@ -124,7 +108,7 @@ app
                                     .getFreeUnits($scope.data.selectedHardware,
                                             $scope.data.selectedRackName,
                                             $scope.data.selectedRackSlot,
-                                            $scope.selectedNodes, $scope.nodes);
+                                            $scope.selectedNodes);
                         }
                         $scope.data.selectedNodeName = '';
                         $scope.data.selectedNodeDescription = '';

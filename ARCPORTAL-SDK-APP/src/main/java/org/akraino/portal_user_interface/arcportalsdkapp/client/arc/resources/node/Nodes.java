@@ -13,36 +13,38 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources;
+package org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.node;
 
 import java.util.List;
 
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.IResource;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class EdgeSites implements IResource {
+public class Nodes implements IResource {
 
-    private static final String PATH = "/edgesite";
+    private static final String PATH = "/node";
 
-    @JsonProperty("edgesites")
-    private List<EdgeSite> edgesites;
+    @JsonProperty("nodes")
+    private List<Node> nodes;
 
-    public EdgeSites() {
+    public Nodes() {
 
     }
 
-    public List<EdgeSite> getEdgeSites() {
-        return this.edgesites;
+    public List<Node> getNodes() {
+        return this.nodes;
     }
 
-    public void setEdgesites(List<EdgeSite> edgesites) {
-        this.edgesites = edgesites;
+    public void setNodes(List<Node> nodes) {
+        this.nodes = nodes;
     }
 
-    public static String getPath() {
+    @Override
+    public String getPath() {
         return PATH;
     }
 

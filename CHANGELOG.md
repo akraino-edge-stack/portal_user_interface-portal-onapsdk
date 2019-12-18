@@ -39,3 +39,14 @@ All notable changes to this project will be documented in this file.
 - README.rst syntax errors have been fixed
 
 ### Removed
+
+## [0.0.3-SNAPSHOT] - 18 December 2019
+### Added
+- Blueprint page is supported
+
+### Changed
+- The bug in free slot calculation algorithm has been fixed
+- Service functions have been moved from CreateEdgeSiteController.js to CreateEdgeSite.Service.js
+- The version of Jackson has been updated to 2.9.9
+
+### Removed

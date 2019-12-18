@@ -20,8 +20,8 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.ArcExecutorClient;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.EdgeSite;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.EdgeSites;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.edgesite.EdgeSite;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.edgesite.EdgeSites;
 import org.akraino.portal_user_interface.arcportalsdkapp.util.Consts;
 import org.apache.jcs.access.exception.InvalidArgumentException;
 import org.springframework.stereotype.Service;
@@ -47,14 +47,14 @@ public class EdgeSitesService {
     public EdgeSites getEdgeSites() throws KeyManagementException, ClientHandlerException, UniformInterfaceException,
             InvalidArgumentException, NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
-        return client.get(EdgeSites.class, null);
+        return client.get(new EdgeSites(), null);
     }
 
     public EdgeSite getEdgeSite(String uuid)
             throws KeyManagementException, ClientHandlerException, UniformInterfaceException, InvalidArgumentException,
             NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
-        return client.get(EdgeSite.class, uuid);
+        return client.get(new EdgeSite(), uuid);
     }
 
     public EdgeSite saveEdgeSite(EdgeSite edgeSite)

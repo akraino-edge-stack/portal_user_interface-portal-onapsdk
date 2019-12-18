@@ -31,15 +31,7 @@ import javax.annotation.Nonnull;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.EdgeSite;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.EdgeSites;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Hardware;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Hardwares;
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.IResource;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Node;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Nodes;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Region;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Regions;
 import org.akraino.portal_user_interface.arcportalsdkapp.util.Consts;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.jcs.access.exception.InvalidArgumentException;
@@ -125,13 +117,14 @@ public final class ArcExecutorClient {
         return this.baseurl;
     }
 
-    public <T extends IResource> T get(@Nonnull Class<T> resource, String resourceId)
+    @SuppressWarnings("unchecked")
+    public <T extends IResource> T get(@Nonnull T resource, String resourceId)
             throws ClientHandlerException, UniformInterfaceException, InvalidArgumentException, KeyManagementException,
             NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
         synchronized (LOCK) {
             String token = this.getToken();
             LOGGER.debug(EELFLoggerDelegate.debugLogger, "Token is: " + token);
-            String path = getPath(resource);
+            String path = resource.getPath();
             if (resourceId != null) {
                 path = path + "/" + resourceId;
             }
@@ -151,7 +144,7 @@ public final class ArcExecutorClient {
             mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
             mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
             mapper.setSerializationInclusion(Include.NON_NULL);
-            return mapper.readValue(result, resource);
+            return (T) mapper.readValue(result, resource.getClass());
         }
     }
 
@@ -161,7 +154,37 @@ public final class ArcExecutorClient {
         synchronized (LOCK) {
             String token = this.getToken();
             LOGGER.debug(EELFLoggerDelegate.debugLogger, "Token is: " + token);
-            String path = getPath(resource.getClass());
+            String path = resource.getPath();
+            WebResource webResource = this.client.resource(this.getBaseUrl() + Consts.V1_PART_URL + path);
+            LOGGER.debug(EELFLoggerDelegate.debugLogger, "Request URI of post: " + webResource.getURI().toString());
+            WebResource.Builder builder = webResource.getRequestBuilder();
+            builder.header(Consts.X_ARC_TOKEN_HEADER, token);
+            ClientResponse response = builder.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON)
+                    .post(ClientResponse.class, resource);
+            if (response.getStatus() == 201 || response.getStatus() == 200) {
+                LOGGER.debug(EELFLoggerDelegate.debugLogger, "Post of resource succeeded");
+                MultivaluedMap<String, String> responseValues = response.getHeaders();
+                Iterator<String> iter = responseValues.keySet().iterator();
+                while (iter.hasNext()) {
+                    String key = iter.next();
+                    if (key.equalsIgnoreCase(Consts.LOCATION_KEYWORD)) {
+                        return responseValues.getFirst(key).substring(
+                                responseValues.getFirst(key).lastIndexOf(Consts.DELIMITER_2) + 1,
+                                responseValues.getFirst(key).length());
+                    }
+                }
+            }
+            throw new HttpException("Post of resource failed : " + response.getStatus() + " and message: "
+                    + response.getEntity(String.class));
+        }
+    }
+
+    public String post(@Nonnull String resource, @Nonnull String path)
+            throws ClientHandlerException, UniformInterfaceException, InvalidArgumentException, KeyManagementException,
+            NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
+        synchronized (LOCK) {
+            String token = this.getToken();
+            LOGGER.debug(EELFLoggerDelegate.debugLogger, "Token is: " + token);
             WebResource webResource = this.client.resource(this.getBaseUrl() + Consts.V1_PART_URL + path);
             LOGGER.debug(EELFLoggerDelegate.debugLogger, "Request URI of post: " + webResource.getURI().toString());
             WebResource.Builder builder = webResource.getRequestBuilder();
@@ -208,27 +231,6 @@ public final class ArcExecutorClient {
         }
         throw new HttpException("Get token attempt towards regional controller failed. HTTP error code: "
                 + response.getStatus() + " and message: " + response.getEntity(String.class));
-    }
-
-    private static <T extends IResource> String getPath(@Nonnull Class<T> type) throws InvalidArgumentException {
-        if (type == EdgeSites.class) {
-            return EdgeSites.getPath();
-        } else if (type == EdgeSite.class) {
-            return EdgeSite.getPath();
-        } else if (type == Regions.class) {
-            return Regions.getPath();
-        } else if (type == Region.class) {
-            return Region.getPath();
-        } else if (type == Hardwares.class) {
-            return Hardwares.getPath();
-        } else if (type == Hardware.class) {
-            return Hardware.getPath();
-        } else if (type == Nodes.class) {
-            return Nodes.getPath();
-        } else if (type == Node.class) {
-            return Node.getPath();
-        }
-        throw new InvalidArgumentException("The requested resource is not supported");
     }
 
 }

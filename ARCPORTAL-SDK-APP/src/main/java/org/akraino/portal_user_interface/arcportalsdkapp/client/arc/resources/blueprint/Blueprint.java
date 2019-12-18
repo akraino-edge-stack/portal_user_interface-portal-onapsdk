@@ -13,22 +13,28 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources;
+package org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.blueprint;
 
-import java.util.List;
-
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.IResource;
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class Region implements IResource {
+public class Blueprint implements IResource {
 
-    private static final String PATH = "/region";
+    private static final String PATH = "/blueprint";
 
     @JsonProperty("name")
     private String name;
+
+    @JsonProperty("blueprint")
+    private String blueprint;
+
+    @JsonProperty("description")
+    private String description;
 
     @JsonProperty("url")
     private String url;
@@ -36,16 +42,13 @@ public class Region implements IResource {
     @JsonProperty("uuid")
     private String uuid;
 
-    @JsonProperty("parent")
-    private String parent;
+    @JsonProperty("version")
+    private String version;
 
-    @JsonProperty("description")
-    private String description;
+    @JsonProperty("yaml")
+    private JsonNode yaml;
 
-    @JsonProperty("children")
-    private List<String> children;
-
-    public Region() {
+    public Blueprint() {
 
     }
 
@@ -55,6 +58,22 @@ public class Region implements IResource {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getBlueprint() {
+        return this.blueprint;
+    }
+
+    public void setBlueprint(String blueprint) {
+        this.blueprint = blueprint;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getUrl() {
@@ -73,32 +92,25 @@ public class Region implements IResource {
         this.uuid = uuid;
     }
 
-    public String getParent() {
-        return this.parent;
+    public String getVersion() {
+        return this.version;
     }
 
-    public void setParent(String parent) {
-        this.parent = parent;
+    public void setVersion(String version) {
+        this.version = version;
     }
 
-    public String getDescription() {
-        return this.description;
+    public JsonNode getYaml() {
+        return this.yaml;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setYaml(JsonNode yaml) {
+        this.yaml = yaml;
     }
 
-    public List<String> getChildren() {
-        return this.children;
-    }
-
-    public void setChildren(List<String> children) {
-        this.children = children;
-    }
-
-    public static String getPath() {
+    @Override
+    public String getPath() {
         return PATH;
     }
-}
 
+}

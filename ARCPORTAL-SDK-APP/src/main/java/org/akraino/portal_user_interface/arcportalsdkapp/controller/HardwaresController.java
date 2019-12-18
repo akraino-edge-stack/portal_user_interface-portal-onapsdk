@@ -16,8 +16,8 @@
 
 package org.akraino.portal_user_interface.arcportalsdkapp.controller;
 
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Hardware;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.Hardwares;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.hardware.Hardware;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.hardware.Hardwares;
 import org.akraino.portal_user_interface.arcportalsdkapp.service.HardwaresService;
 import org.onap.portalsdk.core.controller.RestrictedBaseController;
 import org.onap.portalsdk.core.logging.logic.EELFLoggerDelegate;
