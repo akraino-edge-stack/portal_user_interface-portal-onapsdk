@@ -1,0 +1,180 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c4140ef_9dfd0f69",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/client/arc/ArcExecutorClient.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-12-23T22:27:58Z",
+      "side": 1,
+      "message": "This entire function should be rewritten to make use of inheritance, which will make it simpler and more OO.\n\n1. make getPath() non-static in each class (EdgeSites, Hardwares, etc.)  (and add it to the IResource interface)\n2. pass the IResource object directly to the function.\n3. just call object.getPath() directly (rather than going through this extensive check of object types).",
+      "revId": "870919f42e58c5c0a749d974f18521101ff07694",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbb1edc3_cbb7811c",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/client/arc/resources/blueprint/Blueprint.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-12-23T22:27:58Z",
+      "side": 1,
+      "message": "JsonSerialize.Inclusion is deprecated in the version of jackson you are using (2.9.9)",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 1
+      },
+      "revId": "870919f42e58c5c0a749d974f18521101ff07694",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1cb0b0c_4eb74eec",
+        "filename": "ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/CreateEdgeSite/CreateEdgeSiteModal.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-12-23T22:27:58Z",
+      "side": 1,
+      "message": "type is invalid (remove leading space)",
+      "revId": "870919f42e58c5c0a749d974f18521101ff07694",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd571aed_44157ecc",
+        "filename": "ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/CreateEdgeSite/CreateEdgeSiteModal.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-12-23T22:27:58Z",
+      "side": 1,
+      "message": "This looks fishy.  Is background-color: supposed to be part of a style attribute?  And why is there a single \" at the end?",
+      "revId": "870919f42e58c5c0a749d974f18521101ff07694",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83a153ac_6c6516a6",
+        "filename": "ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/CreateEdgeSite/CreateEdgeSiteModal.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-12-23T22:27:58Z",
+      "side": 1,
+      "message": "type is invalid (remove leading space)",
+      "revId": "870919f42e58c5c0a749d974f18521101ff07694",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e25ee33c_c9b20ef3",
+        "filename": "ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/CreateEdgeSite/CreateEdgeSiteModal.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-12-23T22:27:58Z",
+      "side": 1,
+      "message": "type is invalid (remove leading space)",
+      "revId": "870919f42e58c5c0a749d974f18521101ff07694",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06257c6b_e48c9eef",
+        "filename": "ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/CreateEdgeSite/CreateEdgeSiteModal.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-12-23T22:27:58Z",
+      "side": 1,
+      "message": "type is invalid (remove leading space)",
+      "revId": "870919f42e58c5c0a749d974f18521101ff07694",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67469c45_965629e5",
+        "filename": "ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/CreateEdgeSite/CreateEdgeSiteModal.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-12-23T22:27:58Z",
+      "side": 1,
+      "message": "same comment as line 33",
+      "revId": "870919f42e58c5c0a749d974f18521101ff07694",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc9b90ff_76c13660",
+        "filename": "ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/CreateEdgeSite/CreateEdgeSiteModal.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-12-23T22:27:58Z",
+      "side": 1,
+      "message": "same comment as line 33",
+      "revId": "870919f42e58c5c0a749d974f18521101ff07694",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "039407dd_f2576f1f",
+        "filename": "ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/CreateEdgeSite/CreateEdgeSiteModal.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2019-12-23T22:27:58Z",
+      "side": 1,
+      "message": "same comment as line 33",
+      "revId": "870919f42e58c5c0a749d974f18521101ff07694",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    }
+  ]
+}
