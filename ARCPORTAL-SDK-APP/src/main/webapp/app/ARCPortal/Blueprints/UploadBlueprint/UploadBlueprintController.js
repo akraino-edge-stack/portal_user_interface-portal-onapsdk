@@ -19,6 +19,8 @@ var app = angular.module('Blueprints');
 app.controller('UploadBlueprintController', function($scope, restAPISvc,
         appContext, $modalInstance, $window) {
 
+    $scope.uploadingBlueprint = false;
+
     $scope.uploadBlueprint = function($fileContent) {
         var payload = '';
         try {
@@ -39,15 +41,17 @@ app.controller('UploadBlueprintController', function($scope, restAPISvc,
             confirm("The blueprint file format is not correct");
             return;
         }
+        $scope.uploadingBlueprint = true;
         restAPISvc.postRestAPI("/api/v1/blueprint/", payload,
-                function(data) {
-                    if (data) {
-                        var text = "Blueprint: " + data.name
+                function(response) {
+                    $scope.uploadingBlueprint = false;
+                    if (response.status == 200 || response.status == 201) {
+                        var text = "Blueprint: " + response.data.name
                                 + " uploaded successfully";
                         confirm(text);
                     } else {
                         var text2 = "Failed to upload blueprint";
-                        confirm(text2);
+                        confirm(text2 + ". " + JSON.stringify(response.data));
                     }
                     $modalInstance.close();
                     $window.location.href = appContext + "/blueprints";

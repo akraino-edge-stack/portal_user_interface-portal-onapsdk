@@ -18,4 +18,7 @@ limitations under the License.
     <h2 class="heading-small"></h2>
     <h2 class="heading-small">Upload new Blueprint</h2>
     <input type="file" on-read-file="uploadBlueprint($fileContent)" />
+    <div ng-show="uploadingBlueprint">
+        <img src=" static/fusion/images/giphy.gif" />
+    </div>
 </div>

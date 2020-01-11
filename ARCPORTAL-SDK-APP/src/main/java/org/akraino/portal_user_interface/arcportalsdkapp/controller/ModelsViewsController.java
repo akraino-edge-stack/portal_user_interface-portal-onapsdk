@@ -47,6 +47,12 @@ public class ModelsViewsController extends RestrictedBaseController {
         return new ModelAndView(defaultViewName);
     }
 
+    @RequestMapping(value = { "/pods" }, method = RequestMethod.GET)
+    public ModelAndView pods(HttpServletRequest request) {
+        final String defaultViewName = null;
+        return new ModelAndView(defaultViewName);
+    }
+
     @RequestMapping(value = { "/logout.htm" }, method = RequestMethod.GET)
     public ModelAndView logout() {
         Map<String, Object> model = new HashMap<>();

@@ -40,7 +40,8 @@ limitations under the License.
             ng-click="deleteSelectedRegion(selectedRegion)"><i
                 class="fa fa-close"></i></span> {{selectedRegion.name}}</li>
     </ul>
-    <div ng-show="loadingRegions || loadingHardwares">
+    <div
+        ng-show="loadingRegions || loadingHardwares || creatingEdgeSite">
         <img src=" static/fusion/images/giphy.gif" />
     </div>
 
@@ -103,7 +104,8 @@ limitations under the License.
                     class="fa fa-close"></i></span>Node name:
                 {{selectedNode.name}}, description:
                 {{selectedNode.description}}, hardware:
-                {{retrieveHardwareName(selectedNode, hardwares)}}, rack
+                {{retrieveHardwareName(hardwares,
+                selectedNode.hardware)}}, rack
                 info:{{selectedNode.yaml}}</li>
         </ul>
     </div>

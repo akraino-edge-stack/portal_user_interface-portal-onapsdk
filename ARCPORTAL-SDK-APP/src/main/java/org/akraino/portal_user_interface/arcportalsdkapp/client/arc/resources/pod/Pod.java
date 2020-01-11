@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (c) 2020 AT&T Intellectual Property. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -13,7 +13,7 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.blueprint;
+package org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.pod;
 
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.IResource;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -24,9 +24,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class Blueprint implements IResource {
+public class Pod implements IResource {
 
-    private static final String PATH = "/blueprint";
+    private static final String PATH = "/pod";
 
     @JsonProperty("name")
     private String name;
@@ -43,16 +43,16 @@ public class Blueprint implements IResource {
     @JsonProperty("uuid")
     private String uuid;
 
-    @JsonProperty("version")
-    private String version;
+    @JsonProperty("edgesite")
+    private String edgesite;
+
+    @JsonProperty("state")
+    private String state;
 
     @JsonProperty("yaml")
     private JsonNode yaml;
 
-    @JsonProperty("workflows")
-    private JsonNode workflows;
-
-    public Blueprint() {
+    public Pod() {
 
     }
 
@@ -96,12 +96,20 @@ public class Blueprint implements IResource {
         this.uuid = uuid;
     }
 
-    public String getVersion() {
-        return this.version;
+    public String getEdgesite() {
+        return this.edgesite;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public void setEdgesite(String edgesite) {
+        this.edgesite = edgesite;
+    }
+
+    public String getState() {
+        return this.state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public JsonNode getYaml() {
@@ -110,14 +118,6 @@ public class Blueprint implements IResource {
 
     public void setYaml(JsonNode yaml) {
         this.yaml = yaml;
-    }
-
-    public JsonNode getWorkflows() {
-        return this.workflows;
-    }
-
-    public void setWorkflows(JsonNode workflows) {
-        this.workflows = workflows;
     }
 
     @Override

@@ -19,25 +19,38 @@ var app = angular.module('EdgeSites');
 app
         .controller(
                 'EdgeSitesController',
-                function($scope, restAPISvc, generalSvc, $modal, NgTableParams) {
+                function($scope, restAPISvc, generalSvc, $modal, NgTableParams,
+                        edgeSiteSvc) {
 
                     initialize();
 
                     function initialize() {
-                        $scope.calculateNumberOfRacks = generalSvc.calculateNumberOfRacks;
-                        $scope.selectedEdgeSiteName = '';
+                        $scope.calculateNumberOfRacks = edgeSiteSvc.calculateNumberOfRacks;
+                        $scope.selectedEdgeSiteUuid = '';
                         $scope.selectedEdgeSite = '';
-                        $scope.findRegionName = generalSvc.findRegionName;
-                        $scope.formulateRegion = generalSvc.formulateRegion;
-                        $scope.allRegions = [];
+                        $scope.findRegionName = generalSvc.retrieveName;
+                        $scope.formulateRegion = edgeSiteSvc.formulateRegion;
                         $scope.locations = [];
+                        $scope.allRegions = [];
+                        $scope.loadingRegions = true;
                         $scope.nodes = [];
+                        $scope.loadingNodes = true;
+                        $scope.pods = [];
+                        $scope.loadingPods = true;
+                        $scope.blueprints = [];
+                        $scope.loadingBlueprints = true;
+                        $scope.decommissioningPod = false;
 
                         restAPISvc
                                 .getRestAPI(
                                         "/api/v1/region/",
-                                        function(regionData) {
-                                            $scope.allRegions = regionData.regions;
+                                        function(response) {
+                                            $scope.loadingRegions = false;
+                                            if (response.status == 200) {
+                                                $scope.allRegions = response.data.regions;
+                                            } else {
+                                                confirm("No regions found");
+                                            }
                                             angular
                                                     .forEach(
                                                             $scope.allRegions,
@@ -48,25 +61,71 @@ app
                                             restAPISvc
                                                     .getRestAPI(
                                                             "/api/v1/node/",
-                                                            function(nodes) {
-                                                                if (nodes
-                                                                        && nodes.nodes) {
-                                                                    $scope.nodes = nodes.nodes;
+                                                            function(response) {
+                                                                $scope.loadingNodes = false;
+                                                                if (response.status == 200
+                                                                        && response.data.nodes) {
+                                                                    $scope.nodes = response.data.nodes;
+                                                                } else {
+                                                                    confirm("No Nodes found");
                                                                 }
                                                                 restAPISvc
                                                                         .getRestAPI(
-                                                                                "/api/v1/edgesite/",
+                                                                                "/api/v1/pod/",
                                                                                 function(
-                                                                                        edgeSiteData) {
-                                                                                    var data = edgeSiteData.edgeSites;
-                                                                                    $scope.tableParams = new NgTableParams(
-                                                                                            {
-                                                                                                page : 1,
-                                                                                                count : 5
-                                                                                            },
-                                                                                            {
-                                                                                                dataset : data
-                                                                                            });
+                                                                                        response) {
+                                                                                    $scope.loadingPods = false;
+                                                                                    if (response.status == 200
+                                                                                            && response.data.pods) {
+                                                                                        $scope.pods = response.data.pods;
+                                                                                    } else {
+                                                                                        confirm("No pods found");
+                                                                                    }
+                                                                                    restAPISvc
+                                                                                            .getRestAPI(
+                                                                                                    "/api/v1/blueprint/",
+                                                                                                    function(
+                                                                                                            response) {
+                                                                                                        $scope.loadingBlueprints = false;
+                                                                                                        if (response.status == 200
+                                                                                                                && response.data.blueprints) {
+                                                                                                            $scope.blueprints = response.data.blueprints;
+                                                                                                        } else {
+                                                                                                            confirm("No blueprints found");
+                                                                                                        }
+                                                                                                        restAPISvc
+                                                                                                                .getRestAPI(
+                                                                                                                        "/api/v1/edgesite/",
+                                                                                                                        function(
+                                                                                                                                response) {
+                                                                                                                            var data = [];
+                                                                                                                            angular
+                                                                                                                                    .forEach(
+                                                                                                                                            response.data.edgeSites,
+                                                                                                                                            function(
+                                                                                                                                                    edgeSite) {
+                                                                                                                                                var temp = edgeSite;
+                                                                                                                                                temp.pod = edgeSiteSvc
+                                                                                                                                                        .findPod(
+                                                                                                                                                                edgeSite,
+                                                                                                                                                                $scope.pods);
+                                                                                                                                                temp.blueprint = edgeSiteSvc
+                                                                                                                                                        .findBlueprint(
+                                                                                                                                                                temp.pod,
+                                                                                                                                                                $scope.blueprints);
+                                                                                                                                                data
+                                                                                                                                                        .push(temp);
+                                                                                                                                            });
+                                                                                                                            $scope.tableParams = new NgTableParams(
+                                                                                                                                    {
+                                                                                                                                        page : 1,
+                                                                                                                                        count : 5
+                                                                                                                                    },
+                                                                                                                                    {
+                                                                                                                                        dataset : data
+                                                                                                                                    });
+                                                                                                                        });
+                                                                                                    });
                                                                                 });
                                                             });
                                         });
@@ -77,8 +136,30 @@ app
                     }
 
                     $scope.setClickedRow = function(edgeSite) {
-                        $scope.selectedEdgeSiteName = edgeSite.name;
+                        $scope.selectedEdgeSiteUuid = edgeSite.uuid;
                         $scope.selectedEdgeSite = edgeSite;
+                    }
+
+                    $scope.decommissionPod = function() {
+                        if (!$scope.selectedEdgeSite
+                                || !$scope.selectedEdgeSite.pod) {
+                            confirm("Please select an Edge Site with a POD");
+                            return;
+                        }
+                        $scope.decommissioningPod = true;
+                        restAPISvc.deleteRestAPI("/api/v1/pod/"
+                                + $scope.selectedEdgeSite.pod.uuid, function(
+                                response) {
+                            $scope.decommissioningPod = false;
+                            if (response.status == 200
+                                    || response.status == 202
+                                    || response.status == 204) {
+                                confirm("POD decommissioned successfully");
+                            } else {
+                                confirm("POD decommission failed. "
+                                        + JSON.stringify(response.data));
+                            }
+                        });
                     }
 
                     $scope.openCreateEdgeSiteModal = function() {

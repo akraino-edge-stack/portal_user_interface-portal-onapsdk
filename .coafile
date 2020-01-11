@@ -68,4 +68,5 @@ ignore =  target/**,
     ARCPORTAL-SDK-APP/src/main/webapp/static/**,
     ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/EdgeSites.js,
     ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/Blueprints/Blueprints.js,
-    ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/CreateEdgeSite/CreateEdgeSite.Services.js
+    ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/CreateEdgeSite/CreateEdgeSite.Services.js,
+    ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/Pods/Pods.js

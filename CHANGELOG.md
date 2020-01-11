@@ -50,3 +50,12 @@ All notable changes to this project will be documented in this file.
 - The version of Jackson has been updated to 2.9.9
 
 ### Removed
+
+## [0.0.4-SNAPSHOT] - 10 January 2020
+### Added
+- POD page is supported
+- POD and Blueprint data is supported in Edge Site page
+
+### Changed
+
+### Removed

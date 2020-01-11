@@ -22,5 +22,6 @@ public final class Consts {
     public static final String SSL_INSTANCE_NAME = "SSL";
     public static final String ADMIN_LOGIN_ID = "admin";
     public static final String ADMIN_DEFAULT_PASSWORD = "admin_password";
+    public static final String INTERNAL_SERVER_ERROR = "{\"error\":\"Internal server error\"}";
 
 }

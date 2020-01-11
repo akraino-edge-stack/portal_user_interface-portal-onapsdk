@@ -16,6 +16,7 @@
 package org.akraino.portal_user_interface.arcportalsdkapp.service;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
@@ -23,16 +24,17 @@ import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.ArcExecutorC
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.edgesite.EdgeSite;
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.edgesite.EdgeSites;
 import org.akraino.portal_user_interface.arcportalsdkapp.util.Consts;
-import org.apache.jcs.access.exception.InvalidArgumentException;
+import org.apache.commons.httpclient.HttpException;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.sun.jersey.api.client.ClientHandlerException;
+import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
 
 @Service
-public class EdgeSitesService {
+public class EdgeSitesService extends AbstractArcService {
 
     private final String arcUrl;
     private final String arcUser;
@@ -45,23 +47,25 @@ public class EdgeSitesService {
     }
 
     public EdgeSites getEdgeSites() throws KeyManagementException, ClientHandlerException, UniformInterfaceException,
-            InvalidArgumentException, NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
-        ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
-        return client.get(new EdgeSites(), null);
-    }
-
-    public EdgeSite getEdgeSite(String uuid)
-            throws KeyManagementException, ClientHandlerException, UniformInterfaceException, InvalidArgumentException,
             NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
-        return client.get(new EdgeSite(), uuid);
+        ClientResponse response = client.get(new EdgeSites(), null);
+        return this.handleGetResponse(response, EdgeSites.class);
     }
 
-    public EdgeSite saveEdgeSite(EdgeSite edgeSite)
-            throws KeyManagementException, ClientHandlerException, UniformInterfaceException, InvalidArgumentException,
-            NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
+    public EdgeSite getEdgeSite(String uuid) throws KeyManagementException, ClientHandlerException,
+            UniformInterfaceException, NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
-        edgeSite.setUuid(client.post(edgeSite));
+        ClientResponse response = client.get(new EdgeSite(), null);
+        return this.handleGetResponse(response, EdgeSite.class);
+    }
+
+    public EdgeSite saveEdgeSite(EdgeSite edgeSite) throws MalformedURLException, KeyManagementException, HttpException,
+            ClientHandlerException, UniformInterfaceException, NoSuchAlgorithmException {
+        ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
+        ClientResponse response = client.post(edgeSite);
+        String uuid = this.getUuid(response);
+        edgeSite.setUuid(uuid);
         return edgeSite;
     }
 

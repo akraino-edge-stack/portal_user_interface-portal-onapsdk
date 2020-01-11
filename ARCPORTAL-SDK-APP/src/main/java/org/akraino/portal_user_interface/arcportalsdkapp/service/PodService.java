@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (c) 2020 AT&T Intellectual Property. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may obtain
@@ -21,52 +21,66 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.ArcExecutorClient;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.node.Node;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.node.Nodes;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.pod.Pod;
+import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.pod.Pods;
 import org.akraino.portal_user_interface.arcportalsdkapp.util.Consts;
 import org.apache.commons.httpclient.HttpException;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
 
 @Service
-public class NodesService extends AbstractArcService {
+public class PodService extends AbstractArcService {
 
     private final String arcUrl;
     private final String arcUser;
     private final String arcPassword;
 
-    public NodesService() {
+    public PodService() {
         arcUrl = System.getenv(Consts.ENV_NAME_ARC_URL);
         arcUser = System.getenv(Consts.ENV_NAME_ARC_USER);
         arcPassword = System.getenv(Consts.ENV_NAME_ARC_PASSWORD);
     }
 
-    public Nodes getNodes() throws KeyManagementException, ClientHandlerException, UniformInterfaceException,
+    public Pods getPods() throws KeyManagementException, ClientHandlerException, UniformInterfaceException,
             NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
-        ClientResponse response = client.get(new Nodes(), null);
-        return this.handleGetResponse(response, Nodes.class);
+        ClientResponse response = client.get(new Pods(), null);
+        return this.handleGetResponse(response, Pods.class);
     }
 
-    public Node getNode(String uuid) throws KeyManagementException, ClientHandlerException, UniformInterfaceException,
+    public Pod getPod(String uuid) throws KeyManagementException, ClientHandlerException, UniformInterfaceException,
             NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
-        ClientResponse response = client.get(new Node(), null);
-        return this.handleGetResponse(response, Node.class);
+        ClientResponse response = client.get(new Pod(), null);
+        return this.handleGetResponse(response, Pod.class);
     }
 
-    public Node saveNode(Node node) throws MalformedURLException, KeyManagementException, HttpException,
+    public Pod savePod(String pod) throws KeyManagementException, ClientHandlerException, UniformInterfaceException,
+            NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
+        ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
+        ClientResponse response = client.post(pod, "/pod");
+        String uuid = this.getUuid(response);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+        mapper.setSerializationInclusion(Include.NON_NULL);
+        Pod podObj = mapper.readValue(pod, Pod.class);
+        podObj.setUuid(uuid);
+        return podObj;
+    }
+
+    public ClientResponse deletePod(String uuid) throws MalformedURLException, KeyManagementException, HttpException,
             ClientHandlerException, UniformInterfaceException, NoSuchAlgorithmException {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
-        ClientResponse response = client.post(node);
-        String uuid = this.getUuid(response);
-        node.setUuid(uuid);
-        return node;
+        return client.delete(new Pod(), uuid);
     }
 
 }

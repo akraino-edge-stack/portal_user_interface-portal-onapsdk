@@ -1,0 +1,90 @@
+<!--
+Copyright (c) 2020 AT&T Intellectual Property. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<div>
+    <h2 class="heading-small"></h2>
+    <div class="box">
+        <h2 class="heading-small">Upload new POD</h2>
+
+        <div
+            ng-show="loadingRegions || loadingEdgeSites || loadingBlueprints || loadingHardwares || loadingNodes || creatingPod">
+            <img src=" static/fusion/images/giphy.gif" />
+        </div>
+
+        <div class="Column">
+            <div class="form-row">
+                <label for="textinputID-3a">Pod name: </label> <input
+                    ng-model="data.selectedPodName"</input>
+            </div>
+        </div>
+        <br>
+
+        <div class="Column">
+            <div class="form-row">
+                <label for="textinputID-3a">Pod description: </label> <input
+                    ng-model="data.selectedPodDescription"</input>
+            </div>
+        </div>
+        <br>
+
+        <div>
+            <div class="form-row">
+                <label for="textinputID-3a">Region: </label> <select
+                    ng-model="data.selectedRegion"
+                    ng-change="selectedRegionChange()"
+                    ng-options="region as region.name for region in regions track by region.uuid">
+                </select>
+            </div>
+        </div>
+        <br>
+
+        <div>
+            <div class="form-row">
+                <label for="textinputID-3a">Edge Site: </label> <select
+                    ng-model="data.selectedEdgeSite"
+                    ng-change="selectedEdgeSiteChange()"
+                    ng-options="edgeSite as edgeSite.name for edgeSite in validEdgeSites track by edgeSite.uuid">
+                </select>
+            </div>
+        </div>
+        <br>
+
+        <div>
+            <div class="form-row">
+                <label for="textinputID-3a">Blueprint: </label> <select
+                    ng-model="data.selectedBlueprint"
+                    ng-change="selectedBlueprintChange()"
+                    ng-options="blueprint as blueprint.name for blueprint in validBlueprints track by blueprint.uuid">
+                </select>
+            </div>
+        </div>
+        <br>
+
+        <p>Upload Config File</p>
+        ><input type="file" on-read-file="uploadPod($fileContent)" />
+
+        <div>
+            <button
+                style="margin-left: 25px; margin-top: 4px; float: right; background-color: #337ab7;"
+                type="submit" class="btn-alt btn-small"
+                ng-click="cancel();">Cancel</button>
+            <button
+                style="margin-left: 25px; margin-top: 4px; float: right; background-color: #337ab7;"
+                type="submit" class="btn-alt btn-small"
+                ng-click="createPod()">Create POD</button>
+        </div>
+    </div>
+</div>

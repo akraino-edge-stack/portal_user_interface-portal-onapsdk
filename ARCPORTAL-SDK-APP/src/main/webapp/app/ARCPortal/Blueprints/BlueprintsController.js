@@ -19,12 +19,13 @@ var app = angular.module('Blueprints');
 app
         .controller(
                 'BlueprintsController',
-                function($scope, restAPISvc, $modal, NgTableParams, generalSvc) {
+                function($scope, restAPISvc, $modal, NgTableParams,
+                        blueprintSvc) {
 
                     initialize();
 
                     function initialize() {
-                        $scope.getHardwareProfile = generalSvc.getHardwareProfile;
+                        $scope.getHardwareProfile = blueprintSvc.getHardwareProfile;
                         $scope.selectedBlueprintUuid = '';
                         $scope.selectedBlueprint = '';
                         $scope.allBlueprints = [];
@@ -34,19 +35,18 @@ app
                         restAPISvc
                                 .getRestAPI(
                                         "/api/v1/hardware/",
-                                        function(hardware) {
+                                        function(response) {
                                             $scope.loadingHardwares = false;
-                                            if (hardware) {
-                                                $scope.hardwares = hardware.hardware;
+                                            if (response.status == 200) {
+                                                $scope.hardwares = response.data.hardware;
                                             } else {
                                                 confirm("No hardware profiles found");
                                             }
                                             restAPISvc
                                                     .getRestAPI(
                                                             "/api/v1/blueprint/",
-                                                            function(
-                                                                    blueprintData) {
-                                                                $scope.allBlueprints = blueprintData.blueprints;
+                                                            function(response) {
+                                                                $scope.allBlueprints = response.data.blueprints;
                                                                 $scope.tableParams = new NgTableParams(
                                                                         {
                                                                             page : 1,
@@ -55,7 +55,6 @@ app
                                                                         {
                                                                             dataset : $scope.allBlueprints
                                                                         });
-
                                                             });
                                         });
                     }
