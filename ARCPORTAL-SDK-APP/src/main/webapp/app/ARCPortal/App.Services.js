@@ -31,22 +31,14 @@ services.factory('restAPISvc', [
                     }
                 }).then(
                         function(response) {
-                            if (response.status == 200) {
-                                cb(response.data);
-                            } else {
-                                /* eslint-disable no-console */
-                                console.log("Get REST API error: "
-                                        + response.statusText);
-                                /* eslint-enable no-console */
-                                cb(null);
-                            }
+                            cb(response);
                         },
                         function(error) {
                             /* eslint-disable no-console */
                             console.log("Get REST API error: "
-                                    + error.statusText);
+                                    + JSON.stringify(error.data));
                             /* eslint-enable no-console */
-                            cb(null);
+                            cb(error);
                         });
             };
             svc.postRestAPI = function(path, json, cb) {
@@ -60,49 +52,58 @@ services.factory('restAPISvc', [
                     data : json
                 }).then(
                         function(response) {
-                            if (response.status == 200
-                                    || response.status == 201) {
-                                cb(response.data);
-                            } else {
-                                /* eslint-disable no-console */
-                                console.log("Post REST API error: "
-                                        + response.statusText);
-                                /* eslint-enable no-console */
-                                cb(null);
-                            }
+                            cb(response);
                         },
                         function(error) {
                             /* eslint-disable no-console */
                             console.log("Post REST API error: "
-                                    + error.statusText);
+                                    + JSON.stringify(error.data));
                             /* eslint-enable no-console */
-                            cb(null);
+                            cb(error);
                         });
             };
-            svc.deleteRestAPI = function(path, json) {
+            svc.deleteRestAPI = function(path, cb) {
                 return $http({
                     method : 'DELETE',
                     url : appContext + path,
                     headers : {
                         'Content-Type' : "application/json",
                         'Accept' : "application/json"
-                    },
-                    data : json
+                    }
                 }).then(
                         function(response) {
-                            if (response.status !== 200) {
-                                /* eslint-disable no-console */
-                                console.log("Delete REST API error: "
-                                        + response.statusText);
-                                /* eslint-enable no-console */
-                            }
+                            cb(response);
                         },
                         function(error) {
                             /* eslint-disable no-console */
                             console.log("Delete REST API error: "
-                                    + error.statusText);
+                                    + JSON.stringify(error.data));
                             /* eslint-enable no-console */
+                            cb(error);
                         });
             };
             return svc;
         } ]);
+
+services.factory('generalSvc', function() {
+    var svc = [];
+    svc.retrieveName = function(objects, uuid) {
+        var name = '';
+        angular.forEach(objects, function(object) {
+            if (object.uuid.toString().trim() === uuid.toString().trim()) {
+                name = object.name;
+            }
+        });
+        return name;
+    };
+    svc.retrieveUuid = function(objects, name) {
+        var uuid = '';
+        angular.forEach(objects, function(object) {
+            if (object.name.toString().trim() === name.toString().trim()) {
+                uuid = object.uuid;
+            }
+        });
+        return uuid;
+    };
+    return svc;
+});

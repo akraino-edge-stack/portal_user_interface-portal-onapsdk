@@ -30,4 +30,5 @@ li.li-region {
 div.box {
     border: 1px solid black;
     width: 1000px;
+    padding: 10px;
 }

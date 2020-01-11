@@ -16,8 +16,6 @@
 
 package org.akraino.portal_user_interface.arcportalsdkapp.controller;
 
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.region.Region;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.region.Regions;
 import org.akraino.portal_user_interface.arcportalsdkapp.service.RegionsService;
 import org.onap.portalsdk.core.controller.RestrictedBaseController;
 import org.onap.portalsdk.core.logging.logic.EELFLoggerDelegate;
@@ -44,24 +42,24 @@ public class RegionsController extends RestrictedBaseController {
     }
 
     @RequestMapping(value = { "/" }, method = RequestMethod.GET)
-    public ResponseEntity<Regions> getRegions() {
+    public ResponseEntity getRegions() {
         try {
             return new ResponseEntity<>(service.getRegions(), HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(EELFLoggerDelegate.errorLogger,
-                    "Error occured when trying to retrieve Edge Sites. " + UserUtils.getStackTrace(e));
+                    "Error occurred when trying to retrieve regions. " + UserUtils.getStackTrace(e));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 
     @RequestMapping(value = { "/{id}" }, method = RequestMethod.GET)
-    public ResponseEntity<Region> getRegion(@PathVariable("id") String uuid) {
+    public ResponseEntity getRegion(@PathVariable("id") String uuid) {
         try {
             return new ResponseEntity<>(service.getRegion(uuid), HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(EELFLoggerDelegate.errorLogger,
-                    "Error when retrieving Edge Site. " + UserUtils.getStackTrace(e));
+                    "Error occurred when trying to retrieve region. " + UserUtils.getStackTrace(e));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 }

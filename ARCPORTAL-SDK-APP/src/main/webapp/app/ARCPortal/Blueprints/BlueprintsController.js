@@ -19,12 +19,13 @@ var app = angular.module('Blueprints');
 app
         .controller(
                 'BlueprintsController',
-                function($scope, restAPISvc, $modal, NgTableParams, generalSvc) {
+                function($scope, restAPISvc, $modal, NgTableParams,
+                        blueprintSvc) {
 
                     initialize();
 
                     function initialize() {
-                        $scope.getHardwareProfile = generalSvc.getHardwareProfile;
+                        $scope.getHardwareProfile = blueprintSvc.getHardwareProfile;
                         $scope.selectedBlueprintUuid = '';
                         $scope.selectedBlueprint = '';
                         $scope.allBlueprints = [];
@@ -33,30 +34,43 @@ app
 
                         restAPISvc
                                 .getRestAPI(
-                                        "/api/v1/hardware/",
-                                        function(hardware) {
-                                            $scope.loadingHardwares = false;
-                                            if (hardware) {
-                                                $scope.hardwares = hardware.hardware;
+                                        "/api/v1/checkConnectivity/",
+                                        function(response) {
+                                            if (response.status == 200) {
+                                                restAPISvc
+                                                        .getRestAPI(
+                                                                "/api/v1/hardware/",
+                                                                function(
+                                                                        response) {
+                                                                    $scope.loadingHardwares = false;
+                                                                    if (response.status == 200) {
+                                                                        $scope.hardwares = response.data.hardware;
+                                                                    } else {
+                                                                        confirm("No hardware profiles found");
+                                                                    }
+                                                                    restAPISvc
+                                                                            .getRestAPI(
+                                                                                    "/api/v1/blueprint/",
+                                                                                    function(
+                                                                                            response) {
+                                                                                        $scope.allBlueprints = response.data.blueprints;
+                                                                                        $scope.tableParams = new NgTableParams(
+                                                                                                {
+                                                                                                    page : 1,
+                                                                                                    count : 5
+                                                                                                },
+                                                                                                {
+                                                                                                    dataset : $scope.allBlueprints
+                                                                                                });
+                                                                                    });
+                                                                });
                                             } else {
-                                                confirm("No hardware profiles found");
+                                                $scope.loadingHardwares = false;
+                                                confirm("Regional controller is not reachable. "
+                                                        + JSON
+                                                                .stringify(response.data));
+                                                return;
                                             }
-                                            restAPISvc
-                                                    .getRestAPI(
-                                                            "/api/v1/blueprint/",
-                                                            function(
-                                                                    blueprintData) {
-                                                                $scope.allBlueprints = blueprintData.blueprints;
-                                                                $scope.tableParams = new NgTableParams(
-                                                                        {
-                                                                            page : 1,
-                                                                            count : 5
-                                                                        },
-                                                                        {
-                                                                            dataset : $scope.allBlueprints
-                                                                        });
-
-                                                            });
                                         });
                     }
 
@@ -73,7 +87,9 @@ app
                         $modal
                                 .open({
                                     templateUrl : 'app/ARCPortal/Blueprints/UploadBlueprint/UploadBlueprintModal.html',
-                                    controller : 'UploadBlueprintController'
+                                    controller : 'UploadBlueprintController',
+                                    size : 'sm',
+                                    scope : $scope
                                 });
                     };
 

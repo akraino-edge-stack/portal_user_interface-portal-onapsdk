@@ -50,3 +50,22 @@ All notable changes to this project will be documented in this file.
 - The version of Jackson has been updated to 2.9.9
 
 ### Removed
+
+## [0.0.4-SNAPSHOT] - 20 January 2020
+### Added
+- POD page is supported
+- POD and Blueprint data is supported in Edge Site page
+- Sanity checks for unique names
+- The uuids are translated into names in confirmation messages
+- Cancel button in 'upload Blueprint' page
+- ATT fonts are included in the war file
+- The user is notified in case of regional controller connectivity issues
+- Graphical representation of nodes in racks
+
+### Changed
+- Only one hardware profile is required for finding the appropriate edge sites
+- Modal popups width is set to 1000
+- When a complete POD configuration file is used, there is no need for all data fields to be defined in 'create POD' page
+- Cookie domain has been removed
+
+### Removed

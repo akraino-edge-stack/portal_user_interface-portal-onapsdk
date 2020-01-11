@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.onap.portalsdk.core.controller.RestrictedBaseController;
 import org.springframework.stereotype.Controller;
@@ -47,10 +48,21 @@ public class ModelsViewsController extends RestrictedBaseController {
         return new ModelAndView(defaultViewName);
     }
 
+    @RequestMapping(value = { "/pods" }, method = RequestMethod.GET)
+    public ModelAndView pods(HttpServletRequest request) {
+        final String defaultViewName = null;
+        return new ModelAndView(defaultViewName);
+    }
+
     @RequestMapping(value = { "/logout.htm" }, method = RequestMethod.GET)
     public ModelAndView logout() {
         Map<String, Object> model = new HashMap<>();
         return new ModelAndView("logout", "model", model);
+    }
+
+    @RequestMapping(value = { "/process_csp" }, method = RequestMethod.GET)
+    public ModelAndView processCsp(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return new ModelAndView("redirect:login.htm?redirectUrl=" + request.getParameter("redirectUrl"));
     }
 
 }

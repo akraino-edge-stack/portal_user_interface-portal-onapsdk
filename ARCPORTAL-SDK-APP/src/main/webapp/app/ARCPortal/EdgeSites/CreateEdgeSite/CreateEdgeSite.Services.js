@@ -18,15 +18,6 @@ var app = angular.module('EdgeSites');
 
 app.factory('createEdgeSiteSvc', [function () {
     var svc = [];
-    svc.retrieveHardwareName = function (node, hardwares) {
-        var name = '';
-        angular.forEach(hardwares, function (hardware) {
-            if (hardware.uuid.toString().trim() === node.hardware.toString().trim()) {
-                name = hardware.name;
-            }
-        });
-        return name;
-    };
     svc.getFreeSlots = function (hardwareUnderStudy, rackName, selectedNodes, hardwares) {
         var freeSlots = Array.from(Array(42).keys()).map(x => ++x);
         var filteredNodes = [];

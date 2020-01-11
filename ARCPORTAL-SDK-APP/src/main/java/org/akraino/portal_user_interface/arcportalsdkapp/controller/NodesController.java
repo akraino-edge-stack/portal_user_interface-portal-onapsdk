@@ -17,7 +17,6 @@
 package org.akraino.portal_user_interface.arcportalsdkapp.controller;
 
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.node.Node;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.node.Nodes;
 import org.akraino.portal_user_interface.arcportalsdkapp.service.NodesService;
 import org.onap.portalsdk.core.controller.RestrictedBaseController;
 import org.onap.portalsdk.core.logging.logic.EELFLoggerDelegate;
@@ -45,33 +44,34 @@ public class NodesController extends RestrictedBaseController {
     }
 
     @RequestMapping(value = { "/" }, method = RequestMethod.GET)
-    public ResponseEntity<Nodes> getNodes() {
+    public ResponseEntity getNodes() {
         try {
             return new ResponseEntity<>(service.getNodes(), HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(EELFLoggerDelegate.errorLogger,
-                    "Error occurred when trying to retrieve Nodes. " + UserUtils.getStackTrace(e));
+                    "Error occurred when trying to retrieve nodes. " + UserUtils.getStackTrace(e));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 
     @RequestMapping(value = { "/{id}" }, method = RequestMethod.GET)
-    public ResponseEntity<Node> getNode(@PathVariable("id") String uuid) {
+    public ResponseEntity getNode(@PathVariable("id") String uuid) {
         try {
             return new ResponseEntity<>(service.getNode(uuid), HttpStatus.OK);
         } catch (Exception e) {
-            LOGGER.error(EELFLoggerDelegate.errorLogger, "Error when retrieving node. " + UserUtils.getStackTrace(e));
+            LOGGER.error(EELFLoggerDelegate.errorLogger,
+                    "Error occurred when trying to retrieve node. " + UserUtils.getStackTrace(e));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 
     @RequestMapping(value = { "/" }, method = RequestMethod.POST)
-    public ResponseEntity<Node> createNode(@RequestBody Node node) {
+    public ResponseEntity createNode(@RequestBody Node node) {
         try {
             return new ResponseEntity<>(service.saveNode(node), HttpStatus.CREATED);
         } catch (Exception e) {
             LOGGER.error(EELFLoggerDelegate.errorLogger, "Creation of node failed. " + UserUtils.getStackTrace(e));
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 }
