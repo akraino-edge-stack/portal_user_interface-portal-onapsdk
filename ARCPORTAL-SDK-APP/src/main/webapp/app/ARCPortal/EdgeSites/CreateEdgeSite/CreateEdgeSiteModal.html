@@ -17,6 +17,8 @@ limitations under the License.
 <div>
     <style scoped>
 @import "app/css/create-edge-sites.css";
+
+@import "app/css/modal.css";
 </style>
     <h2 class="heading-small"></h2>
     <h2 class="heading-small">New Edge Site and Inventory</h2>
@@ -27,7 +29,7 @@ limitations under the License.
     </div>
     <div class="block">
         <label>Regions: </label> <select ng-model="data.selectedRegion"
-            ng-options="region as region.name for region in regions track by region.uuid">
+            ng-options="region as region.name for region in allRegions track by region.uuid">
         </select>
         <button ng-disabled="!data.selectedRegion"
             style="background-color: #337ab7;" type="submit"
@@ -40,7 +42,7 @@ limitations under the License.
             ng-click="deleteSelectedRegion(selectedRegion)"><i
                 class="fa fa-close"></i></span> {{selectedRegion.name}}</li>
     </ul>
-    <div ng-show="loadingRegions || loadingHardwares">
+    <div ng-show="loadingHardwares || creatingEdgeSite">
         <img src=" static/fusion/images/giphy.gif" />
     </div>
 
@@ -103,7 +105,8 @@ limitations under the License.
                     class="fa fa-close"></i></span>Node name:
                 {{selectedNode.name}}, description:
                 {{selectedNode.description}}, hardware:
-                {{retrieveHardwareName(selectedNode, hardwares)}}, rack
+                {{retrieveHardwareName(hardwares,
+                selectedNode.hardware)}}, rack
                 info:{{selectedNode.yaml}}</li>
         </ul>
     </div>

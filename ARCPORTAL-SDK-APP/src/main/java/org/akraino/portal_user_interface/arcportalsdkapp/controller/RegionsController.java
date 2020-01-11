@@ -16,9 +16,8 @@
 
 package org.akraino.portal_user_interface.arcportalsdkapp.controller;
 
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.region.Region;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.region.Regions;
 import org.akraino.portal_user_interface.arcportalsdkapp.service.RegionsService;
+import org.akraino.portal_user_interface.arcportalsdkapp.util.ArcPortalHelper;
 import org.onap.portalsdk.core.controller.RestrictedBaseController;
 import org.onap.portalsdk.core.logging.logic.EELFLoggerDelegate;
 import org.onap.portalsdk.core.web.support.UserUtils;
@@ -30,6 +29,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Controller
 @RequestMapping("/api/v1/region")
 public class RegionsController extends RestrictedBaseController {
@@ -38,30 +39,36 @@ public class RegionsController extends RestrictedBaseController {
 
     @Autowired
     RegionsService service;
+    private ObjectMapper mapper;
 
     public RegionsController() {
         super();
+        this.mapper = new ObjectMapper();
     }
 
     @RequestMapping(value = { "/" }, method = RequestMethod.GET)
-    public ResponseEntity<Regions> getRegions() {
+    public ResponseEntity<String> getRegions() {
         try {
-            return new ResponseEntity<>(service.getRegions(), HttpStatus.OK);
+            String body = mapper.writeValueAsString(service.getRegions());
+            return new ResponseEntity<>(body, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(EELFLoggerDelegate.errorLogger,
-                    "Error occured when trying to retrieve Edge Sites. " + UserUtils.getStackTrace(e));
+                    "Error occurred when trying to retrieve regions. " + UserUtils.getStackTrace(e));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ArcPortalHelper.constructJsonErrorMessage(e.getMessage()));
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 
     @RequestMapping(value = { "/{id}" }, method = RequestMethod.GET)
-    public ResponseEntity<Region> getRegion(@PathVariable("id") String uuid) {
+    public ResponseEntity<String> getRegion(@PathVariable("id") String uuid) {
         try {
-            return new ResponseEntity<>(service.getRegion(uuid), HttpStatus.OK);
+            String body = mapper.writeValueAsString(service.getRegion(uuid));
+            return new ResponseEntity<>(body, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(EELFLoggerDelegate.errorLogger,
-                    "Error when retrieving Edge Site. " + UserUtils.getStackTrace(e));
+                    "Error occurred when trying to retrieve region. " + UserUtils.getStackTrace(e));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ArcPortalHelper.constructJsonErrorMessage(e.getMessage()));
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 }

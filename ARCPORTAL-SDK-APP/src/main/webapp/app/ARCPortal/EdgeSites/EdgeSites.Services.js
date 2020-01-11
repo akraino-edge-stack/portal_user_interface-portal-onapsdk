@@ -18,7 +18,7 @@ var app = angular.module('EdgeSites');
 
 app
         .factory(
-                'generalSvc',
+                'edgeSiteSvc',
                 function() {
                     var svc = [];
                     svc.formulateRegion = function(regions, allRegions) {
@@ -29,16 +29,6 @@ app
                         angular.forEach(allRegions, function(region) {
                             if (region.uuid.toString().trim() === regions[0]
                                     .toString().trim()) {
-                                result = region.name;
-                            }
-                        });
-                        return result;
-                    };
-                    svc.findRegionName = function(regionId, allRegions) {
-                        var result = null;
-                        angular.forEach(allRegions, function(region) {
-                            if (region.uuid.toString().trim() === regionId
-                                    .trim()) {
                                 result = region.name;
                             }
                         });
@@ -72,6 +62,38 @@ app
                                             });
                         }
                         return rackNames.length;
+                    };
+                    svc.findPod = function(edgeSite, pods) {
+                        var desiredPod = {};
+                        if (!pods) {
+                            return desiredPod;
+                        }
+                        angular
+                                .forEach(
+                                        pods,
+                                        function(pod) {
+                                            if (pod.edgesite.toString().trim() === edgeSite.uuid
+                                                    .toString().trim()) {
+                                                desiredPod = pod;
+                                            }
+                                        });
+                        return desiredPod;
+                    };
+                    svc.findBlueprint = function(pod, blueprints) {
+                        var desiredBlueprint = {};
+                        if (!blueprints || !pod || !pod.blueprint) {
+                            return desiredBlueprint;
+                        }
+                        angular
+                                .forEach(
+                                        blueprints,
+                                        function(blueprint) {
+                                            if (pod.blueprint.toString().trim() === blueprint.uuid
+                                                    .toString().trim()) {
+                                                desiredBlueprint = blueprint;
+                                            }
+                                        });
+                        return desiredBlueprint;
                     };
                     return svc;
                 });

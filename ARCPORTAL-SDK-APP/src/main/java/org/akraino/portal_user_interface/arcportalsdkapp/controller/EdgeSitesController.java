@@ -17,8 +17,8 @@
 package org.akraino.portal_user_interface.arcportalsdkapp.controller;
 
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.edgesite.EdgeSite;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.edgesite.EdgeSites;
 import org.akraino.portal_user_interface.arcportalsdkapp.service.EdgeSitesService;
+import org.akraino.portal_user_interface.arcportalsdkapp.util.ArcPortalHelper;
 import org.onap.portalsdk.core.controller.RestrictedBaseController;
 import org.onap.portalsdk.core.logging.logic.EELFLoggerDelegate;
 import org.onap.portalsdk.core.web.support.UserUtils;
@@ -31,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Controller
 @RequestMapping("/api/v1/edgesite")
 public class EdgeSitesController extends RestrictedBaseController {
@@ -38,41 +40,49 @@ public class EdgeSitesController extends RestrictedBaseController {
     private static final EELFLoggerDelegate LOGGER = EELFLoggerDelegate.getLogger(EdgeSitesController.class);
 
     @Autowired
-    EdgeSitesService service;
+    private EdgeSitesService service;
+    private ObjectMapper mapper;
 
     public EdgeSitesController() {
         super();
+        this.mapper = new ObjectMapper();
     }
 
     @RequestMapping(value = { "/" }, method = RequestMethod.GET)
-    public ResponseEntity<EdgeSites> getEdgeSites() {
+    public ResponseEntity<String> getEdgeSites() {
         try {
-            return new ResponseEntity<>(service.getEdgeSites(), HttpStatus.OK);
+            String body = mapper.writeValueAsString(service.getEdgeSites());
+            return new ResponseEntity<>(body, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(EELFLoggerDelegate.errorLogger,
-                    "Error occurred when trying to retrieve Edge Sites. " + UserUtils.getStackTrace(e));
+                    "Error occurred when trying to edge sites. " + UserUtils.getStackTrace(e));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ArcPortalHelper.constructJsonErrorMessage(e.getMessage()));
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 
     @RequestMapping(value = { "/{id}" }, method = RequestMethod.GET)
-    public ResponseEntity<EdgeSite> getEdgeSite(@PathVariable("id") String uuid) {
+    public ResponseEntity<String> getEdgeSite(@PathVariable("id") String uuid) {
         try {
-            return new ResponseEntity<>(service.getEdgeSite(uuid), HttpStatus.OK);
+            String body = mapper.writeValueAsString(service.getEdgeSite(uuid));
+            return new ResponseEntity<>(body, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(EELFLoggerDelegate.errorLogger,
-                    "Error when trying to retrieve edge site. " + UserUtils.getStackTrace(e));
+                    "Error occurred when trying to retrieve edge site. " + UserUtils.getStackTrace(e));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ArcPortalHelper.constructJsonErrorMessage(e.getMessage()));
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 
     @RequestMapping(value = { "/" }, method = RequestMethod.POST)
-    public ResponseEntity<EdgeSite> createEdgeSite(@RequestBody EdgeSite edgeSite) {
+    public ResponseEntity<String> createEdgeSite(@RequestBody EdgeSite edgeSite) {
         try {
-            return new ResponseEntity<>(service.saveEdgeSite(edgeSite), HttpStatus.CREATED);
+            String body = mapper.writeValueAsString(service.saveEdgeSite(edgeSite));
+            return new ResponseEntity<>(body, HttpStatus.CREATED);
         } catch (Exception e) {
             LOGGER.error(EELFLoggerDelegate.errorLogger, "Creation of edge site failed. " + UserUtils.getStackTrace(e));
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ArcPortalHelper.constructJsonErrorMessage(e.getMessage()));
         }
     }
 }

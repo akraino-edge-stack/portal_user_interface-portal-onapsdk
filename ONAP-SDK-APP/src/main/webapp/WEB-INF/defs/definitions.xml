@@ -23,4 +23,7 @@
     <definition name="blueprints"
         template="/app/ARCPortal/Blueprints/Blueprints.html" />
 
+    <definition name="pods"
+        template="/app/ARCPortal/Pods/Pods.html" />
+
 </tiles-definitions>
