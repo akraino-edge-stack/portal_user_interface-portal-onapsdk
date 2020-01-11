@@ -16,8 +16,6 @@
 
 package org.akraino.portal_user_interface.arcportalsdkapp.controller;
 
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.hardware.Hardware;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.hardware.Hardwares;
 import org.akraino.portal_user_interface.arcportalsdkapp.service.HardwaresService;
 import org.onap.portalsdk.core.controller.RestrictedBaseController;
 import org.onap.portalsdk.core.logging.logic.EELFLoggerDelegate;
@@ -44,24 +42,24 @@ public class HardwaresController extends RestrictedBaseController {
     }
 
     @RequestMapping(value = { "/" }, method = RequestMethod.GET)
-    public ResponseEntity<Hardwares> getHardwares() {
+    public ResponseEntity getHardwares() {
         try {
             return new ResponseEntity<>(service.getHardwares(), HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(EELFLoggerDelegate.errorLogger,
-                    "Error occured when trying to retrieve 'Hardwares' collection. " + UserUtils.getStackTrace(e));
+                    "Error occurred when trying to retrieve 'Hardwares' collection. " + UserUtils.getStackTrace(e));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 
     @RequestMapping(value = { "/{id}" }, method = RequestMethod.GET)
-    public ResponseEntity<Hardware> getHardware(@PathVariable("id") String uuid) {
+    public ResponseEntity getHardware(@PathVariable("id") String uuid) {
         try {
             return new ResponseEntity<>(service.getHardware(uuid), HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(EELFLoggerDelegate.errorLogger,
-                    "Error when retrieving 'Hardware' collection. " + UserUtils.getStackTrace(e));
+                    "Error occurred when trying to retrieve 'Hardware' collection. " + UserUtils.getStackTrace(e));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 }

@@ -113,11 +113,6 @@ limitations under the License.
     <br />
     <br />
     <div id="footer">
-        <div class="terms">
-            Copyright
-            <script>new Date().getFullYear() > 2017 && document.write(new Date().getFullYear());</script>
-            Akraino Edge Stack and Linux Foundation.
-        </div>
         <p>
             <div class="terms">
 

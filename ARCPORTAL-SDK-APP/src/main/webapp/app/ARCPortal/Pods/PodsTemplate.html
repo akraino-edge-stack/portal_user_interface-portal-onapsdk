@@ -1,0 +1,63 @@
+<!--
+Copyright (c) 2020 AT&T Intellectual Property. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<div id="page-content" class="content" style="padding: 25px;">
+    <style scoped>
+@import "app/css/ng-table.css";
+
+@import "app/css/general.css";
+</style>
+
+    <div ng-show="loadingEdgeSites || loadingBlueprints">
+        <img src=" static/fusion/images/giphy.gif" />
+    </div>
+    <div class="box">
+        <h2 class="heading-small">PODs</h2>
+        <div>
+            <button
+                style="margin-left: 25px; margin-top: 4px; float: right; background-color: #337ab7;"
+                type="submit" class="btn-alt btn-small"
+                ng-click="refreshPods();">Refresh</button>
+            <button
+                style="margin-left: 25px; margin-top: 4px; float: right; background-color: #337ab7;"
+                type="submit" class="btn-alt btn-small"
+                ng-click="openCreatePodModal()">New POD</button>
+        </div>
+        <table ng-table="tableParams" class="table" show-filter="true">
+            <tr ng-repeat="pod in $data"
+                ng-class="{selected:pod.uuid == selectedPodUuid}"
+                ng-click="setClickedRow(pod)">
+                <td title="'POD Name'" filter="{ name: 'text'}"
+                    sortable="'name'">{{pod.name}}</td>
+                <td title="'Description'"
+                    filter="{ description: 'text'}"
+                    sortable="'description'">{{pod.description}}</td>
+                <td title="'Edge Site'" filter="{ edgeSite: 'number'}"
+                    sortable="'edgeSite'">{{retrieveName(edgeSites,
+                    pod.edgesite)}}</td>
+                <td title="'Uses Blueprint'"
+                    filter="{ blueprint: 'text'}" sortable="'blueprint'">{{retrieveName(blueprints,
+                    pod.blueprint)}}</td>
+            </tr>
+        </table>
+    </div>
+    <h2 class="heading-small"></h2>
+    <div class="box" ng-if="selectedPod">
+        <h2 class="heading-small">POD Details</h2>
+        <div class="edgeSiteDetails fixedBox"></div>
+    </div>
+
+</div>

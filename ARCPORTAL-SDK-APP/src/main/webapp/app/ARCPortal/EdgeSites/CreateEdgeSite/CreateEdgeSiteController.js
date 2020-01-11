@@ -20,18 +20,17 @@ app
         .controller(
                 'CreateEdgeSiteController',
                 function($scope, restAPISvc, $modalInstance, $q,
-                        createEdgeSiteSvc, $window, appContext) {
+                        createEdgeSiteSvc, generalSvc, $window, appContext) {
 
                     initialize();
 
                     function initialize() {
-                        $scope.retrieveHardwareName = createEdgeSiteSvc.retrieveNameHardware;
+                        $scope.creatingEdgeSite = false;
+                        $scope.retrieveHardwareName = generalSvc.retrieveName;
 
                         $scope.selectedRegions = [];
                         $scope.selectedNodes = [];
 
-                        $scope.regions = [];
-                        $scope.loadingRegions = true;
                         $scope.hardwares = [];
                         $scope.loadingHardwares = true;
 
@@ -41,28 +40,15 @@ app
                         $scope.hasRackLocation = false;
                         $scope.data = {};
 
-                        restAPISvc
-                                .getRestAPI(
-                                        "/api/v1/region/",
-                                        function(restData) {
-                                            if (restData) {
-                                                $scope.regions = restData.regions;
-                                            } else {
-                                                confirm("No regions found");
-                                            }
-                                            $scope.loadingRegions = false;
-                                            restAPISvc
-                                                    .getRestAPI(
-                                                            "/api/v1/hardware/",
-                                                            function(restData2) {
-                                                                if (restData2) {
-                                                                    $scope.hardwares = restData2.hardware;
-                                                                } else {
-                                                                    confirm("No hardware found");
-                                                                }
-                                                                $scope.loadingHardwares = false;
-                                                            });
-                                        });
+                        restAPISvc.getRestAPI("/api/v1/hardware/", function(
+                                response) {
+                            $scope.loadingHardwares = false;
+                            if (response.status == 200) {
+                                $scope.hardwares = response.data.hardware;
+                            } else {
+                                confirm("No hardware found");
+                            }
+                        });
                     }
 
                     $scope.selectedHardwareChange = function() {
@@ -146,6 +132,23 @@ app
                             confirm("You must specify all data fields");
                             return;
                         }
+                        var isNodeNameUnique = true;
+                        angular
+                                .forEach(
+                                        $scope.selectedNodes,
+                                        function(selectedNode) {
+                                            if ($scope.data.selectedNodeName
+                                                    .trim() === selectedNode.name
+                                                    .toString().trim()) {
+                                                isNodeNameUnique = false;
+                                            }
+                                        });
+                        if (!isNodeNameUnique) {
+                            confirm("Node name: "
+                                    + $scope.data.selectedNodeName
+                                    + " is already used");
+                            return;
+                        }
                         var node = '';
                         if ($scope.hasRackLocation) {
                             var yaml = '';
@@ -201,6 +204,41 @@ app
                             confirm("You must specify all data fields");
                             return;
                         }
+                        var isEdgesiteNameUnique = true;
+                        var regionOfExistence = '';
+                        angular
+                                .forEach(
+                                        $scope.edgeSites,
+                                        function(edgeSite) {
+                                            if (edgeSite.name.trim() === $scope.data.edgeSiteName
+                                                    .trim()) {
+                                                angular
+                                                        .forEach(
+                                                                edgeSite.regions,
+                                                                function(region) {
+                                                                    angular
+                                                                            .forEach(
+                                                                                    $scope.selectedRegions,
+                                                                                    function(
+                                                                                            selectedRegion) {
+                                                                                        if (selectedRegion.uuid
+                                                                                                .toString()
+                                                                                                .trim() === region) {
+                                                                                            regionOfExistence = selectedRegion.name;
+                                                                                            isEdgesiteNameUnique = false;
+                                                                                        }
+                                                                                    });
+                                                                });
+                                            }
+                                        });
+                        if (!isEdgesiteNameUnique) {
+                            confirm("Edge site name: "
+                                    + $scope.data.edgeSiteName
+                                    + " already exists in region: "
+                                    + regionOfExistence);
+                            return;
+                        }
+                        $scope.creatingEdgeSite = true;
                         var nodeUuids = [];
                         var promises = [];
                         angular
@@ -213,14 +251,18 @@ app
                                                                     "/api/v1/node/",
                                                                     node,
                                                                     function(
-                                                                            data) {
-                                                                        if (data) {
+                                                                            response) {
+                                                                        if (response.status == 200
+                                                                                || response.status == 201) {
                                                                             nodeUuids
-                                                                                    .push(data.uuid);
+                                                                                    .push(response.data.uuid);
                                                                         } else {
                                                                             var text2 = "Failed to create node: "
                                                                                     + node.name
-                                                                            confirm(text2);
+                                                                            confirm(text2
+                                                                                    + ". "
+                                                                                    + JSON
+                                                                                            .stringify(response.data.message));
                                                                         }
                                                                     }));
                                         });
@@ -245,16 +287,22 @@ app
                                                     .postRestAPI(
                                                             "/api/v1/edgesite/",
                                                             edgeSite,
-                                                            function(data) {
-                                                                if (data) {
+                                                            function(response) {
+                                                                $scope.creatingEdgeSite = false;
+                                                                if (response.status == 200
+                                                                        || response.status == 201) {
                                                                     var text = "Edge Site: "
                                                                             + edgeSite.name
                                                                             + " created successfully";
                                                                     confirm(text);
                                                                 } else {
+                                                                    var errorMessage = JSON
+                                                                            .stringify(response.data.message);
                                                                     var text2 = "Failed to create edge site: "
-                                                                            + edgeSite.name
-                                                                    confirm(text2);
+                                                                            + edgeSite.name;
+                                                                    confirm(text2
+                                                                            + ". "
+                                                                            + errorMessage);
                                                                 }
                                                                 $modalInstance
                                                                         .close();

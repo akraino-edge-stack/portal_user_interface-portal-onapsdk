@@ -17,8 +17,14 @@ limitations under the License.
 <div id="page-content" class="content" style="padding: 25px;">
     <style scoped>
 @import "app/css/ng-table.css";
+
+@import "app/css/general.css";
 </style>
 
+    <div
+        ng-show="loadingRegions || loadingNodes || loadingPods || loadingBlueprints || decommissioningPod">
+        <img src=" static/fusion/images/giphy.gif" />
+    </div>
     <div class="box">
         <h2 class="heading-small">Edge Sites</h2>
         <div>
@@ -34,7 +40,7 @@ limitations under the License.
         </div>
         <table ng-table="tableParams" class="table" show-filter="true">
             <tr ng-repeat="edgeSite in $data"
-                ng-class="{selected:edgeSite.name == selectedEdgeSiteName}"
+                ng-class="{selected:edgeSite.uuid == selectedEdgeSiteUuid}"
                 ng-click="setClickedRow(edgeSite)">
                 <td title="'Edge Site Name'" filter="{ name: 'text'}"
                     sortable="'name'">{{edgeSite.name}}</td>
@@ -42,28 +48,62 @@ limitations under the License.
                     sortable="'region'">
                     {{formulateRegion(edgeSite.regions, allRegions)}}</td>
                 <td title="'POD'" filter="{ pod: 'text'}"
-                    sortable="'pod'"></td>
-                <td title="'Status'" filter="{ stat: 'text'}"
-                    sortable="'pod'"></td>
+                    sortable="'pod'">{{edgeSite.pod.name}}</td>
+                <td title="'Status'" filter="{ status: 'text'}"
+                    sortable="'status'">{{edgeSite.pod.state}}</td>
             </tr>
         </table>
+        <div>
+            <button
+                style="margin-left: 25px; margin-top: 4px; float: right; background-color: #337ab7;"
+                type="submit" class="btn-alt btn-small"
+                ng-click="decommissionPod();">Decommission POD</button>
+        </div>
     </div>
     <h2 class="heading-small"></h2>
     <div class="box" ng-if="selectedEdgeSite">
         <h2 class="heading-small">Edge Site Details</h2>
-        <div class="edgeSiteDetails fixedBox">
-            <div class="property">Site Name:</div>
-            <div class="value" style="color: grey;">{{selectedEdgeSite.name}}</div>
-            <div class="property">Regions:</div>
-            <div class="value"
-                ng-repeat="regionId in selectedEdgeSite.regions"
-                style="color: grey;">{{findRegionName(regionId,
-                allRegions) }}</div>
-            <div class="property"># of Racks:</div>
-            <div class="value" style="color: grey;">{{calculateNumberOfRacks(nodes,
-                selectedEdgeSite)}}</div>
-            <div class="property"># of Nodes:</div>
-            <div class="value" style="color: grey;">{{selectedEdgeSite.nodes.length}}</div>
+        <div class="edgeSiteDetails fixedBox columns">
+            <div>
+                <div class="property">Site Name:</div>
+                <div class="value" style="color: grey;">{{selectedEdgeSite.name}}</div>
+            </div>
+            <div>
+                <div class="property">Regions:</div>
+                <div class="value"
+                    ng-repeat="regionId in selectedEdgeSite.regions"
+                    style="color: grey;">{{findRegionName(allRegions,
+                    regionId) }}</div>
+            </div>
+            <div>
+                <div class="property"># of Racks:</div>
+                <div class="value" style="color: grey;">{{calculateNumberOfRacks(nodes,
+                    selectedEdgeSite)}}</div>
+            </div>
+            <div>
+                <div class="property"># of Nodes:</div>
+                <div class="value" style="color: grey;">{{selectedEdgeSite.nodes.length}}</div>
+            </div>
+            <div>
+                <div class="property">OOB IP:</div>
+                <div class="value" style="color: grey;">{{selectedEdgeSite.pod.yaml.server.oob.ip}}</div>
+            </div>
+            <div>
+                <div class="property">POD Name:</div>
+                <div class="value" style="color: grey;">{{selectedEdgeSite.pod.name}}</div>
+            </div>
+            <div>
+                <div class="property">Blueprint:</div>
+                <div class="value" style="color: grey;">{{selectedEdgeSite.blueprint.name}}</div>
+            </div>
+            <div>
+                <div class="property">Blueprint Version:</div>
+                <div class="value" style="color: grey;">{{selectedEdgeSite.blueprint.version}}</div>
+            </div>
+            <div>
+                <div class="property">Blueprint Description:</div>
+                <div class="value" style="color: grey;">{{selectedEdgeSite.blueprint.description}}</div>
+            </div>
         </div>
     </div>
 

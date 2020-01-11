@@ -16,7 +16,7 @@
 
 var app = angular.module('Blueprints');
 
-app.factory('generalSvc', function() {
+app.factory('blueprintSvc', function() {
     var svc = [];
     svc.getHardwareProfile = function(hardwares, profile) {
         var hardware = '';

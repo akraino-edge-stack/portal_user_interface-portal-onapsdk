@@ -15,7 +15,18 @@ limitations under the License.
 -->
 
 <div>
+    <style scoped>
+@import "app/css/modal.css";
+</style>
     <h2 class="heading-small"></h2>
     <h2 class="heading-small">Upload new Blueprint</h2>
     <input type="file" on-read-file="uploadBlueprint($fileContent)" />
+    <div ng-show="uploadingBlueprint">
+        <img src=" static/fusion/images/giphy.gif" />
+    </div>
+    <div>
+        <button
+            style="margin-left: 25px; margin-top: 4px; float: right; background-color: #337ab7;"
+            type="submit" class="btn-alt btn-small" ng-click="cancel();">Cancel</button>
+    </div>
 </div>

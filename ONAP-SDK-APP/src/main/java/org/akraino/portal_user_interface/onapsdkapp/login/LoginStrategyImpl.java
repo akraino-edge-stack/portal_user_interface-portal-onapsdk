@@ -94,7 +94,7 @@ public class LoginStrategyImpl extends LoginStrategy {
                 return new ModelAndView("redirect:welcome.htm");
             } else {
                 return new ModelAndView("redirect:"
-                        + redirectUrl.substring(redirectUrl.lastIndexOf("/bluvalui/") + 10, redirectUrl.length()));
+                        + redirectUrl.substring(redirectUrl.lastIndexOf("/arcportal/") + 11, redirectUrl.length()));
             }
         }
     }
@@ -118,18 +118,18 @@ public class LoginStrategyImpl extends LoginStrategy {
         try {
             if (commandBean.getUser() == null
                     || !CipherUtil.decryptPKC(commandBean.getUser().getLoginPwd(), System.getenv("ENCRYPTION_KEY"))
-                    .equals(password)) {
+                            .equals(password)) {
                 String loginErrorMessage = (commandBean.getLoginErrorMessage() != null)
                         ? commandBean.getLoginErrorMessage()
-                                : "login.error.external.invalid";
-                        Map<String, String> model = new HashMap<>();
-                        model.put("error", loginErrorMessage);
-                        if (redirectUrl == null || redirectUrl.equals("")) {
-                            return new ModelAndView("login_external", "model", model);
-                        } else {
-                            return new ModelAndView(
-                                    "redirect:login_external.htm?redirectUrl=" + request.getParameter("redirectUrl"));
-                        }
+                        : "login.error.external.invalid";
+                Map<String, String> model = new HashMap<>();
+                model.put("error", loginErrorMessage);
+                if (redirectUrl == null || redirectUrl.equals("")) {
+                    return new ModelAndView("login_external", "model", model);
+                } else {
+                    return new ModelAndView(
+                            "redirect:login_external.htm?redirectUrl=" + request.getParameter("redirectUrl"));
+                }
             } else {
                 // store the currently logged in user's information in the session
                 UserUtils.setUserSession(request, commandBean.getUser(), commandBean.getMenu(),
@@ -141,7 +141,7 @@ public class LoginStrategyImpl extends LoginStrategy {
                     return new ModelAndView("redirect:welcome.htm");
                 } else {
                     return new ModelAndView("redirect:"
-                            + redirectUrl.substring(redirectUrl.lastIndexOf("/bluvalui/") + 10, redirectUrl.length()));
+                            + redirectUrl.substring(redirectUrl.lastIndexOf("/arcportal/") + 11, redirectUrl.length()));
                 }
             }
         } catch (CipherUtilException e) {
@@ -156,7 +156,7 @@ public class LoginStrategyImpl extends LoginStrategy {
                 return new ModelAndView("redirect:welcome.htm");
             } else {
                 return new ModelAndView("redirect:"
-                        + redirectUrl.substring(redirectUrl.lastIndexOf("/bluvalui/") + 10, redirectUrl.length()));
+                        + redirectUrl.substring(redirectUrl.lastIndexOf("/arcportal/") + 11, redirectUrl.length()));
             }
         }
     }
