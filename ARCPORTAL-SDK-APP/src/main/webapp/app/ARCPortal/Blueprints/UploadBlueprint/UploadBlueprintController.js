@@ -19,10 +19,12 @@ var app = angular.module('Blueprints');
 app.controller('UploadBlueprintController', function($scope, restAPISvc,
         appContext, $modalInstance, $window) {
 
+    $scope.uploadingBlueprint = false;
+
     $scope.uploadBlueprint = function($fileContent) {
         var payload = '';
         try {
-            payload = JSON.stringify(jsyaml.load($fileContent));
+            payload = jsyaml.load($fileContent);
         } catch (e) {
             try {
                 payload = JSON.parse(JSON.stringify($fileContent));
@@ -39,18 +41,40 @@ app.controller('UploadBlueprintController', function($scope, restAPISvc,
             confirm("The blueprint file format is not correct");
             return;
         }
+        var isBlueprintNameUnique = true;
+        angular
+                .forEach($scope.allBlueprints,
+                        function(blueprint) {
+                            if (blueprint.name.trim() === angular
+                                    .fromJson(payload).name.trim()) {
+                                isBlueprintNameUnique = false;
+                            }
+                        });
+        if (!isBlueprintNameUnique) {
+            confirm("Blueprint name: " + angular.fromJson(payload).name
+                    + " is already uploaded");
+            return;
+        }
+        $scope.uploadingBlueprint = true;
         restAPISvc.postRestAPI("/api/v1/blueprint/", payload,
-                function(data) {
-                    if (data) {
-                        var text = "Blueprint: " + data.name
+                function(response) {
+                    $scope.uploadingBlueprint = false;
+                    if (response.status == 200 || response.status == 201) {
+                        var text = "Blueprint: " + response.data.name
                                 + " uploaded successfully";
                         confirm(text);
                     } else {
                         var text2 = "Failed to upload blueprint";
-                        confirm(text2);
+                        confirm(text2 + ". "
+                                + JSON.stringify(response.data.message));
                     }
                     $modalInstance.close();
                     $window.location.href = appContext + "/blueprints";
                 });
     };
+
+    $scope.cancel = function() {
+        $modalInstance.close();
+    }
+
 });

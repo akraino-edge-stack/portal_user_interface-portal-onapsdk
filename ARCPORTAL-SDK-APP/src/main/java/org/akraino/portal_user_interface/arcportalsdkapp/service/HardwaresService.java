@@ -15,24 +15,16 @@
  */
 package org.akraino.portal_user_interface.arcportalsdkapp.service;
 
-import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.ArcExecutorClient;
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.hardware.Hardware;
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.hardware.Hardwares;
 import org.akraino.portal_user_interface.arcportalsdkapp.util.Consts;
-import org.apache.jcs.access.exception.InvalidArgumentException;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.sun.jersey.api.client.ClientHandlerException;
-import com.sun.jersey.api.client.UniformInterfaceException;
+import com.sun.jersey.api.client.ClientResponse;
 
 @Service
-public class HardwaresService {
+public class HardwaresService extends AbstractArcService {
 
     private final String arcUrl;
     private final String arcUser;
@@ -44,17 +36,16 @@ public class HardwaresService {
         arcPassword = System.getenv(Consts.ENV_NAME_ARC_PASSWORD);
     }
 
-    public Hardwares getHardwares() throws KeyManagementException, ClientHandlerException, UniformInterfaceException,
-            InvalidArgumentException, NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
+    public Hardwares getHardwares() throws Exception {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
-        return client.get(new Hardwares(), null);
+        ClientResponse response = client.get(new Hardwares(), null);
+        return this.handleGetResponse(response, Hardwares.class);
     }
 
-    public Hardware getHardware(String uuid)
-            throws KeyManagementException, ClientHandlerException, UniformInterfaceException, InvalidArgumentException,
-            NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
+    public Hardware getHardware(String uuid) throws Exception {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
-        return client.get(new Hardware(), uuid);
+        ClientResponse response = client.get(new Hardware(), null);
+        return this.handleGetResponse(response, Hardware.class);
     }
 
 }

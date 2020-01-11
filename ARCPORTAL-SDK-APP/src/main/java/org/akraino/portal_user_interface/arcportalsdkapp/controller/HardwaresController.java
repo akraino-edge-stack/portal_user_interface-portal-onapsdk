@@ -16,9 +16,8 @@
 
 package org.akraino.portal_user_interface.arcportalsdkapp.controller;
 
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.hardware.Hardware;
-import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.hardware.Hardwares;
 import org.akraino.portal_user_interface.arcportalsdkapp.service.HardwaresService;
+import org.akraino.portal_user_interface.arcportalsdkapp.util.Utils;
 import org.onap.portalsdk.core.controller.RestrictedBaseController;
 import org.onap.portalsdk.core.logging.logic.EELFLoggerDelegate;
 import org.onap.portalsdk.core.web.support.UserUtils;
@@ -30,6 +29,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Controller
 @RequestMapping("/api/v1/hardware")
 public class HardwaresController extends RestrictedBaseController {
@@ -37,31 +38,37 @@ public class HardwaresController extends RestrictedBaseController {
     private static final EELFLoggerDelegate LOGGER = EELFLoggerDelegate.getLogger(HardwaresController.class);
 
     @Autowired
-    HardwaresService service;
+    private HardwaresService service;
+    private ObjectMapper mapper;
 
     public HardwaresController() {
         super();
+        this.mapper = new ObjectMapper();
     }
 
     @RequestMapping(value = { "/" }, method = RequestMethod.GET)
-    public ResponseEntity<Hardwares> getHardwares() {
+    public ResponseEntity<String> getHardwares() {
         try {
-            return new ResponseEntity<>(service.getHardwares(), HttpStatus.OK);
+            String body = mapper.writeValueAsString(service.getHardwares());
+            return new ResponseEntity<>(body, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(EELFLoggerDelegate.errorLogger,
-                    "Error occured when trying to retrieve 'Hardwares' collection. " + UserUtils.getStackTrace(e));
+                    "Error occurred when trying to retrieve 'Hardwares' collection. " + UserUtils.getStackTrace(e));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Utils.constructJsonErrorMessage(e.getMessage()));
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 
     @RequestMapping(value = { "/{id}" }, method = RequestMethod.GET)
-    public ResponseEntity<Hardware> getHardware(@PathVariable("id") String uuid) {
+    public ResponseEntity<String> getHardware(@PathVariable("id") String uuid) {
         try {
-            return new ResponseEntity<>(service.getHardware(uuid), HttpStatus.OK);
+            String body = mapper.writeValueAsString(service.getHardware(uuid));
+            return new ResponseEntity<>(body, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(EELFLoggerDelegate.errorLogger,
-                    "Error when retrieving 'Hardware' collection. " + UserUtils.getStackTrace(e));
+                    "Error occurred when trying to retrieve 'Hardware' collection. " + UserUtils.getStackTrace(e));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Utils.constructJsonErrorMessage(e.getMessage()));
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 }

@@ -16,10 +16,11 @@
 package org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.blueprint;
 
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.IResource;
-import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
@@ -47,6 +48,9 @@ public class Blueprint implements IResource {
 
     @JsonProperty("yaml")
     private JsonNode yaml;
+
+    @JsonProperty("workflows")
+    private JsonNode workflows;
 
     public Blueprint() {
 
@@ -106,6 +110,14 @@ public class Blueprint implements IResource {
 
     public void setYaml(JsonNode yaml) {
         this.yaml = yaml;
+    }
+
+    public JsonNode getWorkflows() {
+        return this.workflows;
+    }
+
+    public void setWorkflows(JsonNode workflows) {
+        this.workflows = workflows;
     }
 
     @Override

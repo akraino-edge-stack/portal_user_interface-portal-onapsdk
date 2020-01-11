@@ -15,24 +15,16 @@
  */
 package org.akraino.portal_user_interface.arcportalsdkapp.service;
 
-import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.ArcExecutorClient;
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.region.Region;
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.region.Regions;
 import org.akraino.portal_user_interface.arcportalsdkapp.util.Consts;
-import org.apache.jcs.access.exception.InvalidArgumentException;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.sun.jersey.api.client.ClientHandlerException;
-import com.sun.jersey.api.client.UniformInterfaceException;
+import com.sun.jersey.api.client.ClientResponse;
 
 @Service
-public class RegionsService {
+public class RegionsService extends AbstractArcService {
 
     private final String arcUrl;
     private final String arcUser;
@@ -44,17 +36,16 @@ public class RegionsService {
         arcPassword = System.getenv(Consts.ENV_NAME_ARC_PASSWORD);
     }
 
-    public Regions getRegions() throws KeyManagementException, ClientHandlerException, UniformInterfaceException,
-            InvalidArgumentException, NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
+    public Regions getRegions() throws Exception {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
-        return client.get(new Regions(), null);
+        ClientResponse response = client.get(new Regions(), null);
+        return this.handleGetResponse(response, Regions.class);
     }
 
-    public Region getRegion(String uuid)
-            throws KeyManagementException, ClientHandlerException, UniformInterfaceException, InvalidArgumentException,
-            NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
+    public Region getRegion(String uuid) throws Exception {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
-        return client.get(new Region(), uuid);
+        ClientResponse response = client.get(new Region(), null);
+        return this.handleGetResponse(response, Region.class);
     }
 
 }

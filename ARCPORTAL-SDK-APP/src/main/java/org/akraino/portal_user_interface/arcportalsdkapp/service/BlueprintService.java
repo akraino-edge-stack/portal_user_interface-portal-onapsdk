@@ -15,56 +15,47 @@
  */
 package org.akraino.portal_user_interface.arcportalsdkapp.service;
 
-import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.ArcExecutorClient;
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.blueprint.Blueprint;
 import org.akraino.portal_user_interface.arcportalsdkapp.client.arc.resources.blueprint.Blueprints;
 import org.akraino.portal_user_interface.arcportalsdkapp.util.Consts;
-import org.apache.jcs.access.exception.InvalidArgumentException;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.jersey.api.client.ClientHandlerException;
-import com.sun.jersey.api.client.UniformInterfaceException;
+import com.sun.jersey.api.client.ClientResponse;
 
 @Service
-public class BlueprintService {
+public class BlueprintService extends AbstractArcService {
 
     private final String arcUrl;
     private final String arcUser;
     private final String arcPassword;
 
     public BlueprintService() {
+        super();
         arcUrl = System.getenv(Consts.ENV_NAME_ARC_URL);
         arcUser = System.getenv(Consts.ENV_NAME_ARC_USER);
         arcPassword = System.getenv(Consts.ENV_NAME_ARC_PASSWORD);
     }
 
-    public Blueprints getBlueprints() throws KeyManagementException, ClientHandlerException, UniformInterfaceException,
-            InvalidArgumentException, NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
+    public Blueprints getBlueprints() throws Exception {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
-        return client.get(new Blueprints(), null);
+        ClientResponse response = client.get(new Blueprints(), null);
+        return this.handleGetResponse(response, Blueprints.class);
     }
 
-    public Blueprint getBlueprint(String uuid)
-            throws KeyManagementException, ClientHandlerException, UniformInterfaceException, InvalidArgumentException,
-            NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
+    public Blueprint getBlueprint(String uuid) throws Exception {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
-        return client.get(new Blueprint(), uuid);
+        ClientResponse response = client.get(new Blueprint(), uuid);
+        return this.handleGetResponse(response, Blueprint.class);
     }
 
-    public Blueprint saveBlueprint(String blueprint)
-            throws KeyManagementException, ClientHandlerException, UniformInterfaceException, InvalidArgumentException,
-            NoSuchAlgorithmException, JsonParseException, JsonMappingException, IOException {
+    public Blueprint saveBlueprint(String blueprint) throws Exception {
         ArcExecutorClient client = ArcExecutorClient.getInstance(arcUser, arcPassword, arcUrl);
-        String uuid = client.post(blueprint, "/blueprint");
+        ClientResponse response = client.post(blueprint, "/blueprint");
+        String uuid = this.getUuid(response);
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
@@ -73,5 +64,4 @@ public class BlueprintService {
         blueprintObj.setUuid(uuid);
         return blueprintObj;
     }
-
 }

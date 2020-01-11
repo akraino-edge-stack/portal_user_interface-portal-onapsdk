@@ -125,9 +125,9 @@ public class ExternalAppConfig extends AppConfig implements Configurable {
             }
             dataSource.setPassword(password);
             dataSource
-            .setMinPoolSize(Integer.parseInt(SystemProperties.getProperty(SystemProperties.DB_MIN_POOL_SIZE)));
+                    .setMinPoolSize(Integer.parseInt(SystemProperties.getProperty(SystemProperties.DB_MIN_POOL_SIZE)));
             dataSource
-            .setMaxPoolSize(Integer.parseInt(SystemProperties.getProperty(SystemProperties.DB_MAX_POOL_SIZE)));
+                    .setMaxPoolSize(Integer.parseInt(SystemProperties.getProperty(SystemProperties.DB_MAX_POOL_SIZE)));
             dataSource.setIdleConnectionTestPeriod(
                     Integer.parseInt(SystemProperties.getProperty(SystemProperties.IDLE_CONNECTION_TEST_PERIOD)));
             dataSource.setTestConnectionOnCheckout(getConnectionOnCheckout());
@@ -136,11 +136,11 @@ public class ExternalAppConfig extends AppConfig implements Configurable {
             LOGGER.error(EELFLoggerDelegate.errorLogger,
                     "Error initializing database, verify database settings in properties file: "
                             + UserUtils.getStackTrace(e),
-                            AlarmSeverityEnum.CRITICAL);
+                    AlarmSeverityEnum.CRITICAL);
             LOGGER.error(EELFLoggerDelegate.debugLogger,
                     "Error initializing database, verify database settings in properties file: "
                             + UserUtils.getStackTrace(e),
-                            AlarmSeverityEnum.CRITICAL);
+                    AlarmSeverityEnum.CRITICAL);
             // Raise an alarm that opening a connection to the database failed.
             LOGGER.logEcompError(AppMessagesEnum.BeDaoSystemError);
             throw e;
