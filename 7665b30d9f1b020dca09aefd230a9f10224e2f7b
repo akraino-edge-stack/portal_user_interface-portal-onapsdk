@@ -1,0 +1,327 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd8656bf_e636d0a5",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/BlueprintController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-01-21T16:20:28Z",
+      "side": 1,
+      "message": "ResponseEntity is a raw type. References to generic type ResponseEntity\u003cT\u003e should be parameterized",
+      "revId": "7665b30d9f1b020dca09aefd230a9f10224e2f7b",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36adecf2_fc09469b",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/BlueprintController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-01-21T16:20:28Z",
+      "side": 1,
+      "message": "ResponseEntity is a raw type. References to generic type ResponseEntity\u003cT\u003e should be parameterized",
+      "revId": "7665b30d9f1b020dca09aefd230a9f10224e2f7b",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "327c3235_253aba43",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/BlueprintController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-01-21T16:20:28Z",
+      "side": 1,
+      "message": "ResponseEntity is a raw type. References to generic type ResponseEntity\u003cT\u003e should be parameterized",
+      "revId": "7665b30d9f1b020dca09aefd230a9f10224e2f7b",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df04990e_3441f67a",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/CheckConnectivityController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-01-21T16:20:28Z",
+      "side": 1,
+      "message": "ResponseEntity is a raw type. References to generic type ResponseEntity\u003cT\u003e should be parameterized",
+      "revId": "7665b30d9f1b020dca09aefd230a9f10224e2f7b",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20de5955_2c7be880",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/EdgeSitesController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-01-21T16:20:28Z",
+      "side": 1,
+      "message": "ResponseEntity is a raw type. References to generic type ResponseEntity\u003cT\u003e should be parameterized",
+      "revId": "7665b30d9f1b020dca09aefd230a9f10224e2f7b",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d67c2e6_d3e0e819",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/EdgeSitesController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-01-21T16:20:28Z",
+      "side": 1,
+      "message": "ResponseEntity is a raw type. References to generic type ResponseEntity\u003cT\u003e should be parameterized",
+      "revId": "7665b30d9f1b020dca09aefd230a9f10224e2f7b",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46a78d3f_236da9a3",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/EdgeSitesController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-01-21T16:20:28Z",
+      "side": 1,
+      "message": "ResponseEntity is a raw type. References to generic type ResponseEntity\u003cT\u003e should be parameterized",
+      "revId": "7665b30d9f1b020dca09aefd230a9f10224e2f7b",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fef3782_215c06a9",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/HardwaresController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-01-21T16:20:28Z",
+      "side": 1,
+      "message": "ResponseEntity is a raw type. References to generic type ResponseEntity\u003cT\u003e should be parameterized",
+      "revId": "7665b30d9f1b020dca09aefd230a9f10224e2f7b",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4aa2335e_c67219d5",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/HardwaresController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-01-21T16:20:28Z",
+      "side": 1,
+      "message": "ResponseEntity is a raw type. References to generic type ResponseEntity\u003cT\u003e should be parameterized",
+      "revId": "7665b30d9f1b020dca09aefd230a9f10224e2f7b",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94ad9466_f7184bce",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/NodesController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-01-21T16:20:28Z",
+      "side": 1,
+      "message": "ResponseEntity is a raw type. References to generic type ResponseEntity\u003cT\u003e should be parameterized",
+      "revId": "7665b30d9f1b020dca09aefd230a9f10224e2f7b",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ae2b13a_41a4bf8c",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/NodesController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-01-21T16:20:28Z",
+      "side": 1,
+      "message": "ResponseEntity is a raw type. References to generic type ResponseEntity\u003cT\u003e should be parameterized",
+      "revId": "7665b30d9f1b020dca09aefd230a9f10224e2f7b",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ec31f2f_b33c963a",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/NodesController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-01-21T16:20:28Z",
+      "side": 1,
+      "message": "ResponseEntity is a raw type. References to generic type ResponseEntity\u003cT\u003e should be parameterized",
+      "revId": "7665b30d9f1b020dca09aefd230a9f10224e2f7b",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d02364c_8300963a",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/PodController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-01-21T16:20:28Z",
+      "side": 1,
+      "message": "ResponseEntity is a raw type. References to generic type ResponseEntity\u003cT\u003e should be parameterized",
+      "revId": "7665b30d9f1b020dca09aefd230a9f10224e2f7b",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "889b3afd_62f8e359",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/PodController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-01-21T16:20:28Z",
+      "side": 1,
+      "message": "ResponseEntity is a raw type. References to generic type ResponseEntity\u003cT\u003e should be parameterized",
+      "revId": "7665b30d9f1b020dca09aefd230a9f10224e2f7b",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ab81047_98b1259d",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/PodController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-01-21T16:20:28Z",
+      "side": 1,
+      "message": "ResponseEntity is a raw type. References to generic type ResponseEntity\u003cT\u003e should be parameterized",
+      "revId": "7665b30d9f1b020dca09aefd230a9f10224e2f7b",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed088ac1_5fb6810f",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/PodController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-01-21T16:20:28Z",
+      "side": 1,
+      "message": "ResponseEntity is a raw type. References to generic type ResponseEntity\u003cT\u003e should be parameterized",
+      "revId": "7665b30d9f1b020dca09aefd230a9f10224e2f7b",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c1a09e7_955d1490",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/RegionsController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-01-21T16:20:28Z",
+      "side": 1,
+      "message": "ResponseEntity is a raw type. References to generic type ResponseEntity\u003cT\u003e should be parameterized",
+      "revId": "7665b30d9f1b020dca09aefd230a9f10224e2f7b",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9acfe7d0_c01dd177",
+        "filename": "ARCPORTAL-SDK-APP/src/main/java/org/akraino/portal_user_interface/arcportalsdkapp/controller/RegionsController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-01-21T16:20:28Z",
+      "side": 1,
+      "message": "ResponseEntity is a raw type. References to generic type ResponseEntity\u003cT\u003e should be parameterized",
+      "revId": "7665b30d9f1b020dca09aefd230a9f10224e2f7b",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd862811_2103b561",
+        "filename": "ONAP-SDK-APP/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-01-21T16:20:28Z",
+      "side": 1,
+      "message": "why did this file change?  It looks like there are just some extra spaces at the ends of some comments (which shouldn\u0027t be there)",
+      "revId": "7665b30d9f1b020dca09aefd230a9f10224e2f7b",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    }
+  ]
+}
