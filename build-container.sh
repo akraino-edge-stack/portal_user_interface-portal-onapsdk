@@ -58,7 +58,7 @@ ln $(basename ${WARFILE}) ONAP-SDK-APP/docker/arcportal
 (
     CON_NAME='akraino/arc_portal_mariadb'
 
-    cd docker/mariadb
+    cd ONAP-SDK-APP/docker/mariadb
     docker build -f Dockerfile -t ${CON_NAME}:${VERSION} .
     docker tag                    ${CON_NAME}:${VERSION} ${DOCKER_REPO}/${CON_NAME}:${VERSION}
     docker push                                          ${DOCKER_REPO}/${CON_NAME}:${VERSION}
