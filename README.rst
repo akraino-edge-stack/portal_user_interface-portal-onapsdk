@@ -12,12 +12,68 @@ Scope
 
 TBD
 
-Prerequisites:
-~~~~~~~~~~~~~~
+Database
+--------
+A mariadb database instance is needed with the appropriate databases and tables in order for the back-end system to store and retrieve data.
 
-In order for the ARC portal to be functional, the following items are taken for granted:
+For the production mode, there is already an appropriate database image uploaded in the 'nexus3.akraino.org'.
 
-- An appropriate mariadb instance is up and running (look at the Database subsection).
+Also, for the development mode, the portal-onapsdk/ONAP-SDK-APP/pom.xml file supports the creation of an appropriate docker image. The initialization scripts reside under the portal-onapsdk/ONAP-SDK-APP/docker/mariadb directory.
+
+Finally, the portal-onapsdk/ONAP-SDK-APP/docker-scripts/arcportal/deployArcPortal.sh script handles the deployment of this database (refer to the Appendix).
+
+User guide
+----------
+
+Prerequisites
+~~~~~~~~~~~~~
+
+- Tools
+
+In order to setup the production environment, the following tools are needed:
+- docker
+
+Install docker using the following commands:
+
+.. code-block:: console
+
+    sudo apt install docker.io
+    sudo groupadd docker
+    sudo gpasswd -a $USER docker
+    newgrp docker
+
+If the host is behind a proxy, configure docker to use this proxy:
+
+.. code-block:: console
+
+    mkdir /etc/systemd/system/docker.service.d
+    sudo nano /etc/systemd/system/docker.service.d/http-proxy.conf
+    <Paste the following lines>
+
+    [Service]
+    Environment="HTTP_PROXY=http://<PROXY_IP>:<PROXY_PORT>/"
+
+    <Save and exit from nano>
+
+    sudo systemctl daemon-reload
+    sudo systemctl restart docker
+
+Deployment
+~~~~~~~~~~~~~
+
+The following commands should be executed:
+
+.. code-block:: console
+
+    cd portal-onapsdk/ONAP-SDK-APP/docker-scripts/arcportal
+    ./deployArcPortal.sh --MARIADB_ROOT_PASSWORD <desired root user password of the MariaDB> --MARIADB_PASSWORD <desired MariaDB password for the akraino user> --ENCRYPTION_KEY <desired encryption key> --ARCPORTAL_ADMIN_PASSWORD <desired admin password of the ARC portal> --ARC_URL <URL of the regional controller> --ARC_USER <user of the regional controller> --ARC_PASSWORD <user password of the regional controller> --TRUST_ALL <whether all SSL certificates should be trusted or not>
+
+Refer to Appendix where more details about the deployment script are explained.
+
+The ARC portal should be available in the following url:
+
+    https://<IP of the ARC portal container>/
+
 
 Developer's guide
 -----------------
@@ -114,94 +170,68 @@ If the host is behind a proxy, configure docker to use this proxy:
     sudo systemctl daemon-reload
     sudo systemctl restart docker
 
-- Database
-
-A mariadb database instance is needed with the appropriate databases and tables in order for the back-end system to store and retrieve data.
-
-The portal-onapsdk/ONAP-SDK-APP/pom.xml file supports the creation of an appropriate docker image for development purposes. The initialization scripts reside under the portal-onapsdk/ONAP-SDK-APP/db-scripts directory.
-
-Also, a script has been developed, namely portal-onapsdk/ONAP-SDK-APP/docker-scripts/mariadb/deploy.sh which easily deploys the container. This script accepts the following items as input parameters:
-
-CONTAINER_NAME, name of the container, default value is akraino-portal-onapsdk-mariadb
-MARIADB_ROOT_PASSWORD, the desired mariadb root user password, this variable is required
-MARIADB_USER, the mariadb user, the default value is 'akraino'
-MARIADB_PASSWORD, the desired mariadb user password, this variable is required
-REGISTRY, registry of the mariadb image, default value is akraino
-NAME, name of the mariadb image, default value is portal-onapsdk
-TAG_PRE, first part of the image version, default value is mariadb
-TAG_VER, last part of the image version, default value is latest
-
-In order to build and deploy the image using only the required parameters, the below instructions should be followed:
-
-The mariadb root password and the mariadb user password (currently the ARC portal connects to the database using the akraino user) should be configured using the appropriate variables and the following commands should be executed (the user should override default variables based on requirements):
-
-.. code-block:: console
-
-    cd portal-onapsdk
-    mvn -f ./ONAP-SDK-APP/ docker:build -Ddocker.filter=akraino/portal-onapsdk:dev-mariadb-latest
-    cd ONAP-SDK-APP/docker-scripts/mariadb
-    ./deploy.sh --TAG_PRE dev-mariadb --MARIADB_ROOT_PASSWORD <mariadb root user password> --MARIADB_PASSWORD <mariadb akraino user password>
-
-In order to retrieve the IP of the mariadb container, the following command should be executed:
-
-.. code-block:: console
-
-    docker inspect <name of the mariadb container>
-
-Furthermore, the TAG_PRE variable should be defined because the default value is 'mariadb' (note that the 'dev-mariadb' is used for development purposes - look at pom.xml file).
-
-If the database must be re-deployed (it is assumed that the corresponding mariadb container has been stopped and deleted) while the persistent storage already exists (currently, the 'akraino-portal-onapsdk-mariadb' docker volume is used), a different approach should be used after the image building process.
-
-To this end, another script has been developed, namely portal-onapsdk/docker-scripts/mariadb/deploy_with_existing_storage.sh which easily deploys the container. This script accepts the following as input parameters:
-
-CONTAINER_NAME, the name of the container, default value is akraino-portal-onapsdk-mariadb
-REGISTRY, the registry of the mariadb image, default value is akraino
-NAME, the name of the mariadb image, default value is portal-onapsdk
-TAG_PRE, the first part of the image version, default value is mariadb
-TAG_VER, the last part of the image version, default value is latest
-
-In order to deploy the image using only the required parameters and the existing persistent storage, the below instructions should be followed:
-
-In order to deploy the image using only the required parameters and the existing persistent storage, the below instructions should be followed (the user should override the default variables based on the requirements):
-
-.. code-block:: console
-
-    cd portal-onapsdk/docker-scripts/mariadb
-    ./deploy_with_existing_persistent_storage.sh --TAG_PRE dev-mariadb
-
-Finally, if the database must be re-deployed (it is assumed that the corresponding mariadb container has been stopped and deleted) and the old persistent storage must be deleted, the used docker volume should be first deleted (note that all database's data will be lost).
-
-To this end, after the image build process, the following commands should be executed (the user should override the default variables based on the requirements):
-
-.. code-block:: console
-
-    docker volume rm akraino-portal-onapsdk-mariadb
-    cd portal-onapsdk/docker-scripts/mariadb
-    ./deploy.sh --TAG_PRE dev-mariadb --MARIADB_ROOT_PASSWORD <mariadb root user password> --MARIADB_PASSWORD <mariadb akraino user password>
 
 Compiling
 ~~~~~~~~~
+
+In order to compile the project, the user should execute the following commands:
 
 .. code-block:: console
 
     cd portal-onapsdk
     mvn clean install
 
-Deploying
-~~~~~~~~~
+The portal-onapsdk/ONAP-SDK-APP/pom.xml file supports the building of appropriate ARC portal and MariaDB docker images for the development mode.
 
-The portal-onapsdk/ONAP-SDK-APP/pom.xml file supports the building of an appropriate ARC portal container image using the produced war file. Also, a script has been developed, namely portal-onapsdk/ONAP-SDK-APP/docker-scripts/arcportal/deploy.sh which easily deploys the container.
+For this purpose, the following commands should be executed:
+
+.. code-block:: console
+
+    cd portal-onapsdk
+    mvn -f ./ONAP-SDK-APP/ docker:build
+
+Deployment
+~~~~~~~~~~
+
+The following commands should be executed:
+
+.. code-block:: console
+
+    cd portal-onapsdk/ONAP-SDK-APP/docker-scripts/arcportal
+    ./deployArcPortal.sh --REGISTRY akraino-dev --TAG_VER latest --MARIADB_ROOT_PASSWORD <desired root user password of the MariaDB> --MARIADB_PASSWORD <desired MariaDB password for the akraino user> --ENCRYPTION_KEY <desired encryption key> --ARCPORTAL_ADMIN_PASSWORD <desired admin password of the ARC portal> --ARC_URL <URL of the regional controller> --ARC_USER <user of the regional controller> --ARC_PASSWORD <user password of the regional controller> --TRUST_ALL <whether all SSL certificates should be trusted or not>
+
+Refer to Appendix where more details about the deployment script are explained.
+
+The ARC portal should be available in the following url:
+
+    https://<IP of the ARC portal container>/
+
+
+Limitations
+-----------
+
+Currently, one user is supported by the ARC portal, namely admin (full privileges). Its password is initialized during ARC portal.
+
+Also, the creation/modification of users using the ARC portal is not supported.
+
+Appendix
+--------
+
+Deployment and deletion scripts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The deployment script, namely the 'portal-onapsdk/ONAP-SDK-APP/docker-scripts/arcportal/deployArcPortal.sh', handles all the deployment of the ARC portal and MariaDB containers.
 
 This script accepts the following as input parameters:
 
-CONTAINER_NAME, the name of the container, default value is akraino-portal-onapsdk-arcportal
-DB_IP_PORT, the IP and port of the mariadb instance, this variable is required
+CON_NAME_ARC_PORTAL, the name of the ARC portal container, default value is 'arc_portal'
+CON_NAME_ARC_PORTAL_MARIADB, the name of the MariaDB container, default value is 'arc_portal_mariadb'
+REGISTRY, the name of the docker registry, default value is 'nexus3.akraino.org:10003'. So, the script will search in Nexus for the docker images. If the user wants to use the local built images (development mode), the content of this parameter should be 'akraino-dev'
+IMAGE_NAME_ARC_PORTAL, the name of the ARC portal image, default value is 'akraino/arc_portal'
+IMAGE_NAME_ARC_PORTAL, the name of the MariaDB image, default value is 'akraino/arc_portal_mariadb'
+TAG_VER, the version of the image, default value is '0.1.0-SNAPSHOT'. If the user wants to use the local built images (development mode), the content of this parameter should be 'latest'
 MARIADB_USER, the mariadb user, the default value is 'akraino'
 MARIADB_PASSWORD, the mariadb user password, this variable is required
-REGISTRY, the registry of the ARC portal image, default value is akraino
-NAME, the name of the ARC portal image, default value is portal-onapsdk
-TAG_PRE, the first part of the image version, default value is arcportal
-TAG_VER, the last part of the image version, default value is latest
 ARC_URL, the URL of the ARC, this variable is required
 ARC_PROXY, the proxy needed in order for the ARC to be reachable, default value is none
 ARC_USER, the user of the ARC, this variable is required
@@ -211,44 +241,36 @@ ENCRYPTION_KEY, the key that should be used by the AES algorithm for encrypting 
 ARCPORTAL_ADMIN_PASSWORD, the desired ARC portal password for the admin user, this variable is required
 TRUST_ALL, the variable that defines whether the ARC portal should trust all certificates or not, default value is false
 HOST_PORT, port of the hosting OS that will be used for exposing https port (i.e. 443) of the ARC portal container, default value is 10000
+DOCKER_VOLUME_NAME, the name of the docker volume that will be used for the MariaDB container, default value is "arc_portal_mariadb"
+MARIADB_ROOT_PASSWORD, the desired value for the root password of the MariaDB, this variable is required
 
-So, for a functional ARC portal, the following prerequisites are needed:
+All the required variables must be defined by the user as input parameters in the script. The default parameters should be defined only if the user wants to change their value.
 
-- The mariadb container in up and running state
-- The Akraino Regional Controller in up and running state
-
-Then, the following commands can be executed in order to build and deploy the ARC portal container (the user should override the default variables based on requirements):
+For example, the following command can be executed if a user wants to deploy the local built images (i.e. development mode):
 
 .. code-block:: console
 
-    cd portal-onapsdk
-    mvn -f ./ONAP-SDK-APP/ docker:build -Ddocker.filter=akraino/portal-onapsdk:dev-arcportal-latest
-    cd ONAP-SDK-APP/docker-scripts/arcportal
-    ./deploy.sh --TAG_PRE dev-arcportal --DB_IP_PORT <IP and port of the mariadb> --MARIADB_PASSWORD <mariadb akraino password> --ENCRYPTION_KEY <encryption key> --ARCPORTAL_ADMIN_PASSWORD <ARC portal admin user password> --ARC_URL <ARC URL> --ARC_USER <ARC user> --ARC_PASSWORD <ARC password> --ARC_PROXY <Proxy for reaching ARC>
-
-The contents of the DB_IP_PORT, encryption key and ARC_URL can be for example '172.17.0.3:3306', 'AGADdG4D04BKm2IxIWEr8o==' and 'https://10.0.2.15:443', respectively.
-
-Currently, one user is supported by the ARC portal, namely admin (full privileges). Its password is initialized during ARC portal. Currently, the creation/modification of users using the ARC portal is not supported.
-
-Furthermore, the TAG_PRE variable should be defined as the default value is 'arcportal' (note that the 'dev-arcportal' is used for development purposes - look at pom.xml file).
+    cd portal-onapsdk/ONAP-SDK-APP/docker-scripts/arcportal
+    ./deployArcPortal.sh --REGISTRY akraino-dev --TAG_VER latest --MARIADB_ROOT_PASSWORD abc123 --MARIADB_PASSWORD akraino123 --ENCRYPTION_KEY AGADdG4D04BKm2IxIWEr8o== --ARCPORTAL_ADMIN_PASSWORD admin --ARC_URL https://10.0.2.15:443 --ARC_USER admin --ARC_PASSWORD admin123 --TRUST_ALL true
 
 If no proxy exists, the ARC_PROXY variable should not be defined.
 
-The ARC portal should be available in the following url:
-
-    https://<IP of the ARC portal container>/
-
 As far as the SSL certificates are concerned, self-signed built-in certificates exist in the 'portal-onapsdk/ONAP-SDK-APP/docker-scripts/arcportal/' directory which are used by default. It should be noted that these
 certificates should be used only for demo purposes. If a user wants to use different ones which are more appropriate for a production environment, the directory that contains these new
-certificates must be defined using the 'CERTDIR' parameter of the 'portal-onapsdk/ONAP-SDK-APP/docker-scripts/deploy.sh' script. It should be noted that the certificates must have specific names, that are 'bluval.crt'
+certificates must be defined using the 'CERTDIR' parameter of the 'portal-onapsdk/ONAP-SDK-APP/docker-scripts/arcportal/deployArcPortal.sh' script. It should be noted that the certificates must have specific names, that are 'bluval.crt'
 and 'bluval.key' for the certificate and the key respectively.
 
-User's guide
------------------
+As far as the deletion process is concerned, the deletion script, namely the 'portal-onapsdk/ONAP-SDK-APP/docker-scripts/arcportal/stopAndDeleteArcPortal.sh', handles all the deletion procedure.
 
-TBD
+This script accepts the following as input parameters:
 
-Limitations
------------
+CON_NAME_ARC_PORTAL, the name of the ARC portal container, default value is 'arc_portal'
+CON_NAME_ARC_PORTAL_MARIADB, the name of the MariaDB container, default value is 'arc_portal_mariadb'
+DOCKER_VOLUME_NAME, the name of the docker volume used my the MariaDB, default value is 'arc_portal_mariadb'
 
-TBD
+For example, the following command can be executed if a user wants to delete the ARC portal and Mariadb containers together with the used docker volume:
+
+.. code-block:: console
+
+    cd portal-onapsdk/ONAP-SDK-APP/docker-scripts/arcportal
+    ./stopAndDeleteArcPortal.sh

@@ -14,18 +14,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Use this script if the persistent storage already exists and you want to use its data
+set -x
 
-set -ex
+# Containers names
+CON_NAME_ARC_PORTAL="arc_portal"
+CON_NAME_ARC_PORTAL_MARIADB="arc_portal_mariadb"
 
-DOCKER_VOLUME_NAME="akraino-portal-onapsdk-mariadb"
-# Container name
-CONTAINER_NAME="akraino-portal-onapsdk-mariadb"
-# Image data
-REGISTRY=akraino
-NAME=portal-onapsdk
-TAG_PRE=mariadb
-TAG_VER=latest
+DOCKER_VOLUME_NAME="arc_portal_mariadb"
 
 while [ $# -gt 0 ]; do
    if [[ $1 == *"--"* ]]; then
@@ -35,7 +30,13 @@ while [ $# -gt 0 ]; do
    shift
 done
 
-IMAGE="$REGISTRY"/"$NAME":"$TAG_PRE"-"$TAG_VER"
-docker run --detach --name $CONTAINER_NAME -v $DOCKER_VOLUME_NAME:/var/lib/mysql -v "$(pwd)/mariadb.conf:/etc/mysql/conf.d/my.cnf" $IMAGE
-sleep 10
+docker stop $CON_NAME_ARC_PORTAL
+docker rm $CON_NAME_ARC_PORTAL
+docker stop $CON_NAME_ARC_PORTAL_MARIADB
+docker rm $CON_NAME_ARC_PORTAL_MARIADB
+
+if [ ! -z "$DOCKER_VOLUME_NAME" ]
+  then
+      docker volume rm $DOCKER_VOLUME_NAME
+fi
 

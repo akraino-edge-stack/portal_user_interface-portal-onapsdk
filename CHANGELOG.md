@@ -71,3 +71,11 @@ All notable changes to this project will be documented in this file.
 - ResponseEntinty in MVC controllers has been parameterized
 
 ### Removed
+
+## [0.1.0-SNAPSHOT] - 28 January 2020
+### Added
+
+### Changed
+- The building and deployment procedures have been modified in order to be aligned with CI/CD requirements.
+
+### Removed
