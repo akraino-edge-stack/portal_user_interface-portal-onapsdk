@@ -20,19 +20,27 @@ app.controller('UploadBlueprintController', function($scope, restAPISvc,
         appContext, $modalInstance, $window) {
 
     $scope.uploadingBlueprint = false;
+    $scope.configFile = '';
 
-    $scope.uploadBlueprint = function($fileContent) {
-        var payload = '';
+    $scope.uploadConfigFile = function($fileContent) {
         try {
-            payload = jsyaml.load($fileContent);
+            $scope.configFile = jsyaml.load($fileContent);
         } catch (e) {
             try {
-                payload = JSON.parse(JSON.stringify($fileContent));
+                $scope.configFile = JSON.parse(JSON.stringify($fileContent));
             } catch (e2) {
                 confirm("This file format is not supported");
                 return;
             }
         }
+    }
+
+    $scope.uploadBlueprint = function() {
+        if (!$scope.configFile) {
+            confirm("You must upload a config file");
+            return;
+        }
+        var payload = $scope.configFile;
         if (!angular.fromJson(payload).blueprint
                 || !angular.fromJson(payload).version
                 || !angular.fromJson(payload).name

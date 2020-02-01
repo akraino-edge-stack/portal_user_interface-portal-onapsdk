@@ -14,6 +14,7 @@ TBD
 
 Database
 --------
+
 A mariadb database instance is needed with the appropriate databases and tables in order for the back-end system to store and retrieve data.
 
 For the production mode, there is already an appropriate database image uploaded in the 'nexus3.akraino.org'.
@@ -22,8 +23,8 @@ Also, for the development mode, the portal-onapsdk/ONAP-SDK-APP/pom.xml file sup
 
 Finally, the portal-onapsdk/ONAP-SDK-APP/docker-scripts/arcportal/deployArcPortal.sh script handles the deployment of this database (refer to the Appendix).
 
-User guide
-----------
+Installation / Deployment guide
+-------------------------------
 
 Prerequisites
 ~~~~~~~~~~~~~
@@ -59,7 +60,7 @@ If the host is behind a proxy, configure docker to use this proxy:
     sudo systemctl restart docker
 
 Deployment
-~~~~~~~~~~~~~
+~~~~~~~~~~
 
 The following commands should be executed:
 
@@ -193,6 +194,8 @@ For this purpose, the following commands should be executed:
 Deployment
 ~~~~~~~~~~
 
+It should be noted that the compilation commands must be executed prior to deployment.
+
 The following commands should be executed:
 
 .. code-block:: console
@@ -210,7 +213,7 @@ The ARC portal should be available in the following url:
 Limitations
 -----------
 
-Currently, one user is supported by the ARC portal, namely admin (full privileges). Its password is initialized during ARC portal.
+Currently, one user is supported by the ARC portal, namely admin (full privileges). Its password is initialized during ARC portal deployment.
 
 Also, the creation/modification of users using the ARC portal is not supported.
 

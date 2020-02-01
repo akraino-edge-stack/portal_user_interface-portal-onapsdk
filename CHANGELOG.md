@@ -79,3 +79,15 @@ All notable changes to this project will be documented in this file.
 - The building and deployment procedures have been modified in order to be aligned with CI/CD requirements.
 
 ### Removed
+
+## [0.1.1-SNAPSHOT] - 31 January 2020
+### Added
+- The status of each POD is displayed in the POD page as well.
+- Upload button has been added in the 'Upload Blueprint Page'.
+
+### Changed
+- All the uuids of error messages are converted to the corresponding names.
+
+### Removed
+- The 'ETE Testing' and 'RIC XApps' pages have been removed.
+

@@ -238,46 +238,40 @@ app
                                                         .split(' ');
                                                 errorMessage = '';
                                                 for (var index = 0; index < messages.length; index++) {
+                                                    var uuid = messages[index]
+                                                            .match("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}");
                                                     var temp = messages[index];
-                                                    if ((messages[index]
-                                                            .match(/-/g) || []).length == 4) {
+                                                    if (uuid) {
                                                         temp = generalSvc
                                                                 .retrieveName(
                                                                         $scope.pods,
-                                                                        messages[index]
-                                                                                .replace(
-                                                                                        '"',
-                                                                                        ''));
+                                                                        uuid);
                                                         if (!temp) {
                                                             temp = generalSvc
                                                                     .retrieveName(
                                                                             $scope.edgeSites,
-                                                                            messages[index]
-                                                                                    .replace(
-                                                                                            '"',
-                                                                                            ''));
+                                                                            uuid);
                                                             if (!temp) {
                                                                 temp = generalSvc
                                                                         .retrieveName(
                                                                                 $scope.enhancedBlueprints,
-                                                                                messages[index]
-                                                                                        .replace(
-                                                                                                '"',
-                                                                                                ''));
+                                                                                uuid);
                                                                 if (!temp) {
                                                                     temp = generalSvc
                                                                             .retrieveName(
                                                                                     $scope.nodes,
-                                                                                    messages[index]
-                                                                                            .replace(
-                                                                                                    '"',
-                                                                                                    ''));
+                                                                                    uuid);
                                                                 }
                                                             }
                                                         }
                                                     }
                                                     errorMessage = errorMessage
                                                             + " " + temp;
+                                                }
+                                                if (errorMessage
+                                                        .includes("Could not start workflow")) {
+                                                    errorMessage = errorMessage
+                                                            + pod.name;
                                                 }
                                                 var text2 = "Failed to create POD: "
                                                         + pod.name;
