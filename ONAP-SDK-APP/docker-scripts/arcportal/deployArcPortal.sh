@@ -23,7 +23,7 @@ CON_NAME_ARC_PORTAL_MARIADB="arc_portal_mariadb"
 REGISTRY=nexus3.akraino.org:10003
 IMAGE_NAME_ARC_PORTAL="akraino/arc_portal"
 IMAGE_NAME_ARC_PORTAL_MARIADB="akraino/arc_portal_mariadb"
-TAG_VER='0.1.1-SNAPSHOT'
+TAG_VER='0.1.2-SNAPSHOT'
 # ARC Portal Container parameters
 MARIADB_USER="akraino"
 MARIADB_PASSWORD=""

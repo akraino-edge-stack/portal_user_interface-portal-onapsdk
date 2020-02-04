@@ -91,3 +91,11 @@ All notable changes to this project will be documented in this file.
 ### Removed
 - The 'ETE Testing' and 'RIC XApps' pages have been removed.
 
+## [0.1.2-SNAPSHOT] - 04 February 2020
+### Added
+
+### Changed
+- Execute permission has been assigned to all shell scripts.
+
+### Removed
+

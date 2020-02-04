@@ -14,7 +14,7 @@
 
     <groupId>org.akraino.portal_user_interface</groupId>
     <artifactId>portal-onapsdk</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.1.2-SNAPSHOT</version>
     <name>PortalOnapSdk</name>
     <packaging>pom</packaging>
 
