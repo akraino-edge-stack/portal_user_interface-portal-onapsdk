@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.akraino.portal_user_interface</groupId>
         <artifactId>portal-onapsdk</artifactId>
-        <version>0.1.2-SNAPSHOT</version>
+        <version>0.1.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>ONAP-SDK-APP</artifactId>
@@ -96,15 +96,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>${maven-deploy-plugin-version}</version>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
             </plugin>
 
             <!-- This phase should only be used for the development mode -->
