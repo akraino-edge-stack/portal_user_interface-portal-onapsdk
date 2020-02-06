@@ -99,3 +99,12 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+## [0.1.3-SNAPSHOT] - 05 February 2020
+### Added
+
+### Changed
+
+### Removed
+- The maven 'deploy' build lifecycle has been removed
+
+
