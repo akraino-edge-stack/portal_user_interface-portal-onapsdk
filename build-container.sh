@@ -42,7 +42,7 @@ else
     curl -O "${WARFILE}"
 fi
 
-ln $(basename ${WARFILE}) ONAP-SDK-APP/docker/arcportal
+ln $(basename ${WARFILE}) ONAP-SDK-APP/docker/arcportal/arcportal.war
 
 # Build ARC Portal container
 (
