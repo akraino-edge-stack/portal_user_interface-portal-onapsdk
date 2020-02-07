@@ -107,4 +107,10 @@ All notable changes to this project will be documented in this file.
 ### Removed
 - The maven 'deploy' build lifecycle has been removed
 
+## [0.1.4-SNAPSHOT] - 07 February 2020
+### Added
 
+### Changed
+- The Dockerfile COPY command renames the war file in order for the correct URL to be used
+
+### Removed

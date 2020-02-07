@@ -15,6 +15,6 @@
 #
 
 FROM tomcat:8.5.37
-COPY ONAP-SDK-APP-*.war /usr/local/tomcat/webapps
+COPY ONAP-SDK-APP-*.war /usr/local/tomcat/webapps/arcportal.war
 COPY index.jsp /usr/local/tomcat/webapps/ROOT
 COPY server.xml /usr/local/tomcat/conf
