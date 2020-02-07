@@ -105,6 +105,12 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 ### Removed
-- The maven 'deploy' build lifecycle has been removed
+- The maven 'deploy' build lifecycle has been removed.
 
+## [0.1.4-SNAPSHOT] - 07 February 2020
+### Added
 
+### Changed
+- The command that creates the hard link is modified to also rename the war file in order for the correct URL to be used.
+
+### Removed
