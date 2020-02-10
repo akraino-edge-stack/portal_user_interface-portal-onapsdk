@@ -22,6 +22,30 @@
       "revId": "45057dfa7e76f3879b7e543229772c07582d51ef",
       "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b2dac86_ea4edfb3",
+        "filename": "ONAP-SDK-APP/docker/arcportal/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-02-10T14:51:26Z",
+      "side": 1,
+      "message": "I agree.  The war file should be renamed to a fixed name in the build-container.sh script, and then this Dockerfile should use the fixed name (to prevent any future problems).",
+      "parentUuid": "7929097d_a190465a",
+      "range": {
+        "startLine": 18,
+        "startChar": 18,
+        "endLine": 18,
+        "endChar": 19
+      },
+      "revId": "45057dfa7e76f3879b7e543229772c07582d51ef",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
     }
   ]
 }
