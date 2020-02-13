@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0c1e0f1_e53f11cf",
+        "filename": "ONAP-SDK-APP/docker/arcportal/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-02-13T17:03:39Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be \"arcportal.war\"???  This to avoid the wildcarding problem",
+      "revId": "e61161664903ab99144134534876d6de90c16902",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    }
+  ]
+}
