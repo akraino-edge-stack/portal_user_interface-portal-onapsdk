@@ -73,4 +73,5 @@ ignore =  target/**,
     ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/Pods/Pods.js,
     ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/Pods/CreatePod/CreatePodController.js,
     ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/EdgeSites/CreateEdgeSite/CreateEdgeSiteController.js,
-    ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/Pods/Pods.Services.js
+    ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/Pods/Pods.Services.js,
+    ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/Pods/PodsController.js

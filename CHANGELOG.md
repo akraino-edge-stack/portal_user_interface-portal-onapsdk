@@ -114,3 +114,11 @@ All notable changes to this project will be documented in this file.
 - The command that creates the hard link is modified to also rename the war file in order for the correct URL to be used.
 
 ### Removed
+
+## [0.1.5-SNAPSHOT] - 13 February 2020
+### Added
+
+### Changed
+- The node representation in POD page is enhanced by using scalable vector graphics (svg)
+
+### Removed

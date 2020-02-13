@@ -67,138 +67,197 @@ app
                     svc.constructHtmlRepresentationOfNodes = function(
                             currentNodes, rackName, slot) {
                         var currentHtmlCode = '';
-                        if (currentNodes && currentNodes.length > 0) {
-                            if (currentNodes.length > 1
-                                    && !currentNodes[0].hardware.yaml.yaml.rack_layout.chassis) {
-                                /* eslint-disable no-console */
-                                console
-                                        .log("Warning: Multiple rack mounted nodes on the same slot!");
-                                /* eslint-enable no-console */
-                            }
-                            if (currentNodes[0].hardware.yaml.yaml.rack_layout.chassis) {
-                                // chassis mounted
-                                var height = parseInt(currentNodes[0].hardware.yaml.yaml.rack_layout.chassis.height
-                                        .slice(0, -1));
-                                var units = parseInt(currentNodes[0].hardware.yaml.yaml.rack_layout.chassis.units);
-                                for (var index = 1; index <= units; index++) {
-                                    var nodeOfUnit = '';
-                                    angular
-                                            .forEach(
-                                                    currentNodes,
-                                                    function(currentNode) {
-                                                        if (parseInt(currentNode.yaml.rack_location.unit) == index) {
-                                                            nodeOfUnit = currentNode;
-                                                        }
-                                                    });
-                                    if (nodeOfUnit) {
-                                        if (index & 1) {
-                                            // odd
-                                            currentHtmlCode = currentHtmlCode
-                                                    + '<div>';
-                                            currentHtmlCode = currentHtmlCode
-                                                    + '<svg width="70" height="50" style="display:inline-block;"> <rect style="fill:rgb(93, 184, 91);stroke-width:3;stroke:rgb(0,0,0)" height="40" width="200"></rect></svg>'
-                                                    + '<div class="tooltip">Details<span class="tooltiptext"><p>Node name: '
-                                                    + nodeOfUnit.name + '</p>'
-                                                    + '<p>Hardware: '
-                                                    + nodeOfUnit.hardware.name
-                                                    + '</p>' + '<p>Rack: '
-                                                    + rackName + '</p>'
-                                                    + '<p>Rack position: '
-                                                    + slot + '</p>'
-                                                    + '<p>Unit: ' + index
-                                                    + '</p>'
-                                                    + '<p>Occupied slots: '
-                                                    + height + '</p>'
-                                                    + '</span>' + '</div>';
-                                        } else {
-                                            // even
-                                            currentHtmlCode = currentHtmlCode
-                                                    + '<svg width="70" height="50" style="display:inline-block;"> <rect style="fill:rgb(93, 184, 91);stroke-width:3;stroke:rgb(0,0,0)" height="40" width="200"></rect></svg>'
-                                                    + '<div class="tooltip">Details<span class="tooltiptext"><p>Node name: '
-                                                    + nodeOfUnit.name + '</p>'
-                                                    + '<p>Hardware: '
-                                                    + nodeOfUnit.hardware.name
-                                                    + '</p>' + '<p>Rack: '
-                                                    + rackName + '</p>'
-                                                    + '<p>Rack position: '
-                                                    + slot + '</p>'
-                                                    + '<p>Unit: ' + index
-                                                    + '</p>'
-                                                    + '<p>Occupied slots: '
-                                                    + height + '</p>'
-                                                    + '</span>' + '</div>';
-                                            currentHtmlCode = currentHtmlCode
-                                                    + '</div>';
-                                        }
+                        if (!currentNodes || currentNodes.length == 0) {
+                            return currentHtmlCode;
+                        }
+                        if (currentNodes.length > 1
+                                && !currentNodes[0].hardware.yaml.yaml.rack_layout.chassis) {
+                            /* eslint-disable no-console */
+                            console
+                                    .log("Warning: Multiple rack mounted nodes on the same slot!");
+                            /* eslint-enable no-console */
+                        }
+                        if (currentNodes[0].hardware.yaml.yaml.rack_layout.chassis) {
+                            // chassis mounted
+                            var height = parseInt(currentNodes[0].hardware.yaml.yaml.rack_layout.chassis.height
+                                    .slice(0, -1));
+                            var chassisHeightForRect = 20 * height;
+                            var chassisYAxisForRect = 831 - (slot - 1) * 20
+                                    - (height - 1) * 20;
+                            var chassisHeightForG = 15 * height;
+                            var chassisYAxisForG = 833 - (slot - 1) * 20.1
+                                    - (height - 1) * 20.1;
+                            currentHtmlCode = currentHtmlCode
+                                    + '<rect style="fill:#eeeeee;stroke:#36393d" pointer-events="none" height="'
+                                    + chassisHeightForRect.toString()
+                                    + '" width="168"'
+                                    + ' y="'
+                                    + chassisYAxisForRect.toString()
+                                    + '" x="33" /> <g transform="translate(58.5,'
+                                    + chassisYAxisForG.toString()
+                                    + ')">'
+                                    + '<switch> <foreignObject requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" height="'
+                                    + chassisHeightForG.toString()
+                                    + '" width="116"'
+                                    + ' pointer-events="all" style="overflow:visible;"> <xhtml:div style="display: inline-block; font-size: 23px; font-family: Verdana; color: rgb(255, 255, 255);'
+                                    + ' line-height: 1.2; vertical-align: top; width: 117px; white-space: nowrap; overflow-wrap: normal; text-align: center;">'
+                                    + '<xhtml:div style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">Chassis</xhtml:div> </xhtml:div>'
+                                    + '</foreignObject> <text style="font-size:23px;font-family:Verdana;text-anchor:middle;fill:#ffffff" font-size="23px" y="25" x="58">Chassis</text></switch></g>';
+                            currentHtmlCode = currentHtmlCode
+                                    + '<rect style="fill:#555555;stroke:#666666" pointer-events="none" height="20" width="84" y="'
+                                    + (chassisYAxisForRect + (height - 1) * 20)
+                                            .toString()
+                                    + '" x="33" />'
+                                    + '<g transform="translate(39.5,'
+                                    + (chassisYAxisForG + (height - 1) * 20.1)
+                                            .toString()
+                                    + ')">'
+                                    + '<switch><foreignObject requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" height="14" width="71" pointer-events="all" style="overflow:visible;">'
+                                    + '<xhtml:div style="display: inline-block; font-size: 13px; font-family: Verdana; color: rgb(255, 255, 255); line-height: 1.2; vertical-align: top; width: 72px;'
+                                    + ' white-space: nowrap; overflow-wrap: normal; text-align: center;"> <xhtml:div style="display:inline-block;text-align:inherit;text-decoration:inherit;'
+                                    + ' white-space:normal;">Chassis</xhtml:div></xhtml:div></foreignObject><text style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;'
+                                    + ' font-size:13px;font-family:Verdana;-inkscape-font-specification:\'Verdana, Normal\';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;'
+                                    + ' font-feature-settings:normal;text-align:center;writing-mode:lr;text-anchor:middle;fill:#ffffff;" font-size="13px" y="14" x="36">'
+                                    + '<tspan sodipodi:role="line">'
+                                    + currentNodes[0].hardware.name
+                                    + '</tspan></text></switch></g>';
+                            var units = parseInt(currentNodes[0].hardware.yaml.yaml.rack_layout.chassis.units);
+                            for (var index = 1; index <= units; index++) {
+                                var nodeOfUnit = '';
+                                angular
+                                        .forEach(
+                                                currentNodes,
+                                                function(currentNode) {
+                                                    if (parseInt(currentNode.yaml.rack_location.unit) == index) {
+                                                        nodeOfUnit = currentNode;
+                                                    }
+                                                });
+                                if (nodeOfUnit) {
+                                    chassisHeightForRect = 20;
+                                    chassisHeightForG = 15;
+                                    chassisYAxisForRect = 831 - (slot - 1) * 20
+                                            - (Math.floor(index / 2)) * 20;
+                                    chassisYAxisForG = 833 - (slot - 1) * 20.1
+                                            - (Math.floor(index / 2)) * 20.1;
+                                    var chassisXaxisForRect = '';
+                                    var chassisXaxisForG = '';
+                                    if (index & 1) {
+                                        // odd
+                                        chassisXaxisForRect = 117;
+                                        chassisXaxisForG = 123.5
                                     } else {
-                                        if (index & 1) {
-                                            // odd
-                                            currentHtmlCode = currentHtmlCode
-                                                    + '<div>';
-                                            currentHtmlCode = currentHtmlCode
-                                                    + '<svg width="70" height="50" style="display:inline-block;"> <rect style="fill:rgb(239, 240, 246);stroke-width:3;stroke:rgb(0,0,0)" height="40" width="200"></rect></svg>'
-                                                    + '<div class="tooltip">Details<span class="tooltiptext"><p> Free unit'
-                                                    + '</p>' + '<p>Rack: '
-                                                    + rackName + '</p>'
-                                                    + '<p>Rack position: '
-                                                    + slot + '</p>'
-                                                    + '<p>Unit: ' + index
-                                                    + '</p>' + '</span>'
-                                                    + '</div>';
-                                        } else {
-                                            // even
-                                            currentHtmlCode = currentHtmlCode
-                                                    + '<svg width="70" height="50" style="display:inline-block;"> <rect style="fill:rgb(239, 240, 246);stroke-width:3;stroke:rgb(0,0,0)" height="40" width="200"></rect></svg>'
-                                                    + '<div class="tooltip">Details<span class="tooltiptext"><p> Free unit'
-                                                    + '</p>' + '<p>Rack: '
-                                                    + rackName + '</p>'
-                                                    + '<p>Rack position: '
-                                                    + slot + '</p>'
-                                                    + '<p>Unit: ' + index
-                                                    + '</p>' + '</span>'
-                                                    + '</div>';
-                                            currentHtmlCode = currentHtmlCode
-                                                    + '</div>';
-                                        }
+                                        // even
+                                        chassisXaxisForRect = 33;
+                                        chassisXaxisForG = 43.5;
                                     }
-                                }
-                                if (units & 1) {
                                     currentHtmlCode = currentHtmlCode
-                                            + '</div>';
+                                            + '<rect style="fill:#b266ff;stroke:#666666" pointer-events="none" height="'
+                                            + chassisHeightForRect.toString()
+                                            + '" width="84"'
+                                            + ' y="'
+                                            + chassisYAxisForRect.toString()
+                                            + '" x="'
+                                            + chassisXaxisForRect.toString()
+                                            + '" />'
+                                            + '<g transform="translate('
+                                            + chassisXaxisForG.toString()
+                                            + ','
+                                            + chassisYAxisForG.toString()
+                                            + ')">'
+                                            + '<switch> <foreignObject requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" height="'
+                                            + chassisHeightForG.toString()
+                                            + '" width="71" pointer-events="all" style="overflow:visible;">'
+                                            + '<xhtml:div style="display: inline-block; font-size: 13px; font-family: Verdana; color: rgb(255, 255, 255);'
+                                            + ' line-height: 1.2; vertical-align: top; width: 72px; white-space: nowrap; overflow-wrap: normal; text-align: center;">'
+                                            + '<xhtml:div style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;" ng-click="displayHardware(\''
+                                            + rackName
+                                            + '\','
+                                            + '\''
+                                            + nodeOfUnit.name
+                                            + '\','
+                                            + '\''
+                                            + nodeOfUnit.hardware.name
+                                            + '\','
+                                            + '\''
+                                            + slot
+                                            + '\','
+                                            + '\''
+                                            + nodeOfUnit.yaml.rack_location.unit
+                                            + '\','
+                                            + '\''
+                                            + height
+                                            + '\','
+                                            + '\''
+                                            + nodeOfUnit.hardware.yaml.yaml.rack_layout.chassis.units
+                                            + '\''
+                                            + ')">'
+                                            + nodeOfUnit.name
+                                            + '</xhtml:div>'
+                                            + '</xhtml:div></foreignObject><text style="font-size:13px;font-family:Verdana;text-anchor:middle;fill:#ffffff;-inkscape-font-specification:\'Verdana, Normal\';'
+                                            + ' font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;text-align:center;writing-mode:lr;font-variant-ligatures:normal;'
+                                            + ' font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;" font-size="13px" y="14" x="36">'
+                                            + '<tspan sodipodi:role="line">'
+                                            + nodeOfUnit.name
+                                            + '</tspan></text></switch></g>';
                                 }
-                            } else {
-                                // rack mounted
-                                var height = parseInt(currentNodes[0].hardware.yaml.yaml.rack_layout.height
-                                        .slice(0, -1));
-                                var nodeHeight = 50;
-                                for (var index = 1; index < height; index++) {
-                                    nodeHeight = nodeHeight + 50;
-                                }
-                                currentHtmlCode = currentHtmlCode
-                                        + '<div>'
-                                        + '<svg width="200" height="'
-                                        + nodeHeight.toString()
-                                        + '" style="display:inline-block;"> <rect style="fill:rgb(93, 184, 91);stroke-width:3;stroke:rgb(0,0,0)" height="'
-                                        + (nodeHeight - 10).toString()
-                                        + '" width="200"></rect></svg>'
-                                        + '<div class="tooltip">Details<span class="tooltiptext"><p>Node name: '
-                                        + currentNodes[0].name + '</p>'
-                                        + '<p>Hardware: '
-                                        + currentNodes[0].hardware.name
-                                        + '</p>' + '<p>Rack: ' + rackName
-                                        + '</p>' + '<p>Rack position: ' + slot
-                                        + '</p>' + '<p>Occupied slots: '
-                                        + height + '</p>' + '</span>'
-                                        + '</div>' + '</div>';
                             }
                         } else {
+                            // rack mounted
+                            var height = parseInt(currentNodes[0].hardware.yaml.yaml.rack_layout.height
+                                    .slice(0, -1));
+                            var nodeHeightForRect = 20 * height;
+                            var nodeYAxisForRect = 831 - (slot - 1) * 20
+                                    - (height - 1) * 20;
+                            var nodeHeightForG = 15 * height;
+                            var nodeYAxisForG = 833 - (slot - 1) * 20.1
+                                    - (height - 1) * 20.1;
                             currentHtmlCode = currentHtmlCode
-                                    + '<div> <svg width="200" height="50" style="display:inline-block;"> <rect style="fill:rgb(239, 240, 246);stroke-width:3;stroke:rgb(0,0,0)" height="40" width="200"></rect> </svg>'
-                                    + '<div class="tooltip">Details<span class="tooltiptext"><p> Free Slot'
-                                    + '</p>' + '<p>Rack: ' + rackName + '</p>'
-                                    + '<p>Rack position: ' + slot + '</p>'
-                                    + '</span>' + '</div>';
-                            currentHtmlCode = currentHtmlCode + '</div>';
+                                    + '<rect style="fill:#005073;stroke:#666666" pointer-events="none" height="'
+                                    + nodeHeightForRect.toString()
+                                    + ' "width="168" y="'
+                                    + nodeYAxisForRect.toString()
+                                    + ' "x="33" />';
+                            currentHtmlCode = currentHtmlCode
+                                    + '<g transform="translate(61.5,'
+                                    + nodeYAxisForG.toString()
+                                    + ')"><switch>'
+                                    + '<foreignObject requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"'
+                                    + ' height="'
+                                    + nodeHeightForG.toString()
+                                    + '" width="111" pointer-events="all" style="overflow:visible;">'
+                                    + '<xhtml:div style="display: inline-block; font-size: 14px; font-family: Verdana; color: rgb(255, 255, 255); line-height: 1.2; vertical-align: top;'
+                                    + ' width: 112px; white-space: nowrap; overflow-wrap: normal; text-align: center;">'
+                                    + '<xhtml:div style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;" ng-click="displayHardware(\''
+                                    + rackName
+                                    + '\','
+                                    + '\''
+                                    + currentNodes[0].name
+                                    + '\','
+                                    + '\''
+                                    + currentNodes[0].hardware.name
+                                    + '\','
+                                    + '\''
+                                    + slot
+                                    + '\','
+                                    + '\''
+                                    + 'N/A'
+                                    + '\','
+                                    + '\''
+                                    + height
+                                    + '\','
+                                    + '\''
+                                    + 'N/A'
+                                    + '\''
+                                    + ')">'
+                                    + currentNodes[0].name
+                                    + '</xhtml:div>'
+                                    + '</xhtml:div>'
+                                    + '</foreignObject> <text style="font-size:14px;font-family:Verdana;text-anchor:middle;fill:#ffffff;-inkscape-font-specification:\'Verdana, Normal\';'
+                                    + ' font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;text-align:center;writing-mode:lr;font-variant-ligatures:normal;'
+                                    + ' font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;"'
+                                    + ' font-size="14px" y="15" x="56"><tspan sodipodi:role="line">'
+                                    + currentNodes[0].name
+                                    + '</tspan></text></switch></g>';
                         }
                         return currentHtmlCode;
                     };

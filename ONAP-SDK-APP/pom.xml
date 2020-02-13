@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.akraino.portal_user_interface</groupId>
         <artifactId>portal-onapsdk</artifactId>
-        <version>0.1.4-SNAPSHOT</version>
+        <version>0.1.5-SNAPSHOT</version>
     </parent>
 
     <artifactId>ONAP-SDK-APP</artifactId>

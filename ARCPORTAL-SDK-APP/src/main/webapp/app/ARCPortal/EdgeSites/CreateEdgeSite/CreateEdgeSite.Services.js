@@ -19,7 +19,7 @@ var app = angular.module('EdgeSites');
 app.factory('createEdgeSiteSvc', [function () {
     var svc = [];
     svc.getFreeSlots = function (hardwareUnderStudy, rackName, selectedNodes, hardwares) {
-        var freeSlots = Array.from(Array(42).keys()).map(x => ++x);
+        var freeSlots = Array.from(Array(40).keys()).map(x => ++x);
         var filteredNodes = [];
         // Try to find out which nodes occupy slots in the given rack
         angular.forEach(selectedNodes, function (node) {
