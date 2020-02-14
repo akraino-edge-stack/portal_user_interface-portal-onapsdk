@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6a843e5d_15c1b2b1",
+        "filename": "ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/Pods/Pods.Services.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-02-14T14:11:51Z",
+      "side": 1,
+      "message": "I think G refers to the \u003cg\u003e element in the SVG",
+      "parentUuid": "4307a94a_ea14e490",
+      "range": {
+        "startLine": 87,
+        "startChar": 48,
+        "endLine": 87,
+        "endChar": 49
+      },
+      "revId": "2f149b95c3ea74a48578193e091b8b5b1a6c5a70",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c51b8552_86c75888",
         "filename": "ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/Pods/PodsController.js",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-02-14T12:51:30Z",
       "side": 1,
       "message": "This looks very repetitive. Is this from a drawing program? I\u0027m not clear on whether this commit is dynamically generating everything or not, but a part like this looks like a good candidate for a loop.\n\nI\u0027m thinking that chunks of SVG that are pulled in from a drawing program should be loaded from fragment files that specifically contain only SVG, rather than embedded into .js files with code.\n\nAlso, I\u0027m thinking that repetetive styling should be extracted out into a stylesheet.",
+      "range": {
+        "startLine": 197,
+        "startChar": 52,
+        "endLine": 229,
+        "endChar": 217
+      },
+      "revId": "2f149b95c3ea74a48578193e091b8b5b1a6c5a70",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd8b2068_ea7a8ef0",
+        "filename": "ARCPORTAL-SDK-APP/src/main/webapp/app/ARCPortal/Pods/PodsController.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2020-02-14T14:11:51Z",
+      "side": 1,
+      "message": "I Agree.  Definitely should use a style sheet for all the repeated style info. And should probably have the SVG in some sort of template file, rather than hard coded into the JS.",
+      "parentUuid": "c51b8552_86c75888",
       "range": {
         "startLine": 197,
         "startChar": 52,
